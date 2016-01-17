@@ -1,0 +1,40 @@
+﻿@model IEnumerable<TentsNTrails.Models.NaturalFeature>
+
+@{
+    ViewBag.Title = "Natural Features";
+    int padding = 7;
+}
+
+<h2>@ViewBag.Title</h2>
+<p>
+    Select a link below to view all locations that have the listed natural feature.
+</p>
+
+<!-- SEARCH -->
+@using (Html.BeginForm())
+{
+    <div class="input-group">
+        <span class="input-group-btn">
+            <button class="btn btn-default" id="btn" type="submit">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
+        </span>
+        @Html.TextBox("query", null, new { @class = "form-control", placeholder = "Search by Name (i.e. Waterfalls)" })
+    </div>
+}<br />
+
+<div class="row" style="padding: 0px @(padding)px 0px @(padding)px">
+    @foreach (var item in Model)
+    {
+        //TODO: add in some code to make the columns align Horizontally by breaking it up into 12 larger divs which are their own containers of rows (as 12 is evenly divisible).
+        <div class="col-md-3 col-sm-4 col-xs-6" style="padding:@(padding)px">
+            <div id="review" style="text-align:center">
+                <text class="no-wrap">
+                    @Html.ActionLink(item.Name, "Details", new { id = item.ID })
+                    <span style="color:rgba(0, 0, 0, 0.61)">(@item.LocationFeatures.Count)</span>
+                </text>
+            </div>
+        </div>
+    }
+</div>
+

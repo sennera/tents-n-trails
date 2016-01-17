@@ -1,0 +1,108 @@
+﻿@model PagedList.IPagedList<TentsNTrails.Models.User>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Find Friends";
+}
+
+<h2>Find Friends</h2>
+
+@using (Html.BeginForm("Index", "Users", FormMethod.Get))
+{
+    <div class="input-group">
+        <input type="text" class="form-control input-home" name="SearchString" placeholder="Search for your friends...">
+        <span class="input-group-btn">
+            <button class="btn btn-default" id="btn" type="submit">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
+        </span>
+    </div>
+}
+
+<table class="reviews">
+    <tr class="review-row">
+        <td>
+            <div id="review">
+                @Html.Raw(ViewBag.rowCount)@Html.Raw(" Results Found")
+            </div>
+        </td>
+    </tr>
+    
+    @foreach (var item in Model)
+    {
+        <tr class="review-row">
+            <td>
+                <div id="review">
+
+                    <!-- PROFILE PICTURE -->
+                    <div style="float: left; min-width:75px; max-width:75px; overflow: hidden">
+                        <img id="@item.UserName"
+                             src="@Url.Content(item.ProfilePictureUrl)"
+                             title="@item.UserName"
+                             alt="@item.UserName"
+                             style="width: auto; height: 75px; margin: 0 auto" />
+                    </div>
+
+                    <!-- CONNECTION INFO -->
+                    <div style="padding-left: 90px; height: 75px;">
+                        @* User Name *@
+                        <b>@Html.ActionLink(item.UserName, "Index", "Profile", new { Username = item.UserName }, null)</b>
+
+                        @* First and Last Name *@
+                        @if (item.Private == false)
+                        {
+                            @Html.Raw(" ( ")@Html.DisplayFor(modelItem => item.FirstName)@Html.Raw(" ")@Html.DisplayFor(modelItem => item.LastName)@Html.Raw(" )")
+
+                        }
+                        
+                        @* Decide which kind of connection button to show, if any *@
+                        @if ((item.UserName != ViewBag.currentUser) && (ViewBag.currentUser != null))
+                        {
+                            if (ViewBag.IsConnectedDictionary[item.UserName])
+                            {
+                                <br />
+                                <button class="btn btn-primary" disabled>
+                                    You Are Connected
+                                </button>
+                            }
+                            else if (ViewBag.HasConnectionRequestDictionary[item.UserName])
+                            {
+                                <br />
+                                <button class="btn btn-success active" onclick="location.href='@Url.Action("ConfirmConnect",
+                                    "Profile", new { username = item.UserName })'">
+                                    Confirm Request
+                                </button>
+                                <button class="btn btn-danger active" onclick="location.href='@Url.Action("DenyConnect",
+                                    "Profile", new { username = item.UserName })'">
+                                    Deny Request
+                                </button>
+                            }
+                            else if (ViewBag.HasSentRequestDictionary[item.UserName])
+                            {
+                                <br />
+                                <button class="btn btn-primary" disabled>
+                                    Request Pending
+                                </button>
+                            }
+                            else
+                            {
+                                using (Html.BeginForm("RequestConnection", "Profile", new { username = item.UserName }))
+                                {
+                                    @Html.AntiForgeryToken();
+                                    <input class="btn btn-primary" type="submit" value="Connect" />
+                                }
+                            }
+                        }
+                        </div>
+                        </div>
+                        <div style="clear: both;"></div>
+                        </td>
+                    </tr>
+    }
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, currentFilter = ViewBag.CurrentFilter }))

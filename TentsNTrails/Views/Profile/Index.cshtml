@@ -1,0 +1,495 @@
+﻿@model TentsNTrails.Models.User
+@using Microsoft.AspNet.Identity
+@using TentsNTrails.Models
+
+<!-- MAPS API -->
+<script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.nailthumb.1.1.js"></script>
+<link href="~/Content/jquery.nailthumb.1.1.css" type="text/css" rel="stylesheet" />
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script src="~/Scripts/google-map-setup.js"></script>
+<script>
+    var addMarkers = function(map, markers) {
+        @foreach (var item in Model.BeenThereLocations)
+        {
+            @:console.log("latitude:" + @item.Location.Latitude + " longitude: " +  @item.Location.Longitude);
+            @:var marker = new google.maps.Marker({position: new google.maps.LatLng(@item.Location.Latitude, @item.Location.Longitude), map: map, icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'});
+            @:var infowindow = new google.maps.InfoWindow({content: 'Loading...'});
+            @:marker.html='<div><img id="location-image-preview" src="@Url.Content(item.Location.PreviewImageURL)" title="Preview Image" alt="Image of @item.Location.Label" style="width: 100px; height: auto; margin:0 auto;" /><br /><div class="label" text-align="center">@Html.ActionLink(item.Location.Label, "Details", "Location", new { id = item.Location.LocationID }, null)</div></div>';
+            @:google.maps.event.addListener(marker, 'click', function() {infowindow.setContent(this.html); infowindow.open(map,this);});
+            @:markers.push(marker);
+        }
+        @foreach (var item in Model.WantToGoLocations)
+        {
+            @:console.log("latitude:" + @item.Location.Latitude + " longitude: " +  @item.Location.Longitude);
+            @:var marker = new google.maps.Marker({position: new google.maps.LatLng(@item.Location.Latitude, @item.Location.Longitude), map: map, icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'});
+            @:var infowindow = new google.maps.InfoWindow({content: 'Loading...'});
+            @:marker.html='<div><img id="location-image-preview" src="@Url.Content(item.Location.PreviewImageURL)" title="Preview Image" alt="Image of @item.Location.Label" style="width: 100px; height: auto; margin:0 auto;" /><br /><div class="label" text-align="center">@Html.ActionLink(item.Location.Label, "Details", "Location", new { id = item.Location.LocationID }, null)</div></div>';
+            @:google.maps.event.addListener(marker, 'click', function() {infowindow.setContent(this.html); infowindow.open(map,this);});
+            @:markers.push(marker);
+        }
+        @foreach (var item in Model.GoAgainLocations)
+        {
+            
+            @:console.log("latitude:" + @item.Location.Latitude + " longitude: " +  @item.Location.Longitude);
+            @:var marker = new google.maps.Marker({position: new google.maps.LatLng(@item.Location.Latitude, @item.Location.Longitude), map: map, icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'});
+            @:var infowindow = new google.maps.InfoWindow({content: 'Loading...'});
+            @:marker.html='<div><img id="location-image-preview" src="@Url.Content(item.Location.PreviewImageURL)" title="Preview Image" alt="Image of @item.Location.Label" style="width: 100px; height: auto; margin:0 auto;" /><br /><div class="label" text-align="center">@Html.ActionLink(item.Location.Label, "Details", "Location", new { id = item.Location.LocationID }, null)</div></div>';
+            @:google.maps.event.addListener(marker, 'click', function() {infowindow.setContent(this.html); infowindow.open(map,this);});
+            @:markers.push(marker);
+        }
+    };
+    var centerLat = @Location.CENTER.Latitude;
+    var centerLng = @Location.CENTER.Longitude;
+    var minZoom = 6;
+    var ourMap = new TntMap(centerLat,centerLng, addMarkers, minZoom);
+    ourMap.create();
+</script>
+
+
+@{
+    ViewBag.Title = "Profile";
+}
+
+<!-- FORMATTING -->
+<script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.nailthumb.1.1.js"></script>
+<link href="~/Content/jquery.nailthumb.1.1.css" type="text/css" rel="stylesheet" />
+<style type="text/css" media="screen">
+    .square-thumb {
+        width: 150px;
+        height: 150px;
+        margin: 5px;
+    }
+
+    .video-thumb {
+        width: 200px;
+        height: 150px;
+        margin: 5px;
+    }
+</style>
+
+<br />
+
+<div class="row">
+    <div class="col-xs-12">
+        <p style="color: green;">@ViewBag.SuccessMessage</p>
+    </div>
+</div>
+
+<!--CONNECTIONS-->
+<br/>
+<div class="row">
+    <div class="col-xs-6 col-md-3">
+        <!--PROFILE PICTURE-->
+        <div style="float: left; overflow: hidden">
+            <img id="profile-picture"
+                    src="@Url.Content(Model.ProfilePictureUrl)"
+                    title="Profile Picture"
+                    alt="Image of @Model.UserName"
+                    style="max-width: 100%; height: 170px; overflow:hidden;" />
+            <br />
+        </div>
+    </div>
+                
+    <!-- USER INFO -->
+    <div class="col-md-6 col-xs-6">
+        <h2>
+            @Html.DisplayFor(model => model.UserName)
+            @if (ViewBag.IsOnOwnProfile)
+            {
+                <a href="/Manage/Index"><span title="Edit Personal Settings" style="color: green;"><i class="glyphicon glyphicon-wrench"></i></span></a>
+            }
+        </h2>
+
+        @if (!ViewBag.IsPrivate || (ViewBag.IsPrivate && ViewBag.IsConnected))
+        {
+            <!-- SHOW ALL -->
+            <dl class="dl-horizontal">
+                <dt><label>First Name:</label></dt>
+                <dd>@Html.DisplayFor(model => model.FirstName)</dd>
+
+                <dt><label>Last Name:</label></dt>
+                <dd>@Html.DisplayFor(model => model.LastName)</dd>
+                
+                @if (Model.UserActivities.Count > 0)
+                {
+                    <dt><label>Activities:</label></dt>
+                    <dd>
+                        <div>
+                            @foreach (var item in Model.UserActivities.Select(a => a.Recreation))
+                    {
+                                <span class="tag tag-recreation">
+                                    @Html.ActionLink(item.Label, "Browse", "Location", new { recreationID = item.RecreationID }, new { title = String.Format("Browse all {0} locations", item.Label) })
+                                </span>
+                    }
+                        </div>
+                    </dd>
+                }
+
+                <dt>
+                    <label>About Me:</label>
+                </dt>
+                <dd>
+                    <div style="overflow:hidden; text-overflow:ellipsis">
+                        @Html.Raw(Model.GetDescriptionMarkup())
+                    </div>
+                </dd>
+
+                <dt>
+                    <label>@Html.ActionLink("Leaderboard Ranking:", "Index", "Leaderboard")</label>
+                </dt>
+                <dd>
+                    <span title="Overall Leaderboard" style="color: green;"><i class="glyphicon glyphicon-user"></i></span>
+                    @ViewBag.LeaderboardOverall
+                    &nbsp;&nbsp;
+                    <span title="Review Leaderboard" style="color: green;"><i class="glyphicon glyphicon-comment"></i></span>
+                    @ViewBag.LeaderboardReview
+                    &nbsp;&nbsp;
+                    <span title="Media Leaderboard" style="color: green;"><i class="glyphicon glyphicon-camera"></i></span>
+                    @ViewBag.onLeaderboardMedia
+                </dd>
+
+            </dl>
+        }
+        else
+        {
+            <!-- HIDDEN PROFILE -->
+            <h4>This user has set their profile to private.</h4>
+            <dl class="dl-horizontal">
+                @if (Model.UserActivities.Count > 0)
+                {
+                    <dt><label>Activities:</label></dt>
+                    <dd>
+                        <div>
+                            @foreach (var item in Model.UserActivities.Select(a => a.Recreation))
+                    {
+                                <span class="tag tag-recreation">
+                                    @Html.ActionLink(item.Label, "Browse", "Location", new { recreationID = item.RecreationID }, new { title = String.Format("Browse all {0} locations", item.Label) })
+                                </span>
+                    }
+                        </div>
+                    </dd>
+                }
+            </dl>
+        }
+    </div>
+
+    <!-- CONNECTIONS -->
+    <div class="col-md-3 col-xs-12">
+
+        @if (!ViewBag.IsOnOwnProfile)
+        {
+            if (ViewBag.IsConnected)
+            {
+                <button class="btn btn-primary" disabled style="float:right; overflow:hidden">
+                    You Are Connected
+                </button>
+                <button class="btn btn-success active" onclick="location.href='@Url.Action("Create",
+                        "Message", new { username = Model.UserName, profile = true })'" style="float:right; overflow:hidden; margin-top: 5px">
+                    <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Send Message
+                </button>
+            }
+            else if (ViewBag.HasConnectionRequest)
+            {
+                <h4>@Model.UserName would like to connect with you.</h4>
+                // With the float spans, the right-most element must come first (on the page, the order is Confirm, then Deny)
+                <button class="btn btn-danger active" onclick="location.href='@Url.Action("DenyConnect",
+                                    "Profile", new { username = Model.UserName })'" style="float:right; overflow:hidden;margin-left:3px">
+                    Deny
+                </button>
+                <button class="btn btn-success active" onclick="location.href='@Url.Action("ConfirmConnect",
+                                    "Profile", new { username = Model.UserName })'" style="float:right; overflow:hidden;">
+                    Confirm
+                </button>
+    
+            }
+            else if (ViewBag.HasSentRequest)
+            {
+                <button class="btn btn-primary" disabled style="float:right; overflow:hidden">
+                    Request Pending
+                </button>
+            }
+            else
+            {
+                using (Html.BeginForm("RequestConnection", "Profile", new { username = Model.UserName }))
+                {
+                    @Html.AntiForgeryToken();
+                    <input class="btn btn-primary" type="submit" value="Connect" style="float:right; overflow:hidden" />
+                }
+                <br style="clear:both" />
+                if(!ViewBag.IsPrivate)
+                { 
+                    <button class="btn btn-success active" onclick="location.href='@Url.Action("Create",
+                            "Message", new { username = Model.UserName, profile = true })'" style="float:right; overflow:hidden; margin-top: 5px">
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> Send Message
+                    </button>
+                }
+            }
+        }
+        else // This is their own profile
+        {
+            if (ViewBag.HasRequests)
+            {
+                <button class="btn btn-primary" onclick="location.href='@Url.Action("RequestList", "Profile")'" style="float:right; overflow:hidden">
+                    See Connection Requests
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary disabled" style="float:right; overflow:hidden">
+                    You Have No Connection Requests
+                </button>
+            }
+            <button class="btn btn-success active" onclick="location.href='@Url.Action("Connections",
+                        "Profile")'" style="float:right; overflow:hidden; margin-top: 5px">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span> See Connections
+            </button>
+        }
+
+    </div>
+</div>
+
+
+<!--PROFILE-->
+<div class="row">
+@if (!ViewBag.IsPrivate || (ViewBag.IsPrivate && ViewBag.IsConnected))
+{
+    <hr />
+
+        <!-- USER REVIEWS-->
+        <dl class="dl-horizontal">
+            @if (Model.UserReviews.Count > 0)
+            {
+                <dt>
+                    Reviews:
+                </dt>
+                <dd>
+                    <table class="reviews">
+                        @foreach (var item in Model.UserReviews)
+                        {
+                            if (item.Comment != null)
+                            {
+                                <tr class="review-row">
+                                    <td>
+                                        <div id="review" style="min-height:124px; min-width:250px">
+                                            <!--IMAGE-->
+                                            <div style="padding-left: 0px; float:left">
+                                                <a href="@Url.Action("Details", new { id = item.LocationID })">
+                                                    @{ Html.RenderAction("LocationThumbnail", "Location", new { id = item.LocationID, size = 100 }); }
+                                                </a>
+                                            </div>
+
+                                            <!--DETAILS-->
+                                            <div style="padding-left:110px; min-height:100px">
+
+                                                @if (item.Rating)
+                                                {
+                                                    <span class="glyphicon glyphicon-thumbs-up green" aria-hidden="true"></span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="glyphicon glyphicon-thumbs-down red" aria-hidden="true"></span>
+                                                }
+                                                <b>@Html.ActionLink(item.Location.Label, "Details", "Location", new { id = item.LocationID }, null)</b>
+                                                <br />
+                                                @item.GetCommentPreview()
+                                                <br />
+                                                @Html.DisplayFor(modelItem => item.ReviewDate)
+                                                @if (User.Identity.IsAuthenticated && User.Identity.GetUserId().Equals(item.User.Id))
+                                                {
+                                                    <span style="float:right">
+                                                        <button class="btn btn-default" title="Edit" onclick="location.href='@Url.Action("Edit", "Review", new { id = item.ReviewID })'">
+                                                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                                        </button>
+                                                        <button class="btn btn-default" title="Delete" onclick="location.href='@Url.Action("Delete", "Review", new { id = item.ReviewID })'">
+                                                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                                        </button>
+                                                    </span>
+                                                }
+                                                <br />
+                                                <br />
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </dd>
+            }
+            else
+            {
+                <dt>
+                    Reviews:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UserName) has not made any reviews.
+                </dd>
+            }
+        </dl>
+
+        <!-- USER BOOKMARKS-->
+        <dl class="dl-horizontal">
+            @if (ViewBag.HasSavedLocations)
+            {
+                <dt>
+                    @if (ViewBag.IsOnOwnProfile)
+                    {           
+                        @Html.ActionLink("Bookmarked Locations: ", "Index", "LocationFlag")
+                    }
+                    else
+                    {
+                        @Html.Raw("Bookmarked Locations: ")
+                    }
+                </dt>
+                <dd>
+                    <div class="row">
+                        <div class="col-sm-9 col-xs-12">
+                            <!-- MAP OF BOOKMARKED LOCATIONS-->
+                            <div id="googleMap" style="width:100%;height:300px;"></div>   
+                        </div>
+                        <div class="col-sm-3 col-xs-12">
+                            Been There <img src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png" alt="Blue Pin" style="height:20px" />
+                            <br />
+                            Want to Go <img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png" alt="Red Pin" style="height:20px" />
+                            <br />
+                            Want to Go Again <img src="http://maps.google.com/mapfiles/ms/icons/green-dot.png" alt="Green Pin" style="height:20px" />
+                        </div>
+                    </div>
+                </dd>
+            }
+            else
+            {
+                <dt>
+                    Bookmarked Locations:
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UserName) has no bookmarked locations.
+                </dd>
+            }
+        </dl>
+
+        <!-- USER'S LOCATION IMAGES -->
+        <dl class="dl-horizontal">
+            <dt>
+                Uploaded Images:
+            </dt>
+
+            <!-- BEGIN IMAGES -->
+            <dd>
+                @if (ViewBag.ImagesCount == 0)
+                {
+                    <p>@Model.UserName has not uploaded any images.</p>
+                }
+                else
+                {
+                    if (ViewBag.ImagesCount > 5)
+                    {
+                        <p>@Html.ActionLink("[See More]", "SeeMoreImages", "Profile", new { Username = Model.UserName, redirect = true }, null)</p>
+                    }
+                    <div class="row" align="center">
+                        <div class="col-xs-12">
+                            <style type="text/css" media="screen">
+                                .square-thumb {
+                                    width: 100px;
+                                    height: 100px;
+                                    margin: 5px;
+                                }
+                            </style>
+                            @foreach (var item in Model.UserLocationImages)
+                            {
+                                <div class="nailthumb-container square-thumb col-xs-2">
+                                    <!-- DETAILS ACTION LINK-->
+                                    <a href="@Url.Action("Details", "LocationImage", new { id = item.ImageID })">
+
+                                        <!-- IMAGE-->
+                                        <img id="@item.ImageID"
+                                             src="@Url.Content(item.ImageUrl)"
+                                             title="@item.Title"
+                                             alt="@item.AltText" />
+                                    </a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                <!-- IMAGE-THUMBTNAIL SCRIPT -->
+                <script type="text/javascript">
+                    jQuery(document).ready(function () {
+                        jQuery('.nailthumb-container').nailthumb();
+                    });
+                </script>
+            </dd>
+
+        </dl>
+
+        <!-- USER'S LOCATION VIDEOS -->
+        <dl class="dl-horizontal">
+            <dt>
+                Uploaded Videos:
+            </dt>
+
+            <!-- BEGIN VIDEOS -->
+            <dd>
+                @if (ViewBag.VideosCount == 0)
+                {
+                    <p>@Model.UserName has not uploaded any videos.</p>
+                }
+                else
+                {
+                    <!-- VIDEO GRID -->
+                    <div class="row" align="center">
+                        <div class="col-xs-12">
+                            @if (ViewBag.VideosCount > 4)
+                            {
+                                <p>@Html.ActionLink("[See More]", "SeeMoreVideos", "Profile", new { Username = Model.UserName, redirect = true }, null)</p>
+                            }
+
+                            @foreach (var item in Model.UserLocationVideos)
+                            {
+                                string videoThumbnailUrl = item.GetThumbnailUrl();
+
+                                // Embedded Video (If imageUrl was not found)
+                                if (videoThumbnailUrl == item.EmbedCode)
+                                {
+                                    <div class="col-xs-2">
+                                        <div class="video-container">
+                                            @Html.Raw(item.EmbedCode)
+                                        </div>
+                                    </div>
+                                }
+
+                                // otherwise, show video thumbnail image
+                                else
+                                {
+                                    <div class="nailthumb-container video-thumb col-xs-3">
+                                        <a href="@Url.Action("Details", "LocationVideo", new { id = item.VideoID })">
+                                            <img id="@item.VideoID"
+                                                 src="@Url.Content(videoThumbnailUrl)"
+                                                 title="@((item.Description.Length > 100) ? item.Description.Substring(0,100) : item.Description)"
+                                                 alt="@("Video thumbnail of " + Model.UserName)" />
+                                        </a>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+
+                }
+
+            </dd>
+        </dl>
+}
+    </div>
+
+<!-- IMAGE-THUMBTNAIL SCRIPT -->
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery('.nailthumb-container').nailthumb();
+    });
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

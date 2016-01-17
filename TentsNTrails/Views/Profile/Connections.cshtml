@@ -1,0 +1,70 @@
+﻿@model PagedList.IPagedList<TentsNTrails.Models.User>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "My Connections";
+}
+
+<h2>My Connections</h2>
+
+@using (Html.BeginForm("Connections", "Profile", FormMethod.Get))
+{
+    <div class="input-group">
+        <input type="text" class="form-control input-home" name="SearchString" placeholder="Search for friends who you're connected with...">
+        <span class="input-group-btn">
+            <button class="btn btn-default" id="btn" type="submit">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
+        </span>
+    </div>
+}
+
+
+<table class="reviews">
+    <tr class="review-row">
+        <td>
+            <div id="review">
+                @Html.Raw(ViewBag.rowCount)@Html.Raw(" Results Found")
+            </div>
+        </td>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="review-row">
+            <td>
+                <div id="review">
+
+                    <!-- PROFILE PICTURE -->
+                    <div style="float: left; min-width:75px; max-width:75px; overflow: hidden">
+                        <img id="@item.UserName"
+                             src="@Url.Content(item.ProfilePictureUrl)"
+                             title="@item.UserName"
+                             alt="@item.UserName"
+                             style="width: auto; height: 75px; margin: 0 auto" />
+                    </div>
+
+                    <!-- CONNECTION INFO -->
+                    <div style="padding-left: 90px; height: 75px;">
+                        @* User Name *@
+                        <b>@Html.ActionLink(item.UserName, "Index", "Profile", new { Username = item.UserName }, null)</b>
+
+                        @* First and Last Name *@
+                        @Html.Raw(" ( ")@Html.DisplayFor(modelItem => item.FirstName)@Html.Raw(" ")@Html.DisplayFor(modelItem => item.LastName)@Html.Raw(" )")
+                    </div>
+                </div>
+                <div style="clear: both;"></div>
+            </td>
+        </tr>
+    }
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, currentFilter = ViewBag.CurrentFilter }))
+
+
+
+

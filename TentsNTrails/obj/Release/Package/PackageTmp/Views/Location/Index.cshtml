@@ -1,0 +1,211 @@
+﻿@model TentsNTrails.Models.LocationViewModel
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+
+<!-- Google Maps Scripting -->
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script>
+    // Initialize the Map details.
+    function initialize() {
+
+        // center of map
+        var mapCenter = new google.maps.LatLng(@ViewBag.centerLatitude, @ViewBag.centerLongitude);
+        //var mapCenter = new google.maps.LatLng(39.8282, -98.5795);
+        // initialize map properties
+        var mapProp = {
+            center: mapCenter,
+            zoom: 4,
+            mapTypeId: google.maps.MapTypeId.ROADMAP // types include ROADMAP, SATELLITE, HYBRID, and TERRAIN
+        };
+
+        // get the map
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+        // add a markers to the map
+        @foreach (var item in Model.Locations) {
+            @:console.log("latitude:" + @item.Latitude + " longitude: " +  @item.Longitude);
+                    @:var marker = new google.maps.Marker({position: new google.maps.LatLng(@item.Latitude, @item.Longitude), map: map});
+                                }
+    }
+
+    // display the map
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
+
+@{
+    ViewBag.Title = "Locations";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+        View by
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <li>@Html.ActionLink("All", "Index", "Location", null, new { role = "menuItem", tabindex = "-1" })</li>
+        <!--<li role="presentation" class="divider"></li>-->
+        @foreach (var item in Model.Recreations)
+        {
+            <li>@Html.ActionLink(item.Label, "Index", "Location", new { recreationID = item.RecreationID }, new { role = "menuItem", tabindex = "-1" })</li>
+            <!--li role="presentation"><a role="menuitem" tabindex="-1" href="#">Hiking</a></li-->
+        }
+
+    </ul>
+</div>
+
+<!-- MAP -->
+<div class="row" style="padding-top:15px;">
+    <div class="col-xs-12">
+        <div id="googleMap" style="width:100%;height:300px;"></div>
+        <p></p>
+    </div>
+</div>
+
+
+<p>
+        @Html.ActionLink("Add New", "Create")
+</p>
+
+<!-- SEARCH -->
+@using (Html.BeginForm())
+{
+    <div class="input-group">
+        <span class="input-group-btn">
+            <button class="btn btn-default" id="btn" type="submit"> 
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
+        </span>
+        <input type="text" class="form-control" name="searchString" placeholder="Search">
+    </div>
+    
+    @*<p>
+        Find by name: @Html.TextBox("SearchString")
+        <input type="submit" value="Search" />
+    </p>*@
+}
+
+<!-- LOCATION TABLE -->
+<table class="table no-top">
+
+    <!-- HEADERS -->
+    <tr>
+        <th>
+            @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm })
+        </th>
+        @*<th>
+            Latitude
+        </th>
+        <th>
+            Longitude
+        </th>*@
+
+        <th>
+            Description
+        </th>
+        <th>
+            @Html.ActionLink("Difficulty", "Index", new { sortOrder = ViewBag.DifficultySortParm })
+        </th>
+
+        <th>
+            @Html.ActionLink("Rate Location", "Index", new { sortOrder = ViewBag.RatingSortParm })
+        </th>
+    </tr>
+
+    <!-- TABLE DATA -->
+    @foreach (var item in Model.Locations)
+    {
+        <tr>
+            <td>
+                <div class="bigger">
+                    @Html.ActionLink(item.Label, "Details", new { id = item.LocationID })
+                </div>
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.Latitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Longitude)
+            </td>*@
+            <td>
+                @Html.Raw(item.GetDescriptionPreview())
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Difficulty)
+            </td>
+            <td>
+                <div>
+                    <span style="float:left;">
+                        @using (Html.BeginForm("CreateShort", "Review", FormMethod.Post, new { @id = "up" + item.LocationID }))
+                        {
+                            @Html.AntiForgeryToken();
+                            @Html.Hidden("LocationID", item.LocationID);
+                            @Html.Hidden("Rating", true);
+                            @Html.Hidden("Comment", null);
+                            // The user must be logged in and they've made a rating for this location and it was an up vote
+                            if (Model.Ratings[item.LocationID] == 1)
+                                //User.Identity.IsAuthenticated
+                                //&& item.Reviews.Where(r => r.User.Equals(User.Identity)).Count() > 0)
+                                //&& item.Reviews.Count() > 0)
+                                //&& item.Reviews.Where(r => r.User == User.Identity).First().Rating)
+                            {
+                                <label for="@("UpSubmit" + item.LocationID)" class="btn"><i class="glyphicon glyphicon-thumbs-up voted"></i></label>
+                            }
+                            else 
+                            {
+                                <label for="@("UpSubmit" + item.LocationID)" class="btn"><i class="glyphicon glyphicon-thumbs-up"></i></label>
+                            }
+                            <input id="@("UpSubmit" + item.LocationID)" type="submit" value="Up" class="hidden" />
+                            @item.UpVotes()
+                        }
+                    </span>
+                    <span style="float:left;">
+                        @using (Html.BeginForm("CreateShort", "Review", FormMethod.Post, new { @id = "down" + item.LocationID }))
+                        {
+                            @Html.AntiForgeryToken();
+                            @Html.Hidden("LocationID", item.LocationID);
+                            @Html.Hidden("Rating", false);
+                            @Html.Hidden("Comment", null);
+                            if (Model.Ratings[item.LocationID] == 0)
+                            {
+                                <label for="@("DownSubmit" + item.LocationID)" class="btn"><i class="glyphicon glyphicon-thumbs-down voted"></i></label>
+                            }
+                            else
+                            {
+                                <label for="@("DownSubmit" + item.LocationID)" class="btn"><i class="glyphicon glyphicon-thumbs-down"></i></label>
+                            }
+                            <input id="@("DownSubmit" + item.LocationID)" type="submit" value="Down" class="hidden" />
+                            @item.DownVotes()
+                        }
+                    </span>
+                </div>
+            </td>
+            <td>
+                @if (ViewBag.IsAdmin)
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.LocationID })
+                }
+                @if (ViewBag.IsAdmin)
+                {
+                    @Html.ActionLink("Delete", "Delete", new { id = item.LocationID })
+                }
+                @Html.ActionLink("View Media", "Media", "Location", new { locationID = item.LocationID }, null)
+            </td>
+        </tr>
+    }
+
+</table>
+
+<br />
+
+Page @(Model.Locations.PageCount < Model.Locations.PageNumber ? 0 : Model.Locations.PageNumber) of @Model.Locations.PageCount
+
+@Html.PagedListPager(Model.Locations, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+
+@if (Request.IsAuthenticated && User.IsInRole("Admin"))
+{
+    @Html.ActionLink("Recreations", "Index", "Recreation")
+}
+    @*@Html.ActionLink("Location-Recreation", "Index", "LocationRecreation")*@

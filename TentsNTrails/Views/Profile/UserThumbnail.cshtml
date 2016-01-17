@@ -1,0 +1,18 @@
+﻿@model TentsNTrails.Models.User
+
+
+<div style="float: left; min-width:@(ViewBag.Size)px; max-width:@(ViewBag.Size)px; overflow: hidden">
+    <img id="profile-picture"
+         src="@Url.Content(Model.ProfilePictureUrl)"
+         title="Profile Picture"
+         alt="Image of @Model.UserName"
+         style="width: auto; height: @(ViewBag.Size)px; margin: 0 auto" />
+</div>
+
+@*
+    <!-- TO USE THIS IN A VIEW: -->
+    Html.RenderAction("UserThumbnail", "Profile", new { username = Model.PotentialFriend.UserName, size = 50 });
+
+    <!-- WRAP RenderAction WITH THIS LINK TO LINK TO PROFILE:-->
+    <a href="@Url.Action("Index", "Profile", new { Username = Model.UserName })">Text</a>
+*@

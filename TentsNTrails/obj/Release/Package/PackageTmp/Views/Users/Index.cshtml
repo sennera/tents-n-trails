@@ -1,0 +1,84 @@
+﻿@model PagedList.IPagedList<TentsNTrails.Models.User>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Find Friends";
+}
+
+<h2>Find Friends</h2>
+
+@using (Html.BeginForm("Index", "Users", FormMethod.Get))
+{
+    <div class="input-group">
+        <input type="text" class="form-control input-home" name="SearchString" placeholder="Search for your friends...">
+        <span class="input-group-btn">
+            <button class="btn btn-default" id="btn" type="submit">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
+        </span>
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            User Name
+        </th>
+        <th>
+            First Name
+        </th>
+        <th>
+            Last Name
+        </th>
+        <th>
+            Privacy
+        </th>
+        @if (ViewBag.currentUser != null)
+        {
+            <th></th>
+        }
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink(item.UserName, "Index", "Profile", new { Username = item.UserName }, null)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @if (item.Private == true)
+            {
+                @Html.Raw("YES");
+            }
+            else
+            {
+                @Html.Raw("NO");
+            }
+        </td>
+        @if ((item.UserName != ViewBag.currentUser) && (ViewBag.currentUser != null))
+        {
+            using (Html.BeginForm("Connect", "Profile", new { username = item.UserName }))
+            {
+                @Html.AntiForgeryToken();
+                <td align="right">
+                    <div class=" col-md-10">
+                        <input class="btn btn-primary" type="submit" value="Connect" />
+                    </div>
+                </td>
+            }
+        }
+    </tr>
+}
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, currentFilter = ViewBag.CurrentFilter }))

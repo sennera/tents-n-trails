@@ -1,0 +1,148 @@
+﻿@model TentsNTrails.Models.Location
+@{
+    ViewBag.Title = "Media for " + Model.Label;
+
+}
+
+<!-- FORMATTING -->
+<script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="~/Scripts/jquery.nailthumb.1.1.js"></script>
+<link href="~/Content/jquery.nailthumb.1.1.css" type="text/css" rel="stylesheet" />
+<style type="text/css" media="screen">
+    .square-thumb {
+        width: 150px;
+        height: 150px;
+        margin: 5px;
+    }
+
+    .video-thumb {
+        width: 200px;
+        height: 150px;
+        margin: 5px;
+    }
+</style>
+
+
+
+<!-- ----------------------------------------------------------------------- -->
+<!-- HEADER -->
+<!-- ----------------------------------------------------------------------- -->
+<div class="row">
+    <div class="col-xs-12">
+            <h1>Media for @Html.ActionLink(Model.Label, "Details", "Location", new { id = Model.LocationID }, null)</h1>
+
+        <!--BACK LINK-->
+        <p>
+            @Html.ActionLink("Back to Location", "Details", "Location", new { id = Model.LocationID }, null)
+        </p>
+
+    </div>
+</div>
+
+<!-- ----------------------------------------------------------------------- -->
+<!-- IMAGES -->
+<!-- ----------------------------------------------------------------------- -->
+<div class="row">
+    <div class="col-xs-12">
+        <hr />
+        <h3>Images</h3>
+
+        <!--UPLOAD-->
+        <p>
+            @Html.ActionLink("Add an Image", "CreateByUrl", "LocationImage", new { locationID = Model.LocationID }, null)
+        </p>
+    </div>
+</div>
+
+<!-- IMAGE GRID -->
+<div class="row" align="center">
+    <div class="col-xs-12">
+
+        <!-- BEGIN IMAGES -->
+        @foreach (var item in Model.Images)
+        {
+            <div class="nailthumb-container square-thumb col-xs-2">
+
+                <!-- DETAILS ACTION LINK-->
+                <a href="@Url.Action("Details", "LocationImage", new { id = item.ImageID })">
+
+                    <!-- IMAGE-->
+                    <img id="@item.ImageID"
+                         src="@Url.Content(item.ImageUrl)"
+                         title="@item.Title"
+                         alt="@item.AltText" />
+                </a>
+            </div>
+        }
+
+    </div>
+</div>
+
+<!-- ----------------------------------------------------------------------- -->
+<!-- VIDEOS -->
+<!-- ----------------------------------------------------------------------- -->
+<div class="row">
+    <div class="col-xs-12">
+        <hr />
+        <h3>Videos</h3>
+
+        <!--UPLOAD-->
+        <p>
+            @Html.ActionLink("Add a Video", "Create", "LocationVideo", new { locationID = Model.LocationID }, null)
+        </p>
+    </div>
+</div>
+
+<!-- VIDEO GRID -->
+<div class="row" align="center">
+    <div class="col-xs-12">
+
+        <!-- BEGIN VIDEO GRID -->
+        @foreach (var item in Model.Videos)
+        {
+            string videoThumbnailUrl = item.GetThumbnailUrl();
+
+            // Embedded Video (If imageUrl was not found)
+            if (videoThumbnailUrl == item.EmbedCode)
+            {
+                <div class="col-xs-2">
+                    <div class="video-container">
+                        @Html.Raw(item.EmbedCode)
+                    </div>
+                </div>
+            }
+
+            // otherwise, show video thumbnail image
+            else
+            {
+                <div class="nailthumb-container video-thumb col-xs-3">
+                    <a href="@Url.Action("Details", "LocationVideo", new { id = item.VideoID })">
+                        <img id="@item.VideoID"
+                             src="@Url.Content(videoThumbnailUrl)"
+                             title="@((item.Description.Length > 100) ? item.Description.Substring(0,100) : item.Description)"
+                             alt="@("Video thumbnail of " + Model.Label)" />
+                    </a>
+                </div>
+            }
+        }
+    </div>
+</div>
+
+<!--BACK LINK-->
+<div class="row">
+    <div class="col-xs-12">
+        <!--BACK LINK-->
+        <p>
+            <br />
+            @Html.ActionLink("Back to Location", "Details", "Location", new { id = Model.LocationID }, null)
+        </p>
+    </div>
+</div>
+
+<!-- IMAGE-THUMBTNAIL SCRIPT -->
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        jQuery('.nailthumb-container').nailthumb();
+    });
+</script>
+

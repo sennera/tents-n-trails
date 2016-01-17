@@ -1,0 +1,77 @@
+﻿@model TentsNTrails.Models.BrowseLocationsViewModel
+@using TentsNTrails.Models
+@using PagedList.Mvc
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Browse Locations";
+}
+
+<div class="row">
+
+    <!--TITLE-->
+    <div class="col-xs-12 col-sm-6">
+        <h2>@ViewBag.Title <a href="/Location/Create" title="Create a new Location"><span title="Add New Location" style="color: green;"><i class="glyphicon glyphicon-plus"></i></span></a></h2>
+    </div>
+
+</div>
+
+@{Html.RenderAction("GoogleMap", "Location", new { height = 300, width = 0, minZoom = 9, center = Location.CENTER, locations = Model.Locations.ToList() });}
+<br />
+
+<!-- SEARCH -->
+@using (Html.BeginForm("Browse", "Location", FormMethod.Get))
+{
+    @*<div style="float:left">
+        @Html.DropDownListFor(m => m.recreationID, Model.Recreations, "Recreation Type")
+    </div>*@
+    <div>
+        @Html.DropDownListFor(m => m.recreationID, Model.Recreations, htmlAttributes: new { @class = "btn dropdown"})
+        @Html.TextBoxFor(m => m.query, null, htmlAttributes: new { @class = "btn", style = "width:280px", type = "text", placeholder = "Search by Name or State" })
+        <button id="btn" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+        @if (ViewBag.Recreation != null)
+        {
+            <span style="margin:12px"></span>
+            <span class="tag tag-recreation tag-normal-size">
+                @ViewBag.Recreation
+            </span>
+        }
+        @if (ViewBag.SearchString != null && ViewBag.SearchString != "")
+        {
+            <span style="padding:12px">Showing results for <b>"@ViewBag.SearchString"</b></span>
+        }
+    </div>
+}<br />
+
+<!-- LOCATIONS -->
+@{
+    int padding = 7;
+    int count = Model.Locations.Count();
+    for (int i = 0; i < count; i += 2)
+    {
+        <div class="row" style="padding: 0px @(padding)px 0px @(padding)px">
+            @for (int j = i; j < Math.Min(i + 2, count); j++)
+            {
+                Location item = Model.Locations[j];
+                <div class="col-xs-12 col-md-6" style="padding: @(padding)px;">
+                    <div id="review" style="min-height: 124px">
+                        @{ Html.RenderAction("Summary", "Location", new { id = item.LocationID, redirectAction = "Browse", redirectController = "Location" }); }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}
+
+<br />
+
+<!--PAGING-->
+Page @(Model.Locations.PageCount < Model.Locations.PageNumber ? 0 : Model.Locations.PageNumber) of @Model.Locations.PageCount
+@Html.PagedListPager(Model.Locations, page => Url.Action("Browse", new { page, model = Model }))
+
+@if (Request.IsAuthenticated && User.IsInRole("Admin"))
+{
+    @Html.ActionLink("Recreations", "Index", "Recreation")
+}
+

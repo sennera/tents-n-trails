@@ -1,0 +1,97 @@
+﻿@model TentsNTrails.Models.User
+
+@{
+    ViewBag.Title = "Profile";
+}
+
+<table class="table-fill">
+    <tr>
+        <td align="left"><h2>@Html.DisplayFor(model => model.UserName)</h2></td>
+        @if (!ViewBag.IsOnOwnProfile)
+        {
+            if (ViewBag.IsConnected)
+            {
+                <td align="right">
+                    <div class=" col-md-10">
+                        <button class="btn btn-primary" disabled >
+                            You Are Connected
+                        </button>
+                    </div>
+                </td>
+            }
+            else
+            {
+                using (Html.BeginForm("Connect", "Profile", new { username = Model.UserName }))
+                {
+                    @Html.AntiForgeryToken();
+                    <td align="right">
+                        <div class=" col-md-10">
+                            <input class="btn btn-primary" type="submit" value="Connect" />
+                        </div>
+                    </td>
+                }
+            }
+        }
+    </tr>
+</table>
+
+<p style="color: green;">@ViewBag.SuccessMessage</p>
+
+<hr />
+<dl class="dl-horizontal">
+    <dt>
+        <label>First Name:</label>
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.FirstName)
+    </dd>
+
+    <dt>
+        <label>Last Name:</label>
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.LastName)
+    </dd>
+
+    <dt>
+        <label>Enrollment Date:</label>
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.EnrollmentDate)
+    </dd>
+
+    <dt>
+        <label>Activities:</label>
+    </dt>
+    
+    @if (Model.UserActivities.Count > 0) { 
+        foreach (var item in Model.UserActivities)
+        {
+            <dd>
+            @Html.DisplayFor(m => item.RecreationLabel)
+            </dd>
+        }
+    }
+    else {
+        <dd></dd>
+    }
+
+    <dt>
+        <label>About Me:</label>
+    </dt>
+    <dd>
+        @Html.DisplayFor(model => model.About)
+    </dd>
+</dl>
+@if (Request.IsAuthenticated && (User.Identity.Name == Model.UserName || User.IsInRole("Admin")))
+{ 
+    <div class="dl-horizontal" align="right">
+        [
+        @Html.ActionLink("Update About Me", "Edit", new { id = Model.Id })
+        ]
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

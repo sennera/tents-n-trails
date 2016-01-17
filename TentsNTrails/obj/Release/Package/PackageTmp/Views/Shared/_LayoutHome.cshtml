@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html class="home">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - tents n trails</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("tents n trails", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Locations", "Index", "Location")</li>
+                    <li>@Html.ActionLink("Hiking", "Index", "Location", new { recreationID = 1 }, null)</li>
+                    <li>@Html.ActionLink("Camping", "Index", "Location", new { recreationID = 2 }, null)</li>
+                    <li>@Html.ActionLink("Find Friends", "Index", "Users")</li>
+                    @*<li>@Html.ActionLink("About", "About", "Home")</li>*@
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content home"> 
+        @RenderBody()
+
+        <div class="home-buttons container">
+            <button class="home-btn" onclick="location.href='@Url.Action("Index", "Location", new { recreationID = 1 })'">
+                Hiking &raquo
+            </button>
+            <button class="home-btn" onclick="location.href='@Url.Action("Index", "Location", new { recreationID = 2 })'">
+                Camping &raquo
+            </button><button class="home-btn" onclick="location.href='@Url.Action("Index", "LocationFlag", new { })'">
+                Saved Spots &raquo
+            </button>
+        </div>
+    </div>  
+
+    <div class="navbar navbar-fixed-bottom">
+        <div class="container">
+            <div class="navbar-header" style="float: right">
+                @Html.ActionLink("About", "About", "Home", null, new { @style = "color:#999;" })
+                &nbsp;&nbsp;
+                &copy; @DateTime.Now.Year - tents n trails
+            </div>
+        </div>
+    </div>
+
+            @Scripts.Render("~/bundles/jquery")
+            @Scripts.Render("~/bundles/bootstrap")
+            @RenderSection("scripts", required: false)
+</body>
+</html>

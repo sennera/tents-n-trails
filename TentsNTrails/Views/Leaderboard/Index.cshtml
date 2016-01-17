@@ -1,0 +1,198 @@
+﻿@model TentsNTrails.Models.LeaderboardViewModel
+@using TentsNTrails.Models
+@{
+    ViewBag.Title = "Leaderboard";
+}
+
+<h2>Leaderboard</h2>
+
+<div class="tabbable">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#tab1" data-toggle="tab" style="text-decoration:none"><span title="Overall Leaderboard" style="color: green;"><i class="glyphicon glyphicon-user"></i></span>&nbsp;&nbsp;Overall</a>
+        </li>
+        <li>
+            <a href="#tab2" data-toggle="tab" style="text-decoration:none"><span title="Review Leaderboard" style="color: green;"><i class="glyphicon glyphicon-comment"></i>&nbsp;&nbsp;</span>Total Reviews</a>
+        </li>
+        <li>
+            <a href="#tab3" data-toggle="tab" style="text-decoration:none"><span title="Media Leaderboard" style="color: green;"><i class="glyphicon glyphicon-camera"></i></span>&nbsp;&nbsp;Total Media Items</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+
+        <!-- ========================================================================================= -->
+        <!-- Overall Leaderboard
+        <!-- ========================================================================================= -->
+        <div class="tab-pane active" id="tab1">
+            <h3>Top Total Contributions</h3>
+            <h4>Based on reviews and media contributions.</h4>
+
+            <div class ="row" style="padding:10px">
+                <div class="col-xs-12 col-md-9 ">
+                @{
+                    int i = 1;
+                    foreach (var item in Model.TopRanked)
+                    {
+                        <div class="row" style="padding: 0px 7px 0px 7px">
+                            <div class="col" style="padding: 7px;">
+                                <div id="review" style="min-height: 95px; min-width:370px">
+
+                                    <!-- RANKING NUMBER -->
+                                    <div style="float: left; font-size:30px; padding: 15px 15px 15px 0px;">
+                                        @(i++)
+                                    </div>
+                                    <!-- PROFILE PICTURE -->
+                                    <div style="float: left; min-width:75px; max-width:75px; overflow: hidden">
+                                        <img id="@item.UserName"
+                                             src="@Url.Content(item.ProfilePictureUrl)"
+                                             title="@item.UserName"
+                                             alt="@item.UserName"
+                                             style="width: auto; height: 75px; margin: 0 auto" />
+                                    </div>
+
+                                    <!-- USER INFO -->
+                                    <span style="padding-left: 15px; padding-right:70px; height: 75px;">
+                                        @* User Name *@
+                                        <b>@Html.ActionLink(item.UserName, "Index", "Profile", new { Username = item.UserName }, null)</b>
+                                    </span>
+
+                                    <!-- CONTRIBUTIONS -->
+                                    <span style="float: right; height: 75px;">
+                                        @item.TotalContributions() contributions
+                                    </span>
+                                    <div style="clear: both;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                </div>
+
+                <div class="col-xs-12 col-md-3" style="padding:7px">
+                    <div class="alert alert-success" role="alert">
+                        Want to move up in the leaderboard? Add more <b>ratings</b>,
+                        <b>reviews</b>, or <b>media</b> to <a href="~/Location/Index" class="alert-link">locations</a>.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================================================================= -->
+        <!-- Top Total Reviews
+        <!-- ========================================================================================= -->
+        <div class="tab-pane" id="tab2">
+            <h3>Top Total Reviews</h3>
+            <h4>Based on the number of reviews or ratings.</h4>
+
+            <div class="row" style="padding:10px">
+                <div class="col-xs-12 col-md-9 ">
+
+                    @{
+                        int j = 1;
+                        foreach (var item in Model.TopReviewers)
+                        {
+                            <div class="row" style="padding: 0px 7px 0px 7px">
+                                <div class="col" style="padding: 7px;">
+                                    <div id="review" style="min-height: 95px; min-width:370px">
+
+                                        <!-- RANKING NUMBER -->
+                                        <div style="float: left; font-size:30px; padding: 15px 15px 15px 0px;">
+                                            @(j++)
+                                        </div>
+                                        <!-- PROFILE PICTURE -->
+                                        <div style="float: left; min-width:75px; max-width:75px; overflow: hidden">
+                                            <img id="@item.UserName"
+                                                 src="@Url.Content(item.ProfilePictureUrl)"
+                                                 title="@item.UserName"
+                                                 alt="@item.UserName"
+                                                 style="width: auto; height: 75px; margin: 0 auto" />
+                                        </div>
+
+                                        <!-- USER INFO -->
+                                        <span style="padding-left: 15px; padding-right:70px; height: 75px;">
+                                            @* User Name *@
+                                            <b>@Html.ActionLink(item.UserName, "Index", "Profile", new { Username = item.UserName }, null)</b>
+                                        </span>
+
+                                        <!-- CONTRIBUTIONS -->
+                                        <span style="float: right; height: 75px;">
+                                            @item.TotalReviews() contributions
+                                        </span>
+                                        <div style="clear: both;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+                <div class="col-xs-12 col-md-3" style="padding:7px">
+                    <div class="alert alert-success" role="alert">
+                        Want to move up in the leaderboard? Add more <b>ratings</b> or
+                        <b>reviews</b> to <a href="~/Location/Index" class="alert-link">locations</a>.
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ========================================================================================= -->
+        <!-- Top Total Media
+        <!-- ========================================================================================= -->
+        <div class="tab-pane" id="tab3">
+            <h3>Top Total Media</h3>
+            <h4>Based on the number of images or videos added to locations on the site.</h4>
+
+            <div class="row" style="padding:10px">
+                <div class="col-xs-12 col-md-9 ">
+                    @{
+                        int k = 1;
+                        foreach (var item in Model.TopMediaUploaders)
+                        {
+                            <div class="row" style="padding: 0px 7px 0px 7px">
+                                <div class="col" style="padding: 7px;">
+                                    <div id="review" style="min-height: 95px; min-width:370px">
+
+                                        <!-- RANKING NUMBER -->
+                                        <div style="float: left; font-size:30px; padding: 15px 15px 15px 0px;">
+                                            @(k++)
+                                        </div>
+                                        <!-- PROFILE PICTURE -->
+                                        <div style="float: left; min-width:75px; max-width:75px; overflow: hidden">
+                                            <img id="@item.UserName"
+                                                 src="@Url.Content(item.ProfilePictureUrl)"
+                                                 title="@item.UserName"
+                                                 alt="@item.UserName"
+                                                 style="width: auto; height: 75px; margin: 0 auto" />
+                                        </div>
+
+                                        <!-- USER INFO -->
+                                        <span style="padding-left: 15px; padding-right:70px; height: 75px;">
+                                            @* User Name *@
+                                            <b>@Html.ActionLink(item.UserName, "Index", "Profile", new { Username = item.UserName }, null)</b>
+                                        </span>
+
+                                        <!-- CONTRIBUTIONS -->
+                                        <span style="float: right; height: 75px;">
+                                            @item.TotalMediaItems() contributions
+                                        </span>
+                                        <div style="clear: both;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+                <div class="col-xs-12 col-md-3" style="padding:7px">
+                    <div class="alert alert-success" role="alert">
+                        Want to move up in the leaderboard? Add more <b>media</b> to <a href="~/Location/Index" class="alert-link">locations</a>.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

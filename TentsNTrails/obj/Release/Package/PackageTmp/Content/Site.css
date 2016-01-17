@@ -1,0 +1,307 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background: transparent;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+html.main {
+    background-color: #000000;
+    background: url("green_forest.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.non-home {
+    background: rgb(255, 255, 255); /* Fallback */
+    background: rgba(200, 200, 200, 0.85);
+    color: rgba(10, 10, 10, 0.9);
+}
+
+.navbar-nav > li > a,
+a.navbar-brand:link,
+a.navbar-brand:visited {
+    padding: 10px 15px 10px 15px;
+    line-height: 15px;
+    text-decoration: none;
+}
+
+.navbar-brand {
+    padding-top: 7px;
+}
+
+.navbar {
+    min-height: 20px;
+    background-color: rgba(30, 30, 30, 0.7);
+    text-decoration: none;
+}
+
+.navbar-fixed-bottom > .container > .navbar-header {
+    color: rgb(150, 150, 150);
+}
+
+/*.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30px;
+    background-color: rgba(30, 30, 30, 0.7);
+    color: rgb(150, 150, 150);
+}
+
+.footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+}*/
+
+/*.btn-xlarge {
+    padding: 18px 28px;
+    font-size: 22px; 
+    line-height: normal;
+    -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
+}*/
+
+tr .review-row {
+    border-style: solid;
+    border-color: #111111;
+}
+
+/* modified to show preview image */
+table.reviews > tbody > tr > td {
+    padding: 8px 20px 8px 20px;
+    
+} 
+
+table.reviews > tbody > tr > td#review-image-preview {
+    padding: 8px 20px 8px 0px;
+} 
+
+/* modified to show preview image */
+table.reviews > tbody > tr#review {
+    padding: 8px 20px 8px 20px;
+    
+} 
+
+#review {
+    background: rgba(255, 255, 255, 0.4);
+    padding: 12px 12px 12px 12px;
+}
+
+#review-row{
+    padding: 12px 12px 12px 12px;
+}
+
+#review-index-data{
+    background: rgba(255, 255, 255, 0.4);
+    padding: 12px 0px 12px 12px;
+}
+#review-index-image{
+    background: rgba(255, 255, 255, 0.4);
+    padding: 12px 12px 12px 0px;
+}
+
+#review-data {
+  /*background: rgba(255, 255, 255, 0.4);*/
+    padding: 12px 12px 12px 12px;
+}
+
+/* unvisited link */
+a:link {
+    color: rgb(0, 0, 0);
+    text-decoration: underline;
+}
+
+/* visited link */
+a:visited {
+    color: rgb(0, 0, 0);
+    text-decoration: underline;
+}
+
+/* Links in the user dropdown*/
+#noUnderline > li > a:visited,
+#noUnderline > li > a:link {
+    text-decoration: none;
+}
+
+
+hr,
+.glyphicon-thumbs-up,
+.glyphicon-thumbs-down {
+    color: black;
+}
+
+.voted {
+    color: #008080;
+}
+
+.red {
+    color:#b20000;
+}
+
+.green {
+    color: #009a00;
+}
+
+
+#googleMap {
+    border: 2px solid rgba(30, 30, 30, 0.9);
+}
+
+/* On Locations Index page */
+div.bigger {
+    font-size: large;
+}
+
+html, body,
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+
+/* On My Locations page*/
+table.centered {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+    table.centered > tbody > tr > th {
+        text-align: center;
+        border-top: 0;
+    }
+
+table.no-top > tbody > tr > th {
+    border-top: 0;
+}
+
+table > tbody > tr > th {
+    border-color: black;
+}
+
+
+
+/* --------For Home Page-------- */
+.floating-box {
+    background: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    vertical-align: middle;
+    /*border-color: #000000;*/
+    /*border-width: 1px;*/
+    /*border-style: solid;*/
+    margin-top: 10%;
+    margin-bottom: 19%;
+    margin-right: 30%;
+    margin-left: 30%;
+    padding: 13px 30px 30px 30px;
+}
+
+html.home {
+    background-color: #000000;
+    background: url("home_page.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
+}
+
+html.home > body,
+html.home > body > div.home {
+    height: inherit;
+}
+
+h1.home-title {
+    font-size: 50px;
+    color: rgba(10, 10, 10, 0.9);
+}
+
+.input-home {
+    max-width: inherit;
+}
+
+.home-buttons {
+    margin: 0% 25% 1% 25%;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.home-btn {
+    width: 31.33%;
+    margin-left: 1%;
+    margin-right: 1%;
+    float: left;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.6);
+    padding: 10px;
+}
+
+
+/* align images to right of page on wide views */
+#image-align-right {
+    float: none;
+    align-content: center;
+}
+
+#div-align-center {
+    align-content: center;
+}
+
+/* align images to normal if small enough.  Matches col-sm media width cut-off */
+@media (min-width: 768px) {
+    #image-align-right {
+        float: right;
+        align-content: center;
+    }
+
+    #div-align-center {
+        align-content: center;
+    }
+}
+
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 25px;
+    height: 0;
+}
+
+.video-container iframe,
+.video-container object,
+.video-container embed {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+}
+
+
+/*On Profile page*/
+table.table-fill {
+    width: 100%;
+}
+

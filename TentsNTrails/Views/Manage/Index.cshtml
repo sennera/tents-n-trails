@@ -1,0 +1,139 @@
+﻿@model TentsNTrails.Models.IndexViewModel
+@{
+    ViewBag.Title = "Manage";
+}
+
+<h2>Edit Personal Settings</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div class="row">
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>First Name:</dt>
+        <dd>
+            @Model.FirstName
+        </dd>
+        <dt>Last Name:</dt>
+        <dd>
+            @Model.LastName
+        </dd>
+        <dt>Email:</dt>
+        <dd>
+            [
+            @Html.ActionLink("Change your email", "ChangeEmail")
+            ]
+        </dd>
+        <dt>Password:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Change your password", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Create", "SetPassword")
+            }
+            ]
+        </dd>
+
+        <dt>Activities:</dt>
+        @if (Model.UserActivities != null && Model.UserActivities.Count() > 0)
+        {
+            <dd>
+                <div>
+                    @foreach (var item in Model.UserActivities.Select(a => a.Recreation))
+                    {
+                        <span class="tag tag-recreation">
+                            @Html.ActionLink(item.Label, "Browse", "Location", new { recreationID = item.RecreationID }, new { title = String.Format("Browse all {0} locations", item.Label) })
+                        </span>
+                    }
+                </div>
+            </dd>
+        }
+        <dd>
+            [@Html.ActionLink("Change your preferred activities", "ChangeActivities")]
+        </dd>
+
+        <dt>Profile Picture:</dt>
+        <dd>
+            @Html.ActionLink("[Upload new profile picture]", "UploadProfilePicture", "Profile", null, null)
+        </dd>
+
+        <dt>About Me:</dt>
+        <dd>
+            [@Html.ActionLink("Update About Me", "Edit", "Profile", new { id = Model.Id }, null) ]
+        </dd>
+
+        <dt>Private account:</dt>
+        <dd>
+            @if (Model.Private)
+            {
+                <p>
+                    Yes [@Html.ActionLink("Change your privacy", "ChangePrivacy")]
+                </p>
+            }
+            else
+            {
+                <p>
+                    No [@Html.ActionLink("Change your privacy", "ChangePrivacy")]
+                </p>
+            }
+        </dd>
+
+
+        @*<dt>External Logins:</dt>
+            <dd>
+                @Model.Logins.Count [
+                @Html.ActionLink("Manage", "ManageLogins") ]
+            </dd>*@
+        @*
+            Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+
+             See <a href="http://go.microsoft.com/fwlink/?LinkId=313242">this article</a>
+                for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+
+             Uncomment the following block after you have set up two-factor authentication
+        *@
+        @*
+            <dt>Phone Number:</dt>
+            <dd>
+                @(Model.PhoneNumber ?? "None") [
+                @if (Model.PhoneNumber != null)
+                {
+                    @Html.ActionLink("Change", "AddPhoneNumber")
+                    @: &nbsp;|&nbsp;
+                    @Html.ActionLink("Remove", "RemovePhoneNumber")
+                }
+                else
+                {
+                    @Html.ActionLink("Add", "AddPhoneNumber")
+                }
+                ]
+            </dd>
+        *@
+        @*<dt>Two-Factor Authentication:</dt>
+            <dd>
+                <p>
+                    There are no two-factor authentication providers configured. See <a href="http://go.microsoft.com/fwlink/?LinkId=313242">this article</a>
+                    for details on setting up this ASP.NET application to support two-factor authentication.
+                </p>*@
+        @*@if (Model.TwoFactor)
+            {
+
+                <form method="post" action="/Manage/DisableTwoFactorAuthentication">
+                    Enabled
+                    <input type="submit" value="Disable" class="btn btn-link" />
+                </form>
+            }
+            else
+            {
+
+                <form method="post" action="/Manage/EnableTwoFactorAuthentication">
+                    Disabled
+                    <input type="submit" value="Enable" class="btn btn-link" />
+                </form>
+            }*@
+        @*</dd>*@
+        </dl>
+        </div>

@@ -1,0 +1,31 @@
+﻿<!-- SOCIAL -->
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        Social
+        <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu" id="noUnderline">
+        <li>@Html.ActionLink("Find Friends", "Index", "Users")</li>
+        <li>@Html.ActionLink("Events", "Index", "Events")</li>
+        <li>@Html.ActionLink("Leaderboard", "Index", "Leaderboard")</li> 
+    </ul>
+</li>
+
+@*
+<!-- SOCIAL -->
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        Social
+        <b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu" id="noUnderline">
+        <li><a href="@Url.Action("Index", "Users")"><span class="glyphicon glyphicon-search"></span>&nbsp;Find Friends</a></li>
+        <li><a href="@Url.Action("Index", "Events")"><span class="glyphicon glyphicon-calendar"></span>&nbsp;Events</a></li>
+        <li><a href="@Url.Action("Index", "Leaderboard")"><span class="glyphicon glyphicon-th-list"></span>&nbsp;Leaderboard</a></li>
+        <li class="divider"></li>
+        <li><a href="@Url.Action("Index", "Users")">Find Friends&nbsp;<span class="glyphicon glyphicon-search" style="float:right"></span></a></li>
+        <li><a href="@Url.Action("Index", "Events")">Events&nbsp;<span class="glyphicon glyphicon-calendar" style="float:right"></span></a></li>
+        <li><a href="@Url.Action("Index", "Leaderboard")">Leaderboard&nbsp;<span class="glyphicon glyphicon-th-list" style="float:right"></span></a></li>
+    </ul>
+</li>
+*@

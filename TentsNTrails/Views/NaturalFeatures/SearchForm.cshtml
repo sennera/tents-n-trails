@@ -1,0 +1,337 @@
+﻿@model TentsNTrails.Models.SearchFormViewModel
+
+<style>
+    form {
+		font-family:monospace;
+	}
+    .tag-style {
+        display: inline-block;
+        padding: .3em .7em .4em;
+        margin: 2px;
+        font-size: 75%;
+        font-weight: lighter;
+        line-height: 1;
+        color: #ffffff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: .25em;
+    }
+
+    .cat-style {
+        background: rgba(255, 0, 0, 0.40);
+    }
+
+    .food-style {
+        background: rgba(0, 0, 255, 0.40);
+    }
+
+    .tag-style a.a-cancel {
+        color: #ddd;
+        font-weight: bold;
+        margin: 0em 0.4em 0em 0em;
+        padding: 0em;
+        text-decoration: none;
+    }
+
+    .tag-style a.a-cancel:hover {
+            color: #fff;
+    }
+	
+	#submit, #cats-div, #food-div{
+	    margin-left:5ch;
+	}
+</style>
+
+<h1>Multi-Value Form Example</h1>
+<p>
+    This is designed to allow the user to input a variable number of values into a single form.
+    Type some text into the form, then type <b>enter</b>.
+</p>
+<p>
+    The text will show up below in boxes.  This also adds a hidden input with the name 'tags'.
+    Then, press <b>submit</b> and see that all entered values are passed as a form
+    in the url.
+</p>
+
+<form id="my-custom-form-id" method="post">
+    <label>Cats</label>
+    <input id="cats-input" type="text" autocomplete="off" placeholder="Type a phrase then enter" size="30"/>
+    <div id="cats-div"></div>
+    <br />
+
+    <label>Food</label>
+    <input id="food-input" type="text" autocomplete="off" placeholder="Type a phrase then enter" size="30"/>
+    <div id="food-div"></div>
+    <br />
+
+    <input id="submit" type="submit" value="Submit" />
+</form>
+
+<script type="text/javascript" src="~/Scripts/hidden-form-controls.js"></script>
+<script>
+    window.onload = function () {
+        var hiddenFormControls = new HiddenFormControls();
+
+        // declare some values I'm using.
+        var formId = 'my-custom-form-id';
+        var catsName = 'cats';
+        var foodName = 'food';
+        var catsClass = 'tag-style cat-style';
+        var foodClass = 'tag-style food-style';
+
+        // add some starter tags (perhaps from a c# data Model in a razor view)
+        //hiddenFormControls.addHiddenInputAndTag(formId, catsName, 'Fluffy', catsClass);
+        //hiddenFormControls.addHiddenInputAndTag(formId, foodName, 'Pepperoni Pizza', foodClass);
+
+        // add any matching parameters.
+        hiddenFormControls.addUrlParametersHiddenInputAndTag(formId, catsName, catsClass);
+        hiddenFormControls.addUrlParametersHiddenInputAndTag(formId, foodName, foodClass);
+
+        // register inputs to add values to the corresponding input name.
+        hiddenFormControls.registerHiddenInputFor(formId, catsName, catsClass);
+        hiddenFormControls.registerHiddenInputFor(formId, foodName, foodClass);
+    }
+</script>
+
+
+  
+
+
+@*
+@{
+    /*
+     * **********************************************************************************
+     * TEST FORM
+     * **********************************************************************************
+     *
+     * This is an example view with a form I developed to test functionality before I
+     * apply what I'm doing to a real form, such as on Location/Create.
+     *
+     *
+     */
+
+    ViewBag.Title = "Search Form Example";
+    string formId = "tags-form";
+    string naturalFeaturesName  = "NaturalFeatureStrings";
+    string naturalFeaturesClass = "tag tag-natural-feature";
+}
+
+<h1>@ViewBag.Title</h1>
+<hr />
+<p>
+    <span class="alert alert-info" style="padding:5px"><i><b>TODO:</b> search not implemented yet.</i></span>
+    <br />
+    <br />
+</p>
+<p>
+    This is an example of how to search a list and select from it to submit a value.
+</p>
+<p>
+    To see how it works, type in some words and press submit.  In visual studio's output, you should
+    see the strings printed in an array-literal syntax, i.e. <span style="font-family:monospace;font-weight:bold" class="no-wrap">{"hello", "world"}</span>.
+</p>
+
+@using (Html.BeginForm("SearchForm", "NaturalFeatures", FormMethod.Post, new { id = formId }))
+{
+    <div class="form-horizontal">
+
+        <!-- NATURAL FEATURE -->
+        <div class="form-group">
+            <label class="control-label col-md-2 tag-form-label" for="">Natural Features:</label>
+            <div class="col-md-10">
+                <div id="@(naturalFeaturesName)-div" class="tag-form-div"></div>
+                <input id="@(naturalFeaturesName)-input" autocomplete="off" class="form-control text-box single-line tag-form-input" type="text" placeholder="Enter a natural feature." />
+            </div>
+        </div>
+
+        <!-- SUBMIT -->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+
+<script>
+
+    // **********************************************************************************
+    // MULTI-VALUE FORM: HOW TO USE
+    // **********************************************************************************
+    //
+    // To use this script, call the last registerHiddenInputFor(formId, inputName, spanClass)
+    // at the end of the script.
+    //
+    // This registers an event listener on an existing <input id="inputName + '-input'">
+    // contained within a <form id="formId">.  The event fires when the user
+    // presses 'enter'.  This removes the text from the visible <input> and adds a
+    // corresponding hidden <input> with a value of the typed text to the enclosing
+    // <form>.  It also adds a <span class="spanClass"> element displaying the value
+    // within a<div id="inputName + '-div'">.  the <span> has a 'x' button that will
+    // remove both the hidden form and the span.
+    //
+    // The end result is that you can pass a variable amount of string values to a
+    // form input named "inputName".  All you need to do is set the ids of your
+    // corresponding <form>, <input>, and <div> accordingly.  For example:
+    //
+    // **********************************************************************************
+    // EXAMPLE:
+    // **********************************************************************************
+    //
+    // <div id="tags-div"></div>
+    // <form id="tags-form" method="post">
+    //     <input id="tags-input" type="text" />
+    //     <input type="submit" value="Submit" />
+    // </form>
+    //
+    // <script>
+    //     /* ... at the end of the script */
+    //     registerHiddenInputFor('tags-form', 'tags', 'tag tag-natural-feature');
+    // <script>
+    //
+    //
+    //
+    // /* 'tags-form' is the id of the form to add the hidden fields to.  */
+    // /* 'tags' is the name of the input all values are passed to.       */
+    // /* 'tag tag-natural-feature' is a class for styling your spans.    */
+    //
+    // **********************************************************************************
+
+    var TAG_INDEX = 0;
+
+    // ****************************************************
+    // Remove an element
+    // ****************************************************
+    function removeElement(id) {
+        var element = document.getElementById(id);
+        element.parentNode.removeChild(element);
+    }
+
+    // ****************************************************
+    // Create and append a new span 'tag' element.
+    // ****************************************************
+    function addTag(inputName, index, inputValue, spanClass) {
+
+        // create remove button.
+        var a = document.createElement('a');
+        a.setAttribute('id', 'remove-link-' + index);
+        a.setAttribute('href', '');
+        a.setAttribute('class', 'a-cancel');
+        a.setAttribute('title', 'remove');
+        a.innerHTML = "&#10005;";
+        a.onclick = function () {
+            removeElement(getSpanId(inputName, index));
+            removeElement(getHiddenInputId(inputName, index));
+            return false;
+        };
+
+        // create span text.
+        var tagText = document.createElement('text');
+        tagText.innerHTML = inputValue;
+
+        // create span.
+        var newTag = document.createElement('span');
+        newTag.setAttribute('id', getSpanId(inputName, index));
+        newTag.setAttribute('class', spanClass);
+        newTag.appendChild(a);
+        newTag.appendChild(tagText);
+        document.getElementById(inputName + '-div').appendChild(newTag);
+    }
+
+    // ****************************************************
+    // Make a new hidden input with the vien name value,
+    // ****************************************************
+    function addHiddenInput(formId, name, index, value) {
+        var newInput = document.createElement('input');
+        newInput.setAttribute('id', getHiddenInputId(name, index));
+        newInput.setAttribute('type', 'hidden');
+        newInput.setAttribute('name', name);
+        newInput.setAttribute('value', value);
+        document.getElementById(formId).appendChild(newInput);
+    }
+
+    // get the span id.
+    function getSpanId(inputName, index) {
+        return inputName + '-' + index;
+    }
+
+    // get the hidden input id for the given index
+    function getHiddenInputId(inputName, index) {
+        return inputName + '-' + index;
+    }
+
+
+    // ****************************************************
+    // Add a hidden input and a with the given id inputName,
+    // index, and value.
+    // ****************************************************
+    function addHiddenInputAndTag(formId, inputName, index, inputValue, spanClass) {
+        addTag(inputName, index, inputValue, spanClass);
+        addHiddenInput(formId, inputName, index, inputValue);
+    }
+
+    // ***********************************************************
+    // Add an EventListener to the input field '(inputName)-input'.
+    // ***********************************************************
+    function registerHiddenInputFor(formId, inputName, spanClass) {
+        var tagField = document.getElementById(inputName + '-input');
+        tagField.addEventListener('keypress', function (event) {
+
+            // if Enter is pressed
+            if (event.keyCode == 13) {
+                // 1) prevent form submission.
+                event.preventDefault();
+
+                // 2) get the input value, and clear the field.
+                var tagValue = tagField.value;
+                tagField.value = "";
+
+                // 3) a. add the tag if no commas
+                if (tagValue.indexOf(",") === -1) {
+                    console.log("add single value");
+                    addHiddenInputAndTag(formId, inputName, TAG_INDEX, tagValue.trim(), spanClass);
+                }
+                // 3) b. add each tag separated by commas.
+                else {
+                    console.log("add multi value");
+                    var delimitedValues = tagValue.split(',');
+                    for (var i = 0; i < delimitedValues.length; i++) {
+                        var delimitedValue = delimitedValues[i].trim();
+                        if(delimitedValue.length > 0) {
+                            addHiddenInputAndTag(formId, inputName, TAG_INDEX, delimitedValue, spanClass);
+                        }
+                    }
+                }
+
+                // 4) increment the TAG_INDEX value.
+                TAG_INDEX++;
+            }
+        });
+    }
+
+
+    // ***********************************************************
+    // Registers all AspNet collections passed to this View as
+    // span and hidden inputs.
+    // ***********************************************************
+    function registerAspNetCollections() {
+        window.onload = function () {
+            @foreach (var tag in Model.NaturalFeatureStrings)
+            {
+                @:addHiddenInputAndTag('@formId', '@naturalFeaturesName', TAG_INDEX, '@tag', '@naturalFeaturesClass');
+                @:TAG_INDEX++;
+            }
+        };
+    }
+
+
+    // Setup
+    registerAspNetCollections();
+    registerHiddenInputFor('@(formId)', '@(naturalFeaturesName)', '@(naturalFeaturesClass)');
+
+
+
+</script>
+*@

@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TentsNTrails", "TentsNTrails\TentsNTrails.csproj", "{4B0D34B5-7C7A-4B89-92AC-9540B0EC8394}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://acs14.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = TentsNTrails\\TentsNTrails.csproj
+		SccProjectName1 = TentsNTrails
+		SccLocalPath1 = TentsNTrails
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		AzureNightly|Any CPU = AzureNightly|Any CPU
+		AzureRelease|Any CPU = AzureRelease|Any CPU
+		Local|Any CPU = Local|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B0D34B5-7C7A-4B89-92AC-9540B0EC8394}.AzureNightly|Any CPU.ActiveCfg = AzureNightly|Any CPU
+		{4B0D34B5-7C7A-4B89-92AC-9540B0EC8394}.AzureNightly|Any CPU.Build.0 = AzureNightly|Any CPU
+		{4B0D34B5-7C7A-4B89-92AC-9540B0EC8394}.AzureRelease|Any CPU.ActiveCfg = AzureRelease|Any CPU
+		{4B0D34B5-7C7A-4B89-92AC-9540B0EC8394}.AzureRelease|Any CPU.Build.0 = AzureRelease|Any CPU
+		{4B0D34B5-7C7A-4B89-92AC-9540B0EC8394}.Local|Any CPU.ActiveCfg = Local|Any CPU
+		{4B0D34B5-7C7A-4B89-92AC-9540B0EC8394}.Local|Any CPU.Build.0 = Local|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,106 @@
+﻿@model TentsNTrails.Models.EditNaturalFeaturesViewModel
+@{
+    ViewBag.Title = "Edit Natural Features";
+    string inputName = "SelectedFeatures";
+}
+<h1>Edit Natural Features</h1>
+<h3>For @Html.ActionLink(Model.LocationLabel, "Details", "Location", new { id=Model.LocationID }, null)</h3>
+<hr>
+<p>
+    Add or remove the <b>Natural Features</b> to be associated with this location.
+</p>
+
+
+<!-- FORM -->
+<form id="my-search-form-id" method="post">
+    <input type="hidden" name="LocationLabel" value="@Model.LocationLabel" />
+    <input type="hidden" name="LocationID" value="@Model.LocationID" />
+
+    <div class="form-horizontal">
+
+        <!-- TAGS -->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <!-- LABEL -->
+            <label class="control-label col-md-2 tag-form-label">Tags</label>
+            <div class="col-md-10">
+                <div id="@inputName-div" class="tag-form-div"></div>
+                <div class="dropdown btn-group">
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <!-- <input id='tags-value' name='tags' type='hidden' value=""/>	-->
+                            <!-- SEARCH -->
+                            <input id="@inputName-input" class="form-control search-input" tabindex="1" data-toggle="dropdown" aria-expanded="true" type="text" placeholder="Search for a Natural Feature" autocomplete="off">
+
+                            <!-- DROPDOWN LIST -->
+                            <ul id="@inputName-list" class="dropdown-menu scrollable-menu" role="menu" aria-labelledby="search-input">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Add new</a></li>
+                                @foreach (var featureName in Model.AllNaturalFeatures)
+                                {
+                                    <li role="presentation"><a role="menuitem" tabindex="-1" href="">@featureName</a></li>
+                                }
+                            </ul>
+
+                            <!-- DROPDOWN-BUTTON -->
+                            <button id="@inputName-dropdown-button" class="btn btn-default dropdown-button" type="button" data-toggle="dropdown" aria-expanded="true" title="dropdown">
+                                <span class="glyphicon glyphicon-triangle-bottom"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUBMIT -->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="submit" class="btn btn-default" type="submit" value="Submit" />
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/hidden-list-search.js"></script>
+<script src="~/Scripts/hidden-form-controls.js"></script>
+
+<script>
+
+	var formId = 'my-search-form-id';
+	var tagName = '@inputName';
+	var tagClass = 'tag tag-natural-feature';
+
+	var hiddenListSearch = new HiddenListSearch();
+    var hiddenFormControls = new HiddenFormControls();
+
+	// load the tags from matching url values.
+	//hiddenFormControls.addUrlParametersHiddenInputAndTag(formId, tagName, tagClass);
+
+	// custom onClickFunction for hiddenListSearch
+	var addTag = function(inputValue){
+		hiddenFormControls.addTagParseCommasForceUnique(formId, tagName, inputValue, tagClass);
+	};
+
+	// register the search input listeners.
+	hiddenListSearch.registerInputListenersFor(tagName, addTag);
+
+	//	set a custom show elment condition (require that tag does not already exist)
+	hiddenListSearch.setShowElementCondition(function (input) {
+	return !hiddenFormControls.tagWithValueExists(input, tagName);
+	});	
+	
+
+    // add the tags associated with the viewModel.
+    @foreach (var feature in Model.SelectedFeatures)
+	{
+	    @:hiddenFormControls.addHiddenInputAndTag(formId, tagName, '@feature', tagClass);
+	}
+    hiddenListSearch.initializeSearchResults(tagName);
+</script>

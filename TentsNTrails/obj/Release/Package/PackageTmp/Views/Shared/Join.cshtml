@@ -1,0 +1,98 @@
+﻿@model TentsNTrails.Models.LocationViewModel
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@{
+    ViewBag.Title = "Join";
+}
+
+<h2>Join Locations</h2>
+@using (Html.BeginForm())
+{
+<p style="color: red;">@ViewBag.ErrorMessage</p>
+<p>
+    The reviews and media items from Location A will be added into Location B and Location A will be removed. <input type="submit" value="Merge" />
+</p>
+<div style="overflow: hidden;">
+    <div style="width: 49.25%; float: left; margin-right: 1.5%; padding-left: 1%; padding-right: 1%; background-color: rgba(255, 255, 255, .5);">
+        <h3>Location A</h3>
+            <p>
+                Find by name: @Html.TextBox("SearchStringA")
+                <input type="submit" value="Search Location A" />
+            </p>
+        <table class="table">
+            <tr>
+                <th></th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Latitude
+                </th>
+                <th>
+                    Longitude
+                </th>
+            </tr>
+
+        @foreach (var item in Model.LocationA) {
+            <tr>
+                <td><input type="checkbox" name="LocationA" value="@item.LocationID"></td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Label)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Latitude)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Longitude)
+                </td>
+            </tr>
+        }
+
+        </table>
+        Page @(Model.LocationA.PageCount < Model.LocationA.PageNumber ? 0 : Model.LocationA.PageNumber) of @Model.LocationA.PageCount
+
+        @Html.PagedListPager(Model.LocationA, pageA => Url.Action("Join", new { pageA, pageB = Model.LocationB.PageNumber }))
+    </div>
+    <div style="width: 49.25%; float: left; padding-left: 1%; padding-right: 1%; background-color: rgba(255, 255, 255, .5);">
+        <h3>Location B</h3>
+        <p>
+            Find by name: @Html.TextBox("SearchStringB")
+            <input type="submit" value="Search Location B" />
+        </p>
+        <table class="table">
+            <tr>
+                <th></th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Latitude
+                </th>
+                <th>
+                    Longitude
+                </th>
+            </tr>
+
+            @foreach (var item in Model.LocationB)
+            {
+                <tr>
+                    <td><input type="checkbox" name="LocationB" value="@item.LocationID"></td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Label)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Latitude)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Longitude)
+                    </td>
+                </tr>
+            }
+
+        </table>
+        Page @(Model.LocationB.PageCount < Model.LocationB.PageNumber ? 0 : Model.LocationB.PageNumber) of @Model.LocationB.PageCount
+
+        @Html.PagedListPager(Model.LocationB, pageB => Url.Action("Join", new { pageA = Model.LocationA.PageNumber, pageB } ))
+    </div>
+</div>
+}

@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+
+<!--TITLE AND SEARCH -->
+<div class="floating-box">
+
+    <!-- TITLES (dynamic resizing) -->
+    <span class="home-title home-title-dynamic visible-sm visible-md">tents<span style="color:#326400">n</span>trails</span>
+    <span class="home-title home-title-small visible-xs">tents<span style="color:#326400">n</span>trails</span>
+    <span class="home-title home-title-large visible-lg">tents<span style="color:#326400">n</span>trails</span>
+
+    <!-- SEARCH -->
+    <form method="get" action="/Location/Browse">
+        <div class="input-group home-search-btn-group">
+            <input type="text" class="form-control input-home" name="query" placeholder="Search our locations to find your next adventure..." />
+            <span class="input-group-btn">
+                <button class="btn btn-default" id="btn" type="submit">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+            </span>
+        </div>
+    </form>
+</div>
+
+<!-- BUTTONS -->
+<div class="home-buttons-container">
+    <div class="row home-buttons">
+        <div class="col-xs-12 col-sm-4 home-btn-column">
+            <button class="home-btn" onclick="location.href='@Url.Action("Index", "Location")'">
+                <span class="no-wrap-medium-weight">Find Locations &raquo</span>
+            </button>
+        </div>
+        <div class="col-xs-12 col-sm-4 home-btn-column">
+            <button class="home-btn" onclick="location.href='@Url.Action("Index", "Events")'">
+                <span class="no-wrap-medium-weight">Join Outdoor Events &raquo</span>
+            </button>
+        </div>
+        <div class="col-xs-12 col-sm-4 home-btn-column">
+            <button class="home-btn" onclick="location.href='@Url.Action("Index", "LocationFlag", new { })'">
+                <span class="no-wrap-medium-weight">See Bookmarks &raquo</span>
+            </button>
+        </div>
+    </div>
+</div>

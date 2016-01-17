@@ -1,0 +1,177 @@
+﻿@model TentsNTrails.Models.LocationIndexViewModel
+@using PagedList.Mvc
+@using TentsNTrails.Models
+@{
+    int padding = 7;
+    int minHeight = 124;
+    int minWidth = 370;    
+}
+
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "Locations";
+}
+<div class="row">
+
+    <!--TITLE-->
+    <div class="col-xs-12 col-sm-6">
+        <h2>Featured Locations <a href="/Location/Create" title="Create a new Location"><span title="Add New Location" style="color: green;"><i class="glyphicon glyphicon-plus"></i></span></a></h2>
+    </div>
+
+</div>
+
+<br />
+
+@{Html.RenderAction("GoogleMap", "Location", new { height = 300, width = 0, minZoom = 4, center = Location.CENTER, locations = Model.Locations });}
+
+<div class="row">
+
+    <!-- SEARCH -->
+    <div class="col-xs-12 col-sm-6">
+
+        <!-- SEARCH -->
+        @using (Html.BeginForm("Browse", "Location"))
+        {
+            <div>
+                @Html.DropDownList("recreationID", Model.Recreations, htmlAttributes: new { @class = "btn", id = "dropdownMenu1" })
+                @Html.TextBox("query", null, htmlAttributes: new { @class = "btn", style = "width:280px", type = "text", placeholder = "Search by Name or State" })
+                <button id="btn" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+            </div>
+        }
+    </div>
+
+    <!-- BROWSE ALL -->
+    <div class="col-xs-12 col-sm-6">
+        <button class="btn btn-default" onclick="location.href='@Url.Action("Browse")'" style="float:right">
+            Browse All Locations
+        </button>
+    </div>
+</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <!-- RECCOMENDATIONS -->
+    <div class="row" style="padding: 0px @(padding)px 0px @(padding)px">
+        <div class="col-xs-12">
+            <hr />
+            <h2>Your Recommendations</h2>
+        </div>
+
+        <!-- PERSONAL -->
+        <div class="col-xs-12 col-md-6">
+
+            <br />
+            <h4>Based On Your Interests</h4>
+            <div class="row">
+                @if (Model.PersonalRecommendations.Count == 0)
+                {
+                    <div class="col-xs-12" style="padding: @(padding)px;">
+                        <div id="review" style="min-height: @(minHeight)px">
+                            <p>
+                                <span style="color:red">We don't have any personal recommendations for you yet.</span>
+                           </p>
+                            <p>  
+                                When you @Html.ActionLink("review", "Index", "Review")
+                                or @Html.ActionLink("bookmark", "Index", "LocationFlag") locations, or list
+                                what @Html.ActionLink("activities", "ChangeActivities", "Manage")
+                                you enjoy, we will recommend locations based on what you like.
+                            </p>
+                        </div>
+                    </div>
+
+                }
+                else
+                {
+                    foreach (var item in Model.PersonalRecommendations)
+                    {
+                        <div class="col-xs-12" style="padding: @(padding)px;">
+                            <div id="review" style="min-height: @(minHeight)px">
+                                @{ Html.RenderAction("Summary", "Location", new { id = item.LocationID }); }
+                            </div>
+                        </div>
+                    }
+
+                }
+            </div>
+        </div>
+
+        <!-- FRIENDS -->
+        <div class="col-xs-12 col-md-6">
+            <br />
+            <h4>Locations Your Friends Like</h4>
+            <div class="row">
+                @if (Model.FriendRecommendations.Count == 0)
+                {
+                    <div class="col-xs-12" style="padding: @(padding)px;">
+                        <div id="review" style="min-height: @(minHeight)px">
+                            <p>
+                                <span style="color:red">We don't have any recommendations from your friends yet.</span>
+                            </p>
+                            <p>
+                                When you @Html.ActionLink("connect", "Index", "Users") with other users,
+                                we will recommend locations based on your friends' interests.
+                            </p>
+                        </div>
+                    </div>
+
+                }
+                else
+                {
+                    foreach (var item in Model.FriendRecommendations)
+                    {
+                        <div class="col-xs-12" style="padding: @(padding)px;">
+                            <div id="review" style="min-height: @(minHeight)px">
+                                @{ Html.RenderAction("Summary", "Location", new { id = item.LocationID }); }
+                            </div>
+                        </div>
+                    }
+                }                
+            </div>
+        </div>
+
+
+    </div>
+}
+
+<div class="row" style="padding: 0px @(padding)px 0px @(padding)px">
+    <div class="col-xs-12">
+        <hr />
+    </div>
+
+    <!-- TOP RATED LOCATION TABLE -->
+    <div class="col-xs-12 col-md-6">
+        <h2>Top Rated</h2>
+        <div class="row">
+            @foreach (var item in Model.TopRatedLocations)
+            {
+                <div class="col-xs-12" style="padding: @(padding)px;">
+                    <div id="review" style="min-height: @(minHeight)px">
+                        @{ Html.RenderAction("Summary", "Location", new { id = item.LocationID }); }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- RECENTLY ADDED LOCATION TABLE -->
+    <div class="col-xs-12 col-md-6">
+        <h2>Recently Added</h2>
+        <div class="row">
+            @foreach (var item in Model.MostRecentLocations)
+            {
+                <div class="col-xs-12" style="padding: @(padding)px;">
+                    <div id="review" style="min-height: @(minHeight)px">
+                        @{ Html.RenderAction("Summary", "Location", new { id = item.LocationID }); }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+
+@if (Request.IsAuthenticated && User.IsInRole("Admin"))
+{
+    @Html.ActionLink("Recreations", "Index", "Recreation")
+}

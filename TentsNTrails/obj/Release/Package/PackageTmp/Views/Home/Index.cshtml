@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<div align="center">
+    <div class="floating-box">
+
+            <h1 class="home-title">tents n trails</h1>
+            <div>
+
+            @using (Html.BeginForm("Index", "Location"))
+            {
+                @Html.AntiForgeryToken();
+                <div class="input-group">
+                    <input type="text" class="form-control input-home" name="searchString" placeholder="Find your next adventure spot...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" id="btn" type="submit"> 
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </button>
+                        </span>
+                </div>
+            }
+        </div>
+    </div>
+</div>

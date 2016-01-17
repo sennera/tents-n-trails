@@ -1,0 +1,116 @@
+﻿@model TentsNTrails.Models.LocationImage
+
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Edit Image</h2>
+<h5>for @Html.ActionLink(Model.Location.Label, "Details", "Location", new { id = Model.LocationID }, null)</h5>
+<hr />
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- Preview the Image here -->
+        <div id="image-align-right" class="col-sm-6">
+            <img id="imagePreview" style="max-width:100%;max-height:300px"
+                src="@Url.Content((Model.ImageUrl != null && Model.ImageUrl.Length > 4) ? Model.ImageUrl : ViewBag.PlaceholderUrl)"
+                 onerror="this.src = '@Url.Content(ViewBag.PlaceholderUrl)'"
+                 title="@Model.Title"
+                 alt="@Model.AltText" />
+
+        </div>
+
+        <!-- FORM -->
+        <div id="div-align-center" class="col-sm-6">
+
+            <div class="alert alert-info">
+                <a href="#" class="close" data-dismiss="alert">&times;</a>
+                <strong>Caution!</strong> Edit not fully implemented (doesn't work).
+            </div>
+
+            <div class="form-horizontal">
+
+                <!-- Begin form -->
+                <form id="image_upload_form" action="" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                    <!-- Image Upload -->
+                    <!-- use tutorial code from http://stackoverflow.com/questions/5256620/how-can-i-show-a-image-preview-in-the-browser-without-uploading-the-image-file-t -->
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ImageUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(m => m.ImageUrl, new { htmlAttributes = new { @class = "form-control", @onchange = "previewImage(this)", @placeholder = "http://www.example.com/image.jpg" } })
+                            @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                    <!-- Hidden Fields -->
+                    @Html.HiddenFor(model => model.LocationID)
+                    @Html.HiddenFor(model => model.User)
+
+                    @*
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LocationID, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.DropDownList("LocationID", (IEnumerable<SelectListItem>)ViewBag.LocationID, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.LocationID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    *@
+
+                    <!-- Title -->
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", @placeholder = "A brief description" } })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <!-- Date Taken -->
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DateTaken, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.DateTaken, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.DateTaken, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+
+                    <!-- Submit Button -->
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Upload" class="btn btn-default" />
+                            @*
+                            <!-- Cancel upload button-->
+                            <a class="btn btn-default" href="location.href='@Url.Action( "Details", "LocationImage", new { id = Model.ImageID }, null)'" role="button">
+                                Cancel
+                            </a>
+                                *@
+                            <!-- Cancel upload button-->
+                            <a class="btn btn-default" href="@Url.Action("Media", "Location", new { locationID = Model.LocationID })" role="button">
+                                Cancel
+                            </a>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+</div><!--End Row-->
+<!-- IMAGE PREVIEW SCRIPT-->
+<script type="text/javascript">
+    function previewImage(input) {
+        var preview = document.getElementById('imagePreview');
+        preview.src = input.value;
+    };
+</script>

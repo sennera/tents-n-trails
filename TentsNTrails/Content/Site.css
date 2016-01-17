@@ -1,0 +1,685 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+    background: transparent;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+html.main {
+    background-color: #000000;
+    background: #ffffff;
+    background: url("green_forest.jpg") no-repeat center center fixed;/**/
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.non-home {
+    background: rgb(255, 255, 255); /* Fallback */
+    background: rgba(200, 200, 200, 0.85);
+    color: rgba(10, 10, 10, 0.9);
+}
+
+.navbar-nav > li > a,
+a.navbar-brand:link,
+a.navbar-brand:visited {
+    /*
+    padding: 10px 15px 10px 15px;
+
+    */
+    line-height: 15px;
+    text-decoration: none;
+}
+
+/*---- nav text color ----*/
+navbar-brand,
+.navbar-inverse .navbar-nav>li>a {
+  color: #b7b7b7;
+}
+
+
+.navbar-brand {
+    padding-top: 7px;
+}
+
+.navbar {
+    min-height: 20px;
+    background-color: rgba(30, 30, 30, 0.7);
+    text-decoration: none;
+}
+
+.navbar-fixed-bottom > .container > .navbar-header {
+    color: rgb(150, 150, 150);
+}
+
+div.home {
+    position:relative;
+    width:100%;
+    height:100%;
+}
+
+.home-buttons-container {
+    position:fixed;
+    bottom:35px; 
+    left:15px; 
+    right:15px; 
+    width:auto; 
+    /*background-color: rgba(68, 93, 211, 0.66);*/
+}
+
+
+.custom-footer {
+    position:fixed;
+    bottom:0; 
+    left:0; 
+    width:100%; 
+    min-height: 20px;
+    background-color: rgba(30, 30, 30, 0.7);
+    color: #b7b7b7;
+    text-decoration: none;
+}
+
+
+.custom-footer a:link,
+.custom-footer a:visited{
+    text-decoration: none;
+    color: #b7b7b7;
+}
+
+
+.custom-footer a:hover{
+    color:#ffffff;
+}
+
+/***************************************/
+/* Fix nav-bar
+/***************************************/
+.navbar-nav > li > a, 
+.navbar-brand {
+    padding-top:12px !important; 
+    padding-bottom:8px !important;
+    height: 35px;
+}
+.navbar {
+    min-height:40px !important;
+}
+
+tr .review-row {
+    border-style: solid;
+    border-color: #111111;
+}
+
+/* modified to show preview image */
+table.reviews > tbody > tr > td {
+    padding: 8px 20px 8px 20px;
+    
+} 
+
+table.reviews > tbody > tr > td#review-image-preview {
+    padding: 8px 20px 8px 0px;
+} 
+
+/* modified to show preview image */
+table.reviews > tbody > tr#review {
+    padding: 8px 20px 8px 20px;
+    
+} 
+
+#review {
+    background: rgba(255, 255, 255, 0.4);
+    padding: 12px 12px 12px 12px;
+}
+
+#review-row{
+    padding: 12px 12px 12px 12px;
+}
+
+#review-index-data{
+    background: rgba(255, 255, 255, 0.4);
+    padding: 12px 0px 12px 12px;
+}
+#review-index-image{
+    background: rgba(255, 255, 255, 0.4);
+    padding: 12px 12px 12px 0px;
+}
+
+#review-data {
+  /*background: rgba(255, 255, 255, 0.4);*/
+    padding: 12px 12px 12px 12px;
+}
+
+/* unvisited link */
+a:link {
+    color: rgb(0, 0, 0);
+    text-decoration: underline;
+}
+.dropdown-menu>li>a,
+.dropdown-menu>li>a:link,
+.dropdown-menu>li>a:visited {
+    text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+    color: rgb(0, 0, 0);
+    text-decoration: underline;
+}
+
+/* Links in the user dropdown*/
+#noUnderline > li > a:visited,
+#noUnderline > li > a:link {
+    text-decoration: none;
+}
+
+
+hr,
+.glyphicon-thumbs-up,
+.glyphicon-thumbs-down {
+    color: black;
+}
+
+.voted {
+    color: #008080;
+}
+
+.red {
+    color:#b20000;
+}
+
+.green {
+    color: #009a00;
+}
+
+
+#googleMap {
+    border: 2px solid rgba(30, 30, 30, 0.9);
+    margin-left:auto;
+    margin-right:auto;
+}
+
+/* On Locations Index page */
+div.bigger {
+    font-size: large;
+}
+
+html, body,
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+
+/* On My Locations page*/
+table.centered {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+table.centered > tbody > tr > th {
+    text-align: center;
+    border-top: 0;
+}
+
+table.no-top > tbody > tr > th {
+    border-top: 0;
+}
+
+table > tbody > tr > th {
+    border-color: black;
+}
+
+
+
+/* --------For Home Page-------- */
+.floating-box {
+    background: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    vertical-align: middle;
+    margin-top: 0%;
+    margin-bottom: 19%;
+    margin-right: auto;
+    margin-left: auto;
+    max-width:500px;
+    padding: 13px 30px 30px 30px;
+}
+
+.home-search-btn-group {
+    max-width:500px;
+    margin: 0 auto;
+
+}
+
+html.home {
+    background-color: #000000;
+    background: url("home_page.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100%;
+}
+
+html.home > body,
+html.home > body > div.home {
+    height: inherit;
+}
+
+.home-title {
+    margin:0 auto;
+    color: rgba(10, 10, 10, 0.9);
+}
+
+.home-title-small {
+    font-size: 2.9em;
+    padding: 0.7em 0;
+}
+
+.home-title-dynamic {
+    font-size: 320%;
+    font-size: 5.5vw;
+    padding: 3vw 0;
+}
+
+.home-title-large {
+    font-size: 5.0em;
+    padding: 0.7em 0;
+}
+
+
+
+.home-line-break {
+    font-size: 2em;
+}
+.home-line-break-dynamic {
+    font-size: 150%;
+    font-size: 2.5vw;
+}
+
+.input-home {
+    max-width: inherit;
+    text-overflow: ellipsis;
+}
+
+.home-buttons {
+    background: rgba(255, 255, 255, 0.5);
+    padding:7px;
+    margin: 0 auto;
+    max-width: 800px;
+    width: 100%;
+}
+
+.home-btn-column {
+    padding:7px 10px;
+}
+
+.home-btn {
+    display:inline-block;
+    width: 100%;
+    padding: 10px;
+
+    border: none;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+
+/* align images to right of page on wide views */
+#image-align-right {
+    float: none;
+    align-content: center;
+}
+
+#div-align-center {
+    align-content: center;
+}
+
+/* align images to normal if small enough.  Matches col-sm media width cut-off */
+@media (min-width: 768px) {
+    #image-align-right {
+        float: right;
+        align-content: center;
+    }
+
+    #div-align-center {
+        align-content: center;
+    }
+}
+
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 25px;
+    height: 0;
+}
+
+.video-container iframe,
+.video-container object,
+.video-container embed {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+}
+
+
+/*On Profile page*/
+table.table-fill {
+    width: 100%;
+}
+
+#MessageText {
+    height:250px;
+    max-width:500px;
+}
+
+tr.review-row > td > div#review > div,
+tr.review-row > td > div#review > div > b 
+{
+    min-height:75px;
+    height: auto;
+}
+
+div#review > div#fix-height {
+    clear:both;
+    min-height:0px;
+    height:auto;
+}
+
+#review.unread-message {
+    background-color:rgba(0,153,0,.3);
+}
+
+.dl-summary {
+    padding:0;
+    margin:0
+}
+dl.dl-summary {
+    width:100%;
+    overflow:hidden;
+}
+dl.dl-summary > dt {
+    float: left;
+    clear: left;
+    width: 85px;
+    text-align: left;
+    font-weight: bold;
+}
+dl.dl-summary > dt:after {
+    content: ":";
+    font-weight: bold;
+}
+dl.dl-summary > dd {
+    margin: 0px 0px 0px 85px;
+    padding: 0px;
+}
+.no-wrap { 
+    white-space: nowrap;
+}
+.bold {
+     font-weight: bold;
+}
+
+no-wrap-medium-weight{
+    white-space: nowrap;
+    font-weight: bold;
+    color:rgba(0, 0, 0, 0.61);
+}
+
+#recreation.badge {
+    font-weight:normal;
+    background-color:#3251B5;
+    font-size:13px;
+}
+
+
+/*****************************************************************************/
+/* TAG (used for Recreation & NaturalFeatures on Location/Details)         */
+/*****************************************************************************/
+.tag {
+    display:inline-block;
+    padding: .3em .7em .4em;
+    margin:2px;
+    font-size: 75%;
+    font-weight: lighter;
+    line-height: 1;
+    background: rgba(100, 100, 100, 0.40);
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: .25em;
+}
+
+.tag-normal-size {
+    font-size: 100%;
+    font-weight: normal;
+}
+
+.tag-disabled {
+    color: #d3d3d3;
+}
+
+.tag-recreation {
+    background: rgba(51, 204, 255, 0.5);
+}
+
+.tag-natural-feature {
+    background: rgba(51, 204, 51, 0.5);
+}
+
+.tag a:link{
+    color:#FFFFFF;
+     text-decoration: none;
+     font-weight:lighter;
+}
+
+.tag a:visited {
+     color:#FFFFFF;
+     text-decoration: none;
+     font-weight:lighter;
+}
+
+.tag a:hover {
+     color:#FFFFFF;
+     text-decoration: underline;
+     font-weight:lighter;
+}
+
+.tag a:active {
+     color:#FFFFFF;
+     text-decoration: underline;
+     font-weight:normal;
+}
+
+.tag-button:hover {
+     color:#FFFFFF;
+     background: rgba(100, 100, 100, 0.60);
+     /*text-decoration: underline;*/
+     font-weight:lighter;
+}
+
+/* Special styling for cancel button of a tag. */
+.tag a.a-cancel {
+    color: #ddd;
+    font-weight: bold;
+    margin: 0em 0.4em 0em 0em;
+    padding: 0em;
+    text-decoration: none;
+}
+
+.tag a.a-cancel:hover {
+        color: #fff;
+}
+
+/*******************************************************************************************/
+/* NOTIFICATION BADGES                                                                     */
+/*******************************************************************************************/
+.badge-notification {
+    background: rgba(135, 252, 126, 0.50);
+    color: #eeeeee;
+}
+
+.badge-notification:hover {
+    background:rgba(135, 252, 126, 0.65);
+    color: #ffffff;
+}
+
+.badge-notification-no-unread {
+    background: rgba(173, 173, 173, 0.50);
+    color: #dddddd;
+}
+
+.badge-notification-no-unread:hover {
+    background:rgba(173, 173, 173, 0.65);
+    color: #eeeeee;
+}
+
+.notification-button {
+    float:right;
+    margin:4px;
+}
+.notification::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/*******************************************************************************************/
+/* MESSAGE BADGES                                                                          */
+/*******************************************************************************************/
+.badge-message {
+    background:rgb(104, 195, 104);
+    color: #eeeeee;
+}
+
+a:hover .badge-message {
+    background:rgb(111, 213, 111);
+    color: #ffffff;
+}
+
+.badge-message-no-unread {
+    background: rgba(173, 173, 173, 1.0);
+    color: #eeeeee;
+}
+
+a:hover .badge-message-no-unread {
+    background:rgb(180, 180, 180);
+    color: #ffffff;
+}
+
+/***********************/
+/* Tag Form Styling    */
+/***********************/
+
+.tag-form-div {
+    margin-left:0px;
+    margin-bottom: 7px;
+}
+
+.tag-form-input {
+    /*margin-top:7px;*/
+}
+
+/* Used to hide non-matching search results. */
+.hidden {
+	display: none;
+}
+
+
+select#location-select option,
+select#difficulty-select option { 
+    color: black;
+}
+
+select#location-select,
+select#difficulty-select{
+    color: #999999;
+}
+
+select#location-select option:first-child
+select#difficulty-select option:first-child{
+  color: #999999 !important;
+}
+/******************************************
+A nice floating shadow box that mimics
+dropdown menus.
+******************************************/
+.search-results{
+	list-style-type: none;
+    position:relative;
+    z-index: 1000;
+    float: left;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+            background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, .175);	
+}
+
+/* Make a ul scrollable. */
+.scrollable-menu {
+	height: auto;
+	max-height: 195px;
+	overflow-x:hidden;
+}
+
+.search-input{
+    max-width:300px;	    
+}
+
+.tag-form-div {
+    max-width:350px;	    
+}
+
+#tags-dropdown-button,
+#SelectedRecreations-dropdown-button,
+#SelectedFeatures-dropdown-button {
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+
+    /** hack to fix alignment on small screen sizes **/
+    /*
+    margin-right: 20px;  doesn't work :-P    
+    */
+}
+
+.thumbnail-image{
+    display:inline-block !important;
+}
+
+.location-description {
+    width:auto; 
+    white-space:nowrap;
+    overflow:hidden; 
+    text-overflow:ellipsis;
+}

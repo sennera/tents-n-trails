@@ -1,0 +1,293 @@
+﻿@model TentsNTrails.Models.Location
+
+<!-- MAPS API -->
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script>
+    // Initialize the Map details.
+    function initialize() {
+
+        // make a new LatLong for the report's location
+        var reportLocation = new google.maps.LatLng(@Model.Latitude, @Model.Longitude);
+
+        // initialize map properties
+        var mapProp = {
+            center: reportLocation,
+            zoom: 7,
+            mapTypeId: google.maps.MapTypeId.ROADMAP // types include ROADMAP, SATELLITE, HYBRID, and TERRAIN
+        };
+
+        // get the map
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+        // add a marker to the map
+        var marker = new google.maps.Marker({position: reportLocation, map: map});
+    }
+
+    // display the map
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
+@{
+    ViewBag.Title = Model.Label;
+}
+
+<h2>@Html.DisplayFor(model => model.Label)</h2>
+<p style="color: green;">@ViewBag.SuccessMessage</p>
+<hr />
+<!-- LOCATION DETAILS-->
+<div class="row">
+    <div class="col-sm-6 col xs-12">
+
+
+        <dl class="dl-horizontal">
+
+            <dt>@Html.DisplayNameFor(model => model.Latitude)</dt>
+            <dd>@Html.DisplayFor(model => model.Latitude)</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.Longitude)</dt>
+            <dd>@Html.DisplayFor(model => model.Longitude)</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.Description)</dt>
+            <dd>@Html.Raw(Model.GetDescriptionMarkup())</dd>
+
+            <dt>@Html.DisplayNameFor(model => model.Difficulty)</dt>
+            <dd>@Html.DisplayFor(model => model.Difficulty)</dd>
+
+            <dt>Ratings</dt>
+            <dd>
+                @if (ViewBag.Rating == 1)
+                {
+                        <span style="float:left;">
+                            @using (Html.BeginForm("CreateShort", "Review", FormMethod.Post, new { @id = "up" + Model.LocationID }))
+                            {
+                                @Html.AntiForgeryToken();
+                                @Html.Hidden("LocationID", Model.LocationID);
+                                @Html.Hidden("Rating", true);
+                                @Html.Hidden("Comment", null);
+                                <label for="@("UpSubmit" + Model.LocationID)" class="btn"><i class="glyphicon glyphicon-thumbs-up voted"></i></label>
+                                <input id="@("UpSubmit" + Model.LocationID)" type="submit" value="Up" class="hidden" />
+                                @Model.UpVotes()
+                            }
+                        </span>
+                }
+                else
+                {
+                        <span style="float:left;">
+                            @using (Html.BeginForm("CreateShort", "Review", FormMethod.Post, new { @id = "up" + Model.LocationID }))
+                            {
+                                @Html.AntiForgeryToken();
+                                @Html.Hidden("LocationID", Model.LocationID);
+                                @Html.Hidden("Rating", true);
+                                @Html.Hidden("Comment", null);
+                                <label for="@("UpSubmit" + Model.LocationID)" class="btn"><i class="glyphicon glyphicon-thumbs-up"></i></label>
+                                <input id="@("UpSubmit" + Model.LocationID)" type="submit" value="Up" class="hidden" />
+                                @Model.UpVotes()
+                            }
+                        </span>
+                }
+                &nbsp;&nbsp;
+                @if (ViewBag.Rating == 0)
+                {
+                    <span style="float:left;">
+                        @using (Html.BeginForm("CreateShort", "Review", FormMethod.Post, new { @id = "down" + Model.LocationID }))
+                        {
+                            @Html.AntiForgeryToken();
+                            @Html.Hidden("LocationID", Model.LocationID);
+                            @Html.Hidden("Rating", false);
+                            @Html.Hidden("Comment", null);
+                            <label for="@("DownSubmit" + Model.LocationID)" class="btn"><i class="glyphicon glyphicon-thumbs-down voted"></i></label>
+                            <input id="@("DownSubmit" + Model.LocationID)" type="submit" value="Down" class="hidden" />
+                            @Model.DownVotes()
+                        }
+                    </span>
+                }
+                else
+                {
+                        <span style="float:left;">
+                            @using (Html.BeginForm("CreateShort", "Review", FormMethod.Post, new { @id = "down" + Model.LocationID }))
+                            {
+                                @Html.AntiForgeryToken();
+                                @Html.Hidden("LocationID", Model.LocationID);
+                                @Html.Hidden("Rating", false);
+                                @Html.Hidden("Comment", null);
+                                <label for="@("DownSubmit" + Model.LocationID)" class="btn"><i class="glyphicon glyphicon-thumbs-down"></i></label>
+                                <input id="@("DownSubmit" + Model.LocationID)" type="submit" value="Down" class="hidden" />
+                                @Model.DownVotes()
+                            }
+                        </span>
+                }
+
+
+            </dd>
+            <dt>
+                Recreation Types
+            </dt>
+            <dd>
+                <table>
+                    @foreach (var item in Model.RecOptions)
+                    {
+                        <tr>
+                            <td>@Html.ActionLink(item.RecreationLabel, "Index", "Location", new { recreationID = item.RecreationID }, null)</td>
+                        </tr>
+                    }
+                </table>
+            </dd>
+        </dl>
+    </div>
+
+    <!-- FLAGS -->
+    <div class="col-sm-6 col-xs-12" align="right">
+        <div class="btn-group btn-group-sm" role="group" aria-label="Flag" style="margin:10px">
+            @* Depending on whether the flag has been saved, the button will be shown as active/unactive *@
+            @if (ViewBag.HasHaveBeenFlag)
+            {
+                <button class="btn btn-default active" onclick="location.href='@Url.Action("SaveFlag",
+                    "Location", new {flag = TentsNTrails.Models.Flag.HaveBeen.ToString(), locationID = Model.LocationID })'">
+                    Been There!
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-default" onclick="location.href='@Url.Action("SaveFlag",
+                    "Location", new {flag = TentsNTrails.Models.Flag.HaveBeen.ToString(), locationID = Model.LocationID })'">
+                    Been There!
+                </button>
+            }
+            @if (ViewBag.HasWantToGoFlag)
+            {
+                <button class="btn btn-default active" onclick="location.href='@Url.Action("SaveFlag",
+                    "Location", new {flag = TentsNTrails.Models.Flag.WantToGo.ToString(), locationID = Model.LocationID })'">
+                    Want to Go
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-default" onclick="location.href='@Url.Action("SaveFlag",
+                    "Location", new {flag = TentsNTrails.Models.Flag.WantToGo.ToString(), locationID = Model.LocationID })'">
+                    Want to Go
+                </button>
+            }
+            @if (ViewBag.HasGoAgainFlag)
+            {
+                <button class="btn btn-default active" onclick="location.href='@Url.Action("SaveFlag",
+                    "Location", new {flag = TentsNTrails.Models.Flag.GoAgain.ToString(), locationID = Model.LocationID })'">
+                    Want to Go Again
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-default" onclick="location.href='@Url.Action("SaveFlag",
+                    "Location", new {flag = TentsNTrails.Models.Flag.GoAgain.ToString(), locationID = Model.LocationID })'">
+                    Want to Go Again
+                </button>
+            }
+        </div>
+        <br />
+
+        <!-- MAP -->
+        <div class="googleMap" id="googleMap" style="width:100%;height:300px;"></div>
+    </div>
+</div>
+
+<p>
+    @if (User.IsInRole("Admin"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.LocationID }) <b>|</b>
+    }
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<!-- IMAGES -->
+<div class="row">
+    <div class="col-xs-12">
+        <hr />
+        <h3>Media</h3>
+        <p>
+            @Html.ActionLink("View all images and videos", "Media", "Location", new { locationID = Model.LocationID }, null)
+        </p>
+    </div>
+    <div class="col-xs-12">
+
+        <!-- FORMATTING -->
+        <script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="~/Scripts/jquery.nailthumb.1.1.js"></script>
+        <link href="~/Content/jquery.nailthumb.1.1.css" type="text/css" rel="stylesheet" />
+        <style type="text/css" media="screen">
+            .square-thumb {
+                width: 100px;
+                height: 100px;
+                margin: 5px;
+            }
+        </style>
+
+        <!-- IMAGE GRID -->
+        @foreach (var item in ViewBag.LocationImages)
+        {
+            <div class="nailthumb-container square-thumb col-xs-2">
+
+                <!-- DETAILS ACTION LINK-->
+                <a href="@Url.Action("Details", "LocationImage", new { id = item.ImageID, fromLocationDetails = true })">
+
+                    <!-- IMAGE-->
+                    <img id="@item.ImageID"
+                         src="@Url.Content(item.ImageUrl)"
+                         title="@item.Title"
+                         alt="@item.AltText" />
+                </a>
+            </div>
+        }
+
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                jQuery('.nailthumb-container').nailthumb();
+            });
+        </script>
+    </div>
+</div>
+
+<!-- REVIEWS -->
+<div class="row">
+    <div class="col-xs-12">
+        <hr />
+        <h3>Reviews</h3>
+        @if (!ViewBag.HasReviews)
+        {
+            <p>
+                Be the
+                <u>@Html.ActionLink("first", "Create", "Review", new { LocationID = Model.LocationID, redirect = true }, null)</u>
+                to write a review.
+            </p>
+        }
+        else
+        {
+            <p>
+                @Html.ActionLink("Write New Review", "Create", "Review", new { LocationID = Model.LocationID, redirect = true }, null)
+            </p>
+            <table class="reviews">
+                @foreach (var item in Model.Reviews)
+                {
+                    if (item.Comment != null) {
+                        <tr class="review-row">
+                            <td>
+                                <div id="review">
+                                    @if (item.Rating)
+                                    {
+                                        <span class="glyphicon glyphicon-thumbs-up green" aria-hidden="true"></span> 
+                                    }
+                                    else
+                                    {
+                                        <span class="glyphicon glyphicon-thumbs-down red" aria-hidden="true"></span> 
+                                    }
+
+                                    <b>@Html.DisplayFor(modelItem => item.Comment)</b>
+                                    <br />
+                                    By @Html.ActionLink(item.User.UserName, "Index", "Profile", new { Username = item.User.UserName }, null) on @Html.DisplayFor(modelItem => item.ReviewDate)
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        }
+    </div>
+</div>

@@ -1,0 +1,154 @@
+﻿@model TentsNTrails.Models.EditRecreationsViewModel
+@{
+    ViewBag.Title = "Update Recreations for " + Model.LocationLabel;
+    string recreationInputName = "SelectedRecreations";
+    string formId = "recreations-form";
+    int imageSize = 55;
+    int xOffset = 30;
+    int yOffset = 10;
+}
+
+<h1>Update Recreations</h1>
+<h4>For <b>@Html.ActionLink(Model.LocationLabel, "Details", new { id = Model.LocationID })</b></h4>
+<hr>
+
+<div class="row">
+
+    <!-- LOCATION DETAILS COLUMN -->
+    <div class="col-xs-12 col-sm-6 col-sm-push-6">
+        <div style="position: relative; height: auto">
+
+            <!--IMAGE-->
+            <div id="inner-left" style="padding-left:0px; left: 0; right: 55px;position: absolute; height: 100%">
+                <div style="position: static; display:table; height: 100%;">
+                    <div style="vertical-align:middle; display:table-cell">
+                        <a href="@Url.Action("Details", new { id = Model.LocationID })">
+                            @{ Html.RenderAction("LocationThumbnail", "Location", new { id = Model.LocationID, size = imageSize }); }
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <div style="clear: both"></div>
+            <div style="padding-left:@(imageSize + xOffset)px; min-height:@(imageSize + yOffset)px">
+                <b>Location Details</b>
+                <br />
+                @Model.Location.GetDescriptionPreview()
+                <br />
+                @{ Html.RenderAction("ReviewForm", "Location", new { id = Model.LocationID, redirectAction = "ViewAll", redirectController = "Location" }); }
+            </div>
+        </div>
+
+        <!--DETAILS-->
+        <dl class="dl-summary">
+            <dt>@Html.DisplayNameFor(model => model.Location.DateCreated)</dt>
+            <dd>@Html.DisplayFor(    model => model.Location.DateCreated)</dd>
+            <dt>@Html.DisplayNameFor(model => model.Location.DateModified)</dt>
+            <dd>@Html.DisplayFor(    model => model.Location.DateModified)</dd>
+            <dt>@Html.DisplayNameFor(model => model.Location.Latitude)</dt>
+            <dd>@Html.DisplayFor(    model => model.Location.Latitude)</dd>
+            <dt>@Html.DisplayNameFor(model => model.Location.Longitude)</dt>
+            <dd>@Html.DisplayFor(    model => model.Location.Longitude)</dd>
+        </dl>
+        <br />
+    </div>
+
+
+
+    <!-- RECREATIONS COLUMN -->
+    <div class="col-xs-12 col-sm-6 col-sm-pull-6">
+        <p>
+            Add or remove the <b>Recreations</b> to be associated with this location.
+        </p>
+
+        <!-- FORM -->
+        <form id="@formId" method="post">
+            <input type="hidden" name="LocationLabel" value="@Model.LocationLabel" />
+            <input type="hidden" name="LocationID" value="@Model.LocationID" />
+
+            <div class="form-horizontal">
+                <div class="form-group">
+
+                    <!-- LABEL -->
+                    <label class="control-label col-md-2 tag-form-label">Recreations</label>
+                    <div class="col-md-10">
+                        <div id="@recreationInputName-div" class="tag-form-div"></div>
+                        <div class="dropdown btn-group">
+                            <div class="input-group">
+                                <div class="input-group-btn">
+                                    <!-- SEARCH -->
+                                    <input id="@recreationInputName-input" class="form-control search-input" tabindex="1" data-toggle="dropdown" aria-expanded="true" type="text" placeholder="Search for a Recreation" autocomplete="off">
+
+                                    <!-- DROPDOWN LIST -->
+                                    <ul id="@recreationInputName-list" class="dropdown-menu scrollable-menu" role="menu" aria-labelledby="search-input">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="">Add new</a></li>
+                                        @foreach (var recLabel in Model.AllRecreations)
+                                        {
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="">@recLabel</a></li>
+                                        }
+                                    </ul>
+
+                                    <!-- DROPDOWN-BUTTON -->
+                                    <button id="@recreationInputName-dropdown-button" class="btn btn-default dropdown-button" type="button" data-toggle="dropdown" aria-expanded="true" title="dropdown">
+                                        <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            @Html.ValidationMessage("SelectedRecreations", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+
+                        <!-- SUBMIT -->
+                        <input id="submit" class="btn btn-default" type="submit" value="Update" />
+
+                        <!-- CANCEL -->
+                        <button class="btn btn-default" type="button" onclick="location.href='@Url.Action("Details", "Location", new { id = Model.LocationID })'">Cancel</button>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/hidden-list-search.js"></script>
+<script src="~/Scripts/hidden-form-controls.js"></script>
+
+<script>
+    var recFormId = '@formId';
+    var recTagName = '@recreationInputName';
+    var recTagClass = 'tag tag-recreation';
+
+	var recreationListSearch = new HiddenListSearch();
+	var recreationFormControls = new HiddenFormControls();
+
+	// custom onClickFunction for recreationListSearch
+	var addRecreationTag = function(inputValue){
+	    recreationFormControls.addTagParseCommasForceUnique(recFormId, recTagName, inputValue, recTagClass);
+	};
+
+	// register the search input listeners.
+	recreationListSearch.registerInputListenersFor(recTagName, addRecreationTag);
+
+	//	set a custom show elment condition (require that tag does not already exist)
+	recreationListSearch.setShowElementCondition(function (input) {
+	    return !recreationFormControls.tagWithValueExists(input, recTagName);
+	});
+
+
+    // add the tags associated with the viewModel.
+    @foreach (var recreation in Model.SelectedRecreations)
+	{
+	    @:recreationFormControls.addHiddenInputAndTag(recFormId, recTagName, '@recreation', recTagClass);
+	}
+    recreationListSearch.initializeSearchResults(recTagName);
+</script>

@@ -1,0 +1,29 @@
+﻿@model TentsNTrails.Models.MapViewModel
+@{
+    string width  = Model.Width == 0 ? "100%" : Model.Width.ToString() + "px";
+    string height = Model.Height.ToString() + "px"; 
+}
+<!-- Google Maps Scripting -->
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script src="~/Scripts/google-map-setup.js"></script>
+<script>
+    var addMarkers = function(map, markers) {
+        @foreach (var item in Model.Locations)
+        {
+            @:var marker = new google.maps.Marker({position: new google.maps.LatLng(@item.Latitude, @item.Longitude), map: map});
+            @:var infowindow = new google.maps.InfoWindow({content: 'Loading...'});
+            @:marker.html='<div><img id="location-image-preview" src="@Url.Content(item.PreviewImageURL)" title="Preview Image" alt="Image of @item.Label" style="width: 100px; height: auto; margin:0 auto;" /><br /><div class="label" text-align="center">@Html.ActionLink(item.Label, "Details", "Location", new { id = item.LocationID }, null)</div></div>';
+            @:google.maps.event.addListener(marker, 'click', function() {infowindow.setContent(this.html); infowindow.open(map,this);});
+            @:markers.push(marker);
+        }
+    };
+    var ourMap = new TntMap(@Model.Center.Latitude, @Model.Center.Longitude, addMarkers, @Model.MinZoom);
+    ourMap.create();
+</script>
+<!-- MAP -->
+<div class="row" style="padding-top:15px;">
+    <div class="col-xs-12">
+        <div id="googleMap" style="width:@width; height:@height;"></div>
+        <p></p>
+    </div>
+</div>

@@ -1,0 +1,282 @@
+﻿@* This is not the Index page for all Reviews. It only shows the reviews for the current user. *@
+@model IEnumerable<TentsNTrails.Models.ReviewIndexViewModel>
+
+@{
+    ViewBag.Title = "My Reviews";
+}
+
+<h2>My Reviews</h2>
+
+@if (!ViewBag.HasReviews)
+{
+    <p>
+        Looks like you haven't made any reviews yet. To write a review, go <a href="~/Location/Index">here</a>
+        to select a location you've been to and write a review.
+    </p>
+}
+else
+{
+    <!-- THUMBNAIL FORMATTING -->
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.nailthumb.1.1.js"></script>
+    <link href="~/Content/jquery.nailthumb.1.1.css" type="text/css" rel="stylesheet" />
+    <style type="text/css" media="screen">
+        .square-thumb {
+            width: 75px;
+            height: 75px;
+            margin: 5px;
+        }
+    </style>
+
+    <!-- ========================================================================================= -->
+    <!-- tabs -->
+    <!-- ========================================================================================= -->
+    <div class="tabbable">
+        <ul class="nav nav-tabs">
+            <li class="active">
+                <a href="#tab1" data-toggle="tab">All</a>
+            </li>
+            <li>
+                <a href="#tab2" data-toggle="tab"><span class="glyphicon glyphicon-thumbs-up green" aria-hidden="true"></span></a>
+            </li>
+            <li>
+                <a href="#tab3" data-toggle="tab"><span class="glyphicon glyphicon-thumbs-down red" aria-hidden="true"></span></a>
+            </li>
+        </ul>
+        <div class="tab-content">
+
+            <!-- ========================================================================================= -->
+            <!-- All
+            <!-- ========================================================================================= -->
+            <div class="tab-pane active" id="tab1">
+                <div class="row">
+                    <div class="col-xs-12">
+                        
+                <table class="reviews">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div id="review">
+
+                                    @if (item.Review.Rating)
+                                    {
+                                        <span class="glyphicon glyphicon-thumbs-up green" aria-hidden="true"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="glyphicon glyphicon-thumbs-down red" aria-hidden="true"></span>
+                                    }
+                                    <b>@Html.ActionLink(item.Review.Location.Label, "Details", "Location", new { id = item.Review.ReviewID }, null)</b>
+                                    <br />
+                                    @Html.DisplayFor(modelItem => item.Review.ReviewDate)
+                                    <br />
+                                    @item.Review.GetCommentPreview()
+                                    <br />
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.Review.ReviewID })&nbsp;&nbsp;
+                                    @Html.ActionLink("Details", "Details", new { id = item.Review.ReviewID })&nbsp;&nbsp;
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.Review.ReviewID })
+                                </div>
+                            </td>
+
+                            @if (item.PreviewImage != null)
+                            {
+                                <td id="review-image-preview">
+                                    <div id="review">
+                                        <div class="nailthumb-container square-thumb">
+
+                                            <!-- DETAILS ACTION LINK-->
+                                            <a href="@Url.Action("Details", "LocationImage", new { id = item.PreviewImage.ImageID, fromLocationDetails = true })">
+
+                                                <!-- IMAGE-->
+                                                <img id="@item.PreviewImage.ImageID"
+                                                     src="@Url.Content(item.PreviewImage.ImageUrl)"
+                                                     title="@item.PreviewImage.Title"
+                                                     alt="@item.PreviewImage.AltText" />
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            }
+                        </tr>
+                    }
+
+                </table>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================================================================= -->
+            <!-- Thumbs Up
+            <!-- ========================================================================================= -->
+            <div class="tab-pane" id="tab2">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table class="reviews">
+                           @foreach (var item in Model)
+                           {
+                               if (item.Review.Rating)
+                               {
+                                <tr>
+                                    <td>
+                                        <div id="review">
+
+                                            @if (item.Review.Rating)
+                                            {
+                                                <span class="glyphicon glyphicon-thumbs-up green" aria-hidden="true"></span>
+                                            }
+                                            else
+                                            {
+                                                <span class="glyphicon glyphicon-thumbs-down red" aria-hidden="true"></span>
+                                            }
+                                            <b>@Html.ActionLink(item.Review.Location.Label, "Details", "Location", new { id = item.Review.ReviewID }, null)</b>
+                                            <br />
+                                            @Html.DisplayFor(modelItem => item.Review.ReviewDate)
+                                            <br />
+                                            @item.Review.GetCommentPreview()
+                                            <br />
+                                            @Html.ActionLink("Edit", "Edit", new { id = item.Review.ReviewID })&nbsp;&nbsp;
+                                            @Html.ActionLink("Details", "Details", new { id = item.Review.ReviewID })&nbsp;&nbsp;
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.Review.ReviewID })
+                                        </div>
+                                    </td>
+
+                                    @if (item.PreviewImage != null)
+                                    {
+                                        <td id="review-image-preview">
+                                            <div id="review">
+                                                <div class="nailthumb-container square-thumb">
+
+                                                    <!-- DETAILS ACTION LINK-->
+                                                    <a href="@Url.Action("Details", "LocationImage", new { id = item.PreviewImage.ImageID, fromLocationDetails = true })">
+
+                                                        <!-- IMAGE-->
+                                                        <img id="@item.PreviewImage.ImageID"
+                                                             src="@Url.Content(item.PreviewImage.ImageUrl)"
+                                                             title="@item.PreviewImage.Title"
+                                                             alt="@item.PreviewImage.AltText" />
+                                                    </a>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    }
+                                </tr>
+                               }
+
+                           }
+                           
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========================================================================================= -->
+            <!-- Thumbs Down
+            <!-- ========================================================================================= -->
+            <div class="tab-pane" id="tab3">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table class="reviews">
+                            @foreach (var item in Model)
+                            {
+                                if (!item.Review.Rating)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div id="review">
+
+                                                @if (item.Review.Rating)
+                                                {
+                                                    <span class="glyphicon glyphicon-thumbs-up green" aria-hidden="true"></span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="glyphicon glyphicon-thumbs-down red" aria-hidden="true"></span>
+                                                }
+                                                <b>@Html.ActionLink(item.Review.Location.Label, "Details", "Location", new { id = item.Review.ReviewID }, null)</b>
+                                                <br />
+                                                @Html.DisplayFor(modelItem => item.Review.ReviewDate)
+                                                <br />
+                                                @item.Review.GetCommentPreview()
+                                                <br />
+                                                @Html.ActionLink("Edit", "Edit", new { id = item.Review.ReviewID })&nbsp;&nbsp;
+                                                @Html.ActionLink("Details", "Details", new { id = item.Review.ReviewID })&nbsp;&nbsp;
+                                                @Html.ActionLink("Delete", "Delete", new { id = item.Review.ReviewID })
+                                            </div>
+                                        </td>
+
+                                        @if (item.PreviewImage != null)
+                                        {
+                                            <td id="review-image-preview">
+                                                <div id="review">
+                                                    <div class="nailthumb-container square-thumb">
+
+                                                        <!-- DETAILS ACTION LINK-->
+                                                        <a href="@Url.Action("Details", "LocationImage", new { id = item.PreviewImage.ImageID, fromLocationDetails = true })">
+
+                                                            <!-- IMAGE-->
+                                                            <img id="@item.PreviewImage.ImageID"
+                                                                 src="@Url.Content(item.PreviewImage.ImageUrl)"
+                                                                 title="@item.PreviewImage.Title"
+                                                                 alt="@item.PreviewImage.AltText" />
+                                                        </a>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        }
+                                    </tr>
+                                }
+                            }
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- CALL THUMBNAIL SCRIPT -->
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            jQuery('.nailthumb-container').nailthumb();
+        });
+    </script>
+
+    <!-- Previous Code -->
+@*
+        <table class="reviews">
+        @foreach (var item in Model) {
+            <tr>
+                <td>
+                    <div id="review">
+
+                        @if (item.Rating)
+                        {
+                            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                        }
+                        else
+                        {
+                            <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>
+                        }
+                        <b>@Html.DisplayFor(modelItem => item.Location.Label)</b>
+                        <br />
+                        @Html.DisplayFor(modelItem => item.ReviewDate)
+                        <br />
+                        @Html.DisplayFor(modelItem => item.Comment)
+                        <br />
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ReviewID })
+                        &nbsp;&nbsp;
+                        @Html.ActionLink("Details", "Details", new { id=item.ReviewID }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ReviewID })
+                    </div>
+                </td>
+            </tr>
+        }
+        </table>
+*@
+
+}

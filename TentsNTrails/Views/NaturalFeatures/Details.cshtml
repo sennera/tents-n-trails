@@ -1,0 +1,56 @@
+﻿@model TentsNTrails.Models.NaturalFeatureDetailsViewModel
+@using TentsNTrails.Models
+@using PagedList.Mvc
+@{
+    ViewBag.Title = Model.NaturalFeature.Name + " Details";
+    int c = Model.AllLocations.Count;
+    string locationCount = c == 0 ? "zero" : c.ToString();
+    string locationLinkLabel = c == 1 ? "Location" : "Locations";
+}
+
+<h2>@Model.NaturalFeature.Name</h2>
+<p>
+    @Html.ActionLink("Browse all Natural Features", "Index")
+    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        Html.Raw(" | ");
+        Html.ActionLink("Edit", "Edit", new { id = Model.NaturalFeature.ID });
+        Html.Raw(" | ");
+        Html.ActionLink("Delete", "Delete", new { id = Model.NaturalFeature.ID });
+    }
+</p>
+<hr />
+
+<p>
+    Showing @locationCount @Html.ActionLink(locationLinkLabel, "Index", "Location") associated with the Natural Feature
+    <span class="tag tag-natural-feature tag-normal-size">@Model.NaturalFeature.Name</span>
+</p>
+
+@{Html.RenderAction("GoogleMap", "Location", new { height = 500, width = 0, minZoom = 9, center = Location.CENTER, locations = Model.AllLocations });}
+<br />
+
+<!--PAGING-->
+Page @(Model.Locations.PageCount < Model.Locations.PageNumber ? 0 : Model.Locations.PageNumber) of @Model.Locations.PageCount
+@Html.PagedListPager(Model.Locations, page => Url.Action("Details", new { page, id = Model.NaturalFeature.ID }))
+@Html.ActionLink("Browse all Natural Features", "Index")
+
+<!-- LOCATIONS -->
+@{
+    int padding = 7;
+    int count = Model.Locations.Count();
+    for (int i = 0; i < count; i += 2)
+    {
+        <div class="row" style="padding: 0px @(padding)px 0px @(padding)px">
+            @for (int j = i; j < Math.Min(i + 2, count); j++)
+            {
+                Location item = Model.Locations[j];
+                <div class="col-xs-12 col-md-6" style="padding: @(padding)px;">
+                    <div id="review" style="min-height: 124px">
+                        @{ Html.RenderAction("Summary", "Location", new { id = item.LocationID }); }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}
+<br />

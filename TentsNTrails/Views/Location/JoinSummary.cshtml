@@ -1,0 +1,41 @@
+﻿@model TentsNTrails.Models.Location
+@{
+    int imageSize = 55;
+    int xOffset = 30;
+    int yOffset = 10;
+}
+<!--SUMMARY-->
+<div style="position: relative; height: auto">
+    <!--IMAGE-->
+    <div id="inner-left" style="padding-left:0px; left: 0; right: 55px;position: absolute; height: 100%">
+        <div style="position: static; display:table; height: 100%;">
+            <div style="vertical-align:middle; display:table-cell">
+                <a href="@Url.Action("Details", new { id = Model.LocationID })">
+                    @{ Html.RenderAction("LocationThumbnail", "Location", new { id = Model.LocationID, size = imageSize }); }
+                </a>
+            </div>
+
+        </div>
+    </div>
+    <div style="clear: both"></div>
+
+    <!--SUMMARY-->
+    <div style="padding-left:@(imageSize + xOffset)px; min-height:@(imageSize + yOffset)px">
+        <b>@Html.ActionLink(Model.Label, "Details", new { id = Model.LocationID })</b>
+        <br />
+        @Model.GetDescriptionPreview()
+        <br />
+        @{ Html.RenderAction("ReviewForm", "Location", new { id = Model.LocationID, redirectAction = "ViewAll", redirectController = "Location" }); }
+    </div>
+</div>
+    <!--DETAILS-->
+    <dl class="dl-summary">
+    <dt>@Html.DisplayNameFor(model => model.DateCreated)</dt>
+    <dd>@Html.DisplayFor(model => model.DateCreated) </dd>
+    <dt>@Html.DisplayNameFor(model => model.DateModified)</dt>
+    <dd>@Html.DisplayFor(model => model.DateModified) </dd>
+    <dt>@Html.DisplayNameFor(model => model.Latitude)</dt>
+    <dd>@Html.DisplayFor(model => model.Latitude) </dd>
+    <dt>@Html.DisplayNameFor(model => model.Longitude)</dt>
+    <dd>@Html.DisplayFor(model => model.Longitude) </dd>
+</dl>

@@ -1,0 +1,157 @@
+﻿@model TentsNTrails.Models.EditNaturalFeaturesViewModel
+@{
+    ViewBag.Title = "Update Natural Features for " + Model.LocationLabel;
+    string inputName = "SelectedFeatures";
+    string formId = "natural-features-form";
+    int imageSize = 55;
+    int xOffset = 30;
+    int yOffset = 10;
+}
+
+<h1>Update Natural Features</h1>
+<h4>For <b>@Html.ActionLink(Model.LocationLabel, "Details", new { id = Model.LocationID })</b></h4>
+<hr>
+
+<div class="row">
+
+    <!-- LOCATION DETAILS COLUMN -->
+    <div class="col-xs-12 col-sm-6 col-sm-push-6">
+        <div style="position: relative; height: auto">
+
+            <!--IMAGE-->
+            <div id="inner-left" style="padding-left:0px; left: 0; right: 55px;position: absolute; height: 100%">
+                <div style="position: static; display:table; height: 100%;">
+                    <div style="vertical-align:middle; display:table-cell">
+                        <a href="@Url.Action("Details", new { id = Model.LocationID })">
+                            @{ Html.RenderAction("LocationThumbnail", "Location", new { id = Model.LocationID, size = imageSize }); }
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+            <div style="clear: both"></div>
+            <div style="padding-left:@(imageSize + xOffset)px; min-height:@(imageSize + yOffset)px">
+                <b>Location Details</b>
+                <br />
+                @Model.Location.GetDescriptionPreview()
+                <br />
+                @{ Html.RenderAction("ReviewForm", "Location", new { id = Model.LocationID, redirectAction = "ViewAll", redirectController = "Location" }); }
+            </div>
+        </div>
+
+        <!--DETAILS-->
+        <dl class="dl-summary">
+            <dt>@Html.DisplayNameFor(model => model.Location.DateCreated)</dt>
+            <dd>@Html.DisplayFor(model => model.Location.DateCreated) </dd>
+            <dt>@Html.DisplayNameFor(model => model.Location.DateModified)</dt>
+            <dd>@Html.DisplayFor(model => model.Location.DateModified) </dd>
+            <dt>@Html.DisplayNameFor(model => model.Location.Latitude)</dt>
+            <dd>@Html.DisplayFor(model => model.Location.Latitude) </dd>
+            <dt>@Html.DisplayNameFor(model => model.Location.Longitude)</dt>
+            <dd>@Html.DisplayFor(model => model.Location.Longitude) </dd>
+        </dl>
+        <br />
+    </div>
+
+
+
+    <!-- NATURAL FEATURES COLUMN -->
+    <div class="col-xs-12 col-sm-6 col-sm-pull-6">
+        <p>
+            Add or remove the <b>Natural Features</b> to be associated with this location.
+        </p>
+
+        <!-- FORM -->
+        <form id="@formId" method="post">
+            <input type="hidden" name="LocationLabel" value="@Model.LocationLabel" />
+            <input type="hidden" name="LocationID" value="@Model.LocationID" />
+
+            <div class="form-horizontal">
+                <div class="form-group">
+
+                    <!-- LABEL -->
+                    <label class="control-label col-md-2 tag-form-label">Natural Features</label>
+                    <div class="col-md-10">
+                        <div id="@inputName-div" class="tag-form-div"></div>
+                        <div class="dropdown btn-group">
+                            <div class="input-group">
+                                <div class="input-group-btn">
+
+                                    <!-- SEARCH -->
+                                    <input id="@inputName-input" class="form-control search-input" tabindex="1" data-toggle="dropdown" aria-expanded="true" type="text" placeholder="Search for a Natural Feature" autocomplete="off">
+
+                                    <!-- DROPDOWN LIST -->
+                                    <ul id="@inputName-list" class="dropdown-menu scrollable-menu" role="menu" aria-labelledby="search-input">
+                                        <li role="presentation"><a role="menuitem" tabindex="-1" href="">Add new</a></li>
+                                        @foreach (var featureName in Model.AllNaturalFeatures)
+                                        {
+                                            <li role="presentation"><a role="menuitem" tabindex="-1" href="">@featureName</a></li>
+                                        }
+                                    </ul>
+
+                                    <!-- DROPDOWN-BUTTON -->
+                                    <button id="@inputName-dropdown-button" class="btn btn-default dropdown-button" type="button" data-toggle="dropdown" aria-expanded="true" title="dropdown">
+                                        <span class="glyphicon glyphicon-triangle-bottom"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+
+                        <!-- SUBMIT -->
+                        <input id="submit" class="btn btn-default" type="submit" value="Update" />
+
+                        <!-- CANCEL -->
+                        <button class="btn btn-default" type="button" onclick="location.href='@Url.Action("Details", "Location", new { id = Model.LocationID })'">Cancel</button>
+
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/hidden-list-search.js"></script>
+<script src="~/Scripts/hidden-form-controls.js"></script>
+
+<script>
+    var formId = '@formId';
+	var tagName = '@inputName';
+	var tagClass = 'tag tag-natural-feature';
+
+	var hiddenListSearch = new HiddenListSearch();
+    var hiddenFormControls = new HiddenFormControls();
+
+	// load the tags from matching url values.
+	//hiddenFormControls.addUrlParametersHiddenInputAndTag(formId, tagName, tagClass);
+
+	// custom onClickFunction for hiddenListSearch
+	var addTag = function(inputValue){
+		hiddenFormControls.addTagParseCommasForceUnique(formId, tagName, inputValue, tagClass);
+	};
+
+	// register the search input listeners.
+	hiddenListSearch.registerInputListenersFor(tagName, addTag);
+
+	//	set a custom show elment condition (require that tag does not already exist)
+	hiddenListSearch.setShowElementCondition(function (input) {
+	return !hiddenFormControls.tagWithValueExists(input, tagName);
+	});
+
+
+    // add the tags associated with the viewModel.
+    @foreach (var feature in Model.SelectedFeatures)
+	{
+	    @:hiddenFormControls.addHiddenInputAndTag(formId, tagName, '@feature', tagClass);
+	}
+    hiddenListSearch.initializeSearchResults(tagName);
+</script>

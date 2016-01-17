@@ -1,0 +1,67 @@
+﻿@model IEnumerable<TentsNTrails.Models.Message>
+
+@{
+    ViewBag.Title = "Sent Messages";
+}
+
+<h2>Sent Messages</h2>
+
+<div class="row">
+    <div class="col-xs-12">
+        <button class="btn btn-default" onclick="location.href='@Url.Action("Index")'" style="float:right">
+            My Messages
+        </button>
+    </div>
+</div>
+
+<table class="reviews">
+    <tr class="review-row">
+        <td>
+            <div id="review">
+                <b>@ViewBag.TotalCount Messages </b>
+            </div>
+        </td>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="review-row">
+            <td>
+                @if (!item.DeletedBySender)
+                {
+                    <div id="review">
+                        <!-- PROFILE PICTURE -->
+                        <div style="float: left; min-width:75px; max-width:75px; overflow: hidden">
+                            <img id="@item.ToUser"
+                                 src="@Url.Content(item.ToUser.ProfilePictureUrl)"
+                                 title="@item.ToUser.UserName"
+                                 alt="@item.ToUser.UserName"
+                                 style="width: auto; height: 75px; margin: 0 auto" />
+                        </div>
+
+                        <!-- MESSAGE INFO -->
+                        <div style="padding-left: 90px">
+                            @* User Name *@
+                            <b>To:</b> @Html.ActionLink(item.ToUser.UserName, "Index", "Profile", new { Username = item.ToUser.UserName }, null)   
+                            <span style="float:right">
+                                <b> Sent:</b> @item.GetFormattedDate()
+                            </span>
+                            <br />
+                            @Html.Raw(@item.GetMessageMarkup())
+                            <br />
+                            <div style="height:auto">
+                                @* The first float right item goes furthest to the right, so the delete and reply come first *@
+                                <span style="float:right;">
+                                    <button class="btn btn-default" title="Delete" onclick="location.href='@Url.Action("Delete", "Message", new { id = item.MessageID })'">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </button>
+                                </span>
+                            </div> 
+                        </div>
+                        <div id="fix-height"></div>
+                    </div>
+                }
+            </td>
+        </tr>
+    }
+</table>

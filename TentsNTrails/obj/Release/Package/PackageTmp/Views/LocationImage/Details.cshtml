@@ -1,0 +1,62 @@
+﻿@model TentsNTrails.Models.LocationImage
+
+@{
+    ViewBag.Title = Model.Location.Label + " - Image Details";
+}
+
+<div class="row">
+    <h2> Image Details</h2>
+    <hr />
+
+    <!-- DETAILS -->
+    <div class="col-lg-4 col-md-4 col-sm-12">
+        <dl class="dl-horizontal">
+            <dt>@Html.DisplayNameFor(model => model.DateTaken)</dt>
+            <dd>@Html.DisplayFor(model => model.DateTaken) </dd>
+
+            <dt>Location</dt>
+            <dd>@Html.ActionLink(Model.Location.Label, "Details", "Location", new { id = Model.LocationID }, null)</dd>
+        </dl>
+
+        
+        <p>
+            <!-- DYNAMIC EDIT/DELETE LINK -->
+            @if (ViewBag.IsAdmin)
+            {
+                @Html.ActionLink("Edit", "Edit", new { id = Model.ImageID })
+                @Html.Raw(" | ")
+                @Html.ActionLink("Delete", "Delete", new { id = Model.ImageID })
+                @Html.Raw("</p><p>")
+            }
+ 
+                       <!-- DYNAMIC BACK LINK -->
+            @if (ViewBag.fromLocationImageIndex)
+            {
+                @Html.ActionLink("Back to Media", "Index", "LocationImage", new { locationID = Model.LocationID }, null)
+            }
+            else if (ViewBag.fromLocationDetails)
+            {
+                @Html.ActionLink("Back to Location", "Details", "Location", new { id = Model.LocationID }, null)
+            }
+            else
+            {
+                @Html.ActionLink("Back to Media", "Media", "Location", new { locationID = Model.LocationID }, null)
+            }
+        </p>
+    </div>
+
+    <!-- img div -->
+    <div class="col-lg-8 col-md-8 col-sm-12">
+
+        <!-- add a link to open image in new tab -->
+        <a href="@Url.Content(Model.ImageUrl)" target="_blank">
+
+            <!-- image -->
+            <img id="@Model.ImageID"
+                 src="@Url.Content(Model.ImageUrl)"
+                 title="@Model.Title"
+                 alt="@Model.AltText"
+                 style="max-width:100%;max-height:100%" />
+        </a>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+﻿@model TentsNTrails.Models.Location
+
+<div style="min-width:@(ViewBag.Size)px; max-width:@(ViewBag.Size)px; overflow: hidden">
+    <img id="profile-picture"
+         src="@Url.Content(Model.PreviewImageURL)"
+         title="Profile Picture"
+         alt="Image of @Model.Label"
+         style="width: auto; height: @(ViewBag.Size)px; margin: 0 auto" />
+</div>
+

@@ -1,0 +1,83 @@
+﻿@model TentsNTrails.Models.FormExampleViewModel
+@{
+    /*
+     * **********************************************************************************
+     * TEST FORM
+     * **********************************************************************************
+     * 
+     * This is an example view with a form I developed to test functionality before I 
+     * apply what I'm doing to a real form, such as on Location/Create.
+     * 
+     * 
+     */
+
+    ViewBag.Title = "Test Form Example (Two string lists)";
+    string formId = "tags-form";
+    string recreationsName     = "Recreations";
+    string naturalFeaturesName = "NaturalFeatures";
+    string recreationsClass     = "tag tag-recreation";
+    string naturalFeaturesClass = "tag tag-natural-feature";
+}
+
+<h1>@ViewBag.Title</h1>
+<hr />
+<p>
+    This is an example of how to pass two dynamic-length string collections back to the controller.
+</p>
+<p>
+    To see how it works, type in some words and press submit.  In visual studio's output, you should 
+    see the strings printed in an array-literal syntax, i.e. <span style="font-family:monospace;font-weight:bold" class="no-wrap">{"hello", "world"}</span>.
+</p>
+@using(Html.BeginForm("TestForm", "NaturalFeatures", FormMethod.Post, new { id = formId }))
+{
+    <div class="form-horizontal">
+        
+        <!-- RECREATION -->
+        <div class="form-group">
+            <label class="control-label col-md-2 tag-form-label" for="">Recreations:</label>
+            <div class="col-md-10">
+                <div id="@(recreationsName)-div" class="tag-form-div"></div>
+                <input id="@(recreationsName)-input" autocomplete="off" class="form-control text-box single-line tag-form-input" type="text" placeholder="Enter a recreation." />
+            </div>
+        </div>
+
+        
+        <!-- NATURAL FEATURE -->
+        <div class="form-group">
+            <label class="control-label col-md-2 tag-form-label" for="">Natural Features:</label>
+            <div class="col-md-10">
+                <div id="@(naturalFeaturesName)-div" class="tag-form-div"></div>
+                <input id="@(naturalFeaturesName)-input" autocomplete="off" class="form-control text-box single-line tag-form-input" type="text" placeholder="Enter a natural feature." />
+            </div>
+        </div>
+
+
+        <!-- SUBMIT -->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Submit" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript" src="~/Scripts/hidden-form-controls.js"></script>
+<script>
+    window.onload = function () {
+
+        // get instance
+        var hiddenFormControls = new HiddenFormControls();
+
+        // register         
+        @foreach (var tag in Model.Recreations)
+        {
+            @:hiddenFormControls.addHiddenInputAndTag('@formId', '@recreationsName', '@tag', '@recreationsClass');
+        }
+        @foreach (var tag in Model.NaturalFeatures)
+        {
+            @:hiddenFormControls.addHiddenInputAndTag('@formId', '@naturalFeaturesName', '@tag', '@naturalFeaturesClass');
+        }
+        hiddenFormControls.registerHiddenInputFor('@(formId)', '@(recreationsName)', '@(recreationsClass)');
+        hiddenFormControls.registerHiddenInputFor('@(formId)', '@(naturalFeaturesName)', '@(naturalFeaturesClass)');
+    }
+</script>

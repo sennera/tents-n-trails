@@ -1,0 +1,153 @@
+﻿@{
+    ViewBag.Title = "Combined Example";
+}
+<div class="row">
+    <div class="col-md-offset-2 col-md-10">
+        <h1>Combined Example</h1>
+        <h3>
+            Multi-Value Form &amp; Search Dropdown</h1>
+            <hr>
+            <p>
+                This is my example of how to combine
+                <b>hidden-form-controls.js</b> and
+                <b>hidden-list-search.js</b> into a single html form.
+                This allows for a form that a user can add one or more
+                values, and each unique value appears as a cancellable
+                tag.  These are then submitted with the form all under
+                the same input name.
+            </p>
+            <p>
+                This can be used for multiple input on the same
+                page by providing unique id's for each required
+                element and a unique name for each input value.
+            </p>
+    </div>
+</div>
+
+
+
+<!-- FORM -->
+<form id="my-search-form-id">
+    <div class="form-horizontal">
+
+        <!-- TAGS -->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                
+            </div>
+        </div>
+
+        <div class="form-group">
+
+            <!-- LABEL -->
+            <label class="control-label col-md-2">Tags</label>
+            <div class="col-md-10">
+                <div id="tags-div" class="tag-form-div"></div>
+                <div class="dropdown btn-group">
+                    <div class="input-group">
+                        <div class="input-group-btn">
+                            <!-- <input id='tags-value' name='tags' type='hidden' value=""/>	-->
+                            
+                            <!-- SEARCH -->
+                            <input id="tags-input" class="form-control search-input" tabindex="1" data-toggle="dropdown" aria-expanded="true" type="text" placeholder="type something" autocomplete="off">
+
+                            <!-- DROPDOWN LIST -->
+                            <ul id="tags-list" class="dropdown-menu scrollable-menu" role="menu" aria-labelledby="search-input">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Add new</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Alabama</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Alaska</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Arizona</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Arkansas</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">California</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Colorado</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Connecticut</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Delaware</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Florida</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Georgia</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Hawaii</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Idaho</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Illinois</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Indiana</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Iowa</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Kansas</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Kentucky</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Louisiana</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Maine</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Maryland</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Massachusetts</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Michigan</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Minnesota</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Mississippi</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Missouri</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Montana</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Nebraska</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Nevada</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">New Hampshire</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">New Jersey</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">New Mexico</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">New York</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">North Carolina</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">North Dakota</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Ohio</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Oklahoma</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Oregon</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Pennsylvania</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Rhode Island</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">South Carolina</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">South Dakota</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Tennessee</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Texas</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Utah</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Vermont</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Virginia</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Washington</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">West Virginia</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Wisconsin</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="">Wyoming</a></li>
+                            </ul>
+
+                            <!-- DROPDOWN-BUTTON -->
+                            <button id="tags-dropdown-button" class="btn btn-default dropdown-button" type="button" data-toggle="dropdown" aria-expanded="true" title="dropdown">
+                                <span class="glyphicon glyphicon-triangle-bottom"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUBMIT -->
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="submit" class="btn btn-default" type="submit" value="Submit" />
+            </div>
+        </div>
+
+    </div>
+</form>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/hidden-list-search.js"></script>
+<script src="~/Scripts/hidden-form-controls.js"></script>
+
+<script>
+
+	var formId = 'my-search-form-id';
+	var tagName = 'tags';
+	var tagClass = 'tag tag-recreation';
+
+	var hiddenListSearch = new HiddenListSearch();
+    var hiddenFormControls = new HiddenFormControls();
+
+	// load the tags from matching url values.
+	hiddenFormControls.addUrlParametersHiddenInputAndTag(formId, tagName, tagClass);
+
+	// custom onClickFunction for hiddenListSearch
+	var addTag = function(inputValue){
+		hiddenFormControls.addTagParseCommasForceUnique(formId, tagName, inputValue, tagClass);
+	};
+
+	// register the search input listeners.
+    hiddenListSearch.registerInputListenersFor(tagName, addTag);
+
+</script>

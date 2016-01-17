@@ -1,0 +1,44 @@
+﻿@model IEnumerable<TentsNTrails.Models.Notification>
+
+@{
+    ViewBag.Title = "All Notifications";
+}
+
+<!--HEADER-->
+<table class="reviews">
+    <tr class="review-row">
+        <td>
+            <div id="review">
+                <h2>@ViewBag.Title</h2>
+                @{
+                    int count = Model.Where(m => !m.IsRead).Count();
+                    string style, n;
+                    string notifications = (count == 1 ? "notification" : "notifications");
+                    if (count == 0)
+                    {
+                        style = "color: grey;";
+                        n = "no";
+                    }
+                    else
+                    {
+                        style = "color: green;";
+                        n = count.ToString();                       
+                    }
+                    <span style="@style">You have @n unread @notifications.</span> 
+                }
+            </div>
+        </td>
+    </tr>
+
+    <!--NOTIFICATIONS-->
+    @foreach (var item in Model)
+    {
+        <tr class="review-row">
+            <td>
+                <div id="review" class="notification@(!item.IsRead ? " unread-message" : "")">
+                    @{Html.RenderAction("Summary", "Notification", new { id = item.NotificationID });}
+                </div>
+            </td>
+        </tr>
+    }
+</table>

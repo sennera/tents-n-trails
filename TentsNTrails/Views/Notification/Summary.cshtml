@@ -1,0 +1,98 @@
+﻿@model TentsNTrails.Models.NotificationViewModel
+@using TentsNTrails.Models
+@{
+    int size = 50;
+    string date = String.Format("On {0} at {1}.", Model.Notification.DateCreated.ToShortDateString(), Model.Notification.DateCreated.ToShortTimeString());
+    bool friendRequest = Model.Notification.Description.Equals(FriendNotification.REQUEST);
+    bool isRead = Model.Notification.IsRead;
+}
+
+@switch (Model.NotificationType)
+{
+    // *****************************************
+    // FriendNotification
+    // *****************************************
+    case NotificationType.Friend:
+        <a href="@Url.Action("ReadThenViewUserProfile", "Notification", new { id = Model.Notification.NotificationID })">
+            @{ Html.RenderAction("UserThumbnail", "Profile", new { username = Model.PotentialFriend.UserName, size = size }); }
+        </a>
+
+        <div style="padding-left: @(size + 15)px;">
+            <span style="float:left">
+                @if (friendRequest)
+                {
+                    @Html.Raw("You have a new connection request from ")
+                    @Html.ActionLink(Model.PotentialFriend.UserName, "ReadThenViewUserProfile", "Notification", new { id = Model.Notification.NotificationID }, null)
+                    @Html.Raw(".")
+                }
+                else
+                {
+                    <a href="@Url.Action("ReadThenViewUserProfile", "Notification", new { id = Model.Notification.NotificationID })">@Model.PotentialFriend.UserName</a>
+                    @Model.Notification.Description
+                }
+                <br />
+                <small>@date</small>
+            </span>
+            <br />
+            <br />
+
+            <!--DELETE-->
+            <form method="post" class="notification-button" action="@Url.Action("Delete", new { id = Model.Notification.NotificationID })">
+                <button class="btn btn-default">
+                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                </button>
+            </form>
+        
+            @if (!isRead)
+            {
+                <!--SEEN-->
+                <form method="post" class="notification-button" action="@Url.Action("Read")">
+                    <input type="hidden" name="id" value="@Model.Notification.NotificationID" />
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-check" aria-hidden="true"></span> Seen
+                    </button>
+                </form>
+            }
+            
+            @if (friendRequest && !isRead)
+            {
+               <!--DENY-->
+                <form method="post" class="notification-button"action="@Url.Action("DenyConnect", "Profile", new { username = Model.PotentialFriend.UserName, notificationID = Model.Notification.NotificationID })">
+                    <input class="btn btn-danger" type="submit" value="Deny" />
+                </form>
+
+                 <!--CONFIRM-->
+                <form method="post" class="notification-button" action="@Url.Action("ConfirmConnect", "Profile", new { username = Model.PotentialFriend.UserName, notificationID = Model.Notification.NotificationID })">
+                    <input class="btn btn-success" type="submit" value="Confirm" />
+                </form>
+            }
+            else if (friendRequest)
+            {
+                <!--SEE ALL REQUESTS-->
+                <form method="post" class="notification-button" action="@Url.Action("ReadThenViewConnectionRequests", "Notification", new { id = Model.Notification.NotificationID })">
+                    <input class="btn btn-primary" type="submit" value="See All Requests" />
+                </form>
+            }
+            <br />
+        </div>
+        break;
+
+    // *****************************************
+    // Notification
+    // *****************************************
+    default:
+        <div>
+            <span style="float:left">
+                @Html.ActionLink(Model.Notification.Description, "Read", "Notification", new { id = Model.Notification.NotificationID }, null)
+                &nbsp;
+            </span>
+            <span class="badge" style="float:right">@Html.Raw(Model.Notification.IsRead ? "" : "unread")</span>
+            <br />
+            @Html.Raw("on ");
+            @Model.Notification.DateCreated
+            @Html.Raw(".")
+            <br />
+            @Html.ActionLink("Delete", "Delete", new { id = Model.Notification.NotificationID })
+        </div>
+        break;
+}    

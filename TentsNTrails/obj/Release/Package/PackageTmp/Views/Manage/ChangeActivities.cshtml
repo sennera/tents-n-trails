@@ -1,0 +1,58 @@
+﻿@model TentsNTrails.Models.ChangeActivitiesViewModel
+@{
+    ViewBag.Title = "Change Activities";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("ChangeActivities", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <h4>
+        Choose the activities you want to be assiciated with by checking the box next to it, or remove it from your list by unchecking it.
+    </h4>
+    @*<div class="form-group">
+        @Html.LabelFor(m => m.CurrentActivities, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @if (Model.CurrentActivities != null && Model.CurrentActivities.Count > 0)
+            {
+                foreach (var item in Model.CurrentActivities)
+                {
+                    @Html.DisplayFor(m => item.RecreationLabel)
+                }
+            }
+            else
+            {
+                <p>
+                    None
+                </p>
+            }
+        </div>
+    </div>*@
+    <div class="form-group">
+        @for (int i = 0; i < Model.RecOptions.Count; i++ )
+        {
+        @Html.HiddenFor(m => m.RecOptions[i].RecreationID)
+        @Html.HiddenFor(m => m.RecOptions[i].RecreationLabel)
+        <div class="form-group">
+            <div class="col-md-2 control-label" style="font-weight: bold">
+                @Html.DisplayFor(m => m.RecOptions[i].RecreationLabel, new { @class = "col-md-2 control-label" })
+            </div>
+            <div class="col-md-10">
+                @Html.CheckBoxFor(m => m.RecOptions[i].IsChecked, new { @class = "form-control" })
+            </div>
+        </div>
+        }
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Change activities" class="btn btn-default" />
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+

@@ -1,0 +1,20 @@
+﻿@*
+    <!--FOOTER-->
+    <div class="navbar navbar-fixed-bottom">
+        <div class="container">
+            <div class="navbar-header" style="float: right">
+                @Html.ActionLink("About", "About", "Home", null, new { @style = "color:#999;" })
+                &nbsp;&nbsp;
+                &copy; @DateTime.Now.Year - tents n trails
+            </div>
+        </div>
+    </div>
+*@
+
+<div class="custom-footer">
+    <div style="float: right">
+        <a href="@Url.Action("About", "Home")" title="About">
+            &nbsp;&copy; @DateTime.Now.Year - tents n trails&nbsp;
+        </a>
+    </div>
+</div>

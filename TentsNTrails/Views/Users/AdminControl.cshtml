@@ -1,0 +1,124 @@
+﻿@model PagedList.IPagedList<TentsNTrails.Models.User>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "All Users";
+}
+
+<h2>All Users</h2>
+
+@using (Html.BeginForm("AdminControl", "Users"))
+{
+    <div class="input-group">
+        <input type="text" class="form-control input-home" name="SearchString" placeholder="Search for a user...">
+        <span class="input-group-btn">
+            <button class="btn btn-default" id="btn" type="submit">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </button>
+        </span>
+    </div>
+}
+
+<table class="table">
+    <tr>
+        <th>
+            User Name
+        </th>
+        <th>
+            First Name
+        </th>
+        <th>
+            Last Name
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Privacy
+        </th>
+        <th>
+            Enrollment Date
+        </th>
+        <th>
+            Banned
+        </th>
+        <th>
+            Admin
+        </th>
+        <th></th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.UserName, "Index", "Profile", new { Username = item.UserName }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Private)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrollmentDate)
+            </td>
+            <td>
+                @if (item.PasswordHash != null)
+                {
+                    @Html.Raw("NO")
+                }
+                else
+                {
+                    @Html.Raw("YES")
+                }
+            </td>
+            <td>
+                @* This really just checks to see if the user has a role at all, but it's the best I
+                    can do at this point. Thankfully, we only have an Admin role and this program won't
+                    go any farther than that. *@
+                @if (item.Roles.FirstOrDefault() == null)
+                {
+                    @Html.Raw("NO")
+                }
+                else
+                {
+                    @Html.Raw("YES")
+                }
+            </td>
+                <td>
+                    @if (item.Roles.FirstOrDefault() == null)
+                    {
+                        @Html.ActionLink("Make Admin", "MakeAdmin", new { id = item.Id })
+                    }
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id=item.Id })*@
+                    @if (item.PasswordHash != null)
+                    {
+                        @Html.ActionLink("Ban", "Ban", new { id = item.Id })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Un-Ban", "Ban", new { id = item.Id })
+                    }
+                </td>
+                </tr>
+    }
+
+</table>
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("AdminControl",
+    new { page, currentFilter = ViewBag.CurrentFilter }))

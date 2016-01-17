@@ -1,0 +1,677 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{4B0D34B5-7C7A-4B89-92AC-9540B0EC8394}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TentsNTrails</RootNamespace>
+    <AssemblyName>TentsNTrails</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.ApplicationServer.Caching.AzureClientHelper">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.5.1.0\lib\net40-full\Microsoft.ApplicationServer.Caching.AzureClientHelper.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.AzureCommon">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.5.1.0\lib\net40-full\Microsoft.ApplicationServer.Caching.AzureCommon.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Client">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.5.1.0\lib\net40-full\Microsoft.ApplicationServer.Caching.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationServer.Caching.Core">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.5.1.0\lib\net40-full\Microsoft.ApplicationServer.Caching.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Edm, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.Edm.5.6.2\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.OData, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.OData.5.6.2\lib\net40\Microsoft.Data.OData.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Services.Client, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.2\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ServiceBus">
+      <HintPath>..\packages\WindowsAzure.ServiceBus.2.5.0.0\lib\net40-full\Microsoft.ServiceBus.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.DistributedCache">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.5.1.0\lib\net40-full\Microsoft.Web.DistributedCache.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Configuration, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.WindowsAzure.ConfigurationManager.3.1.0\lib\net40\Microsoft.WindowsAzure.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Storage, Version=4.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WindowsAzure.Storage.4.3.0\lib\net40\Microsoft.WindowsAzure.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsFabric.Common">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.5.1.0\lib\net40-full\Microsoft.WindowsFabric.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsFabric.Data.Common">
+      <HintPath>..\packages\Microsoft.WindowsAzure.Caching.2.5.1.0\lib\net40-full\Microsoft.WindowsFabric.Data.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.Activities.Presentation" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Spatial, Version=5.6.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\System.Spatial.5.6.2\lib\net40\System.Spatial.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Workflow.Activities" />
+    <Reference Include="System.Workflow.ComponentModel" />
+    <Reference Include="System.Workflow.Runtime" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.1.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.2.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.2.1.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.2.1.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.2.1.0\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.2.1.0\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Azure\ExceptionUtils.cs" />
+    <Compile Include="Azure\Logger.cs" />
+    <Compile Include="Azure\PhotoService.cs" />
+    <Compile Include="Azure\StorageUtils.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\EventCommentsController.cs" />
+    <Compile Include="Controllers\EventParticipantsController.cs" />
+    <Compile Include="Controllers\EventsController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LeaderboardController.cs" />
+    <Compile Include="Controllers\LocationController.cs" />
+    <Compile Include="Controllers\LocationFlagController.cs" />
+    <Compile Include="Controllers\LocationImageController.cs" />
+    <Compile Include="Controllers\LocationVideoController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\NaturalFeaturesController.cs" />
+    <Compile Include="Controllers\NotificationController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
+    <Compile Include="Controllers\RecreationController.cs" />
+    <Compile Include="Controllers\ReviewController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="DAL\ApplicationDBInitializer.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504182351580_FixAll.cs" />
+    <Compile Include="Migrations\201504182351580_FixAll.Designer.cs">
+      <DependentUpon>201504182351580_FixAll.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504200427312_AddProfilePicture.cs" />
+    <Compile Include="Migrations\201504200427312_AddProfilePicture.Designer.cs">
+      <DependentUpon>201504200427312_AddProfilePicture.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504211957589_sprint7.cs" />
+    <Compile Include="Migrations\201504211957589_sprint7.Designer.cs">
+      <DependentUpon>201504211957589_sprint7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504271611363_participationpt2.cs" />
+    <Compile Include="Migrations\201504271611363_participationpt2.Designer.cs">
+      <DependentUpon>201504271611363_participationpt2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504300015498_Sprint9-start.cs" />
+    <Compile Include="Migrations\201504300015498_Sprint9-start.Designer.cs">
+      <DependentUpon>201504300015498_Sprint9-start.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201504302101405_UpdateNotifications.cs" />
+    <Compile Include="Migrations\201504302101405_UpdateNotifications.Designer.cs">
+      <DependentUpon>201504302101405_UpdateNotifications.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505020135302_CreateMessageTable.cs" />
+    <Compile Include="Migrations\201505020135302_CreateMessageTable.Designer.cs">
+      <DependentUpon>201505020135302_CreateMessageTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505030848283_updateRecreationNavProperties.cs" />
+    <Compile Include="Migrations\201505030848283_updateRecreationNavProperties.Designer.cs">
+      <DependentUpon>201505030848283_updateRecreationNavProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505032306449_updateEventComment.cs" />
+    <Compile Include="Migrations\201505032306449_updateEventComment.Designer.cs">
+      <DependentUpon>201505032306449_updateEventComment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505032309040_updateEventComment2.cs" />
+    <Compile Include="Migrations\201505032309040_updateEventComment2.Designer.cs">
+      <DependentUpon>201505032309040_updateEventComment2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505032357182_updateEventComment3.cs" />
+    <Compile Include="Migrations\201505032357182_updateEventComment3.Designer.cs">
+      <DependentUpon>201505032357182_updateEventComment3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505040019199_updateEventComment4.cs" />
+    <Compile Include="Migrations\201505040019199_updateEventComment4.Designer.cs">
+      <DependentUpon>201505040019199_updateEventComment4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505042231244_removeStateFromLocation.cs" />
+    <Compile Include="Migrations\201505042231244_removeStateFromLocation.Designer.cs">
+      <DependentUpon>201505042231244_removeStateFromLocation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505050703512_createStatesTable.cs" />
+    <Compile Include="Migrations\201505050703512_createStatesTable.Designer.cs">
+      <DependentUpon>201505050703512_createStatesTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505120239329_SentMessagesUpdate.cs" />
+    <Compile Include="Migrations\201505120239329_SentMessagesUpdate.Designer.cs">
+      <DependentUpon>201505120239329_SentMessagesUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505121821178_fixDeletedBySenderOrRecipient.cs" />
+    <Compile Include="Migrations\201505121821178_fixDeletedBySenderOrRecipient.Designer.cs">
+      <DependentUpon>201505121821178_fixDeletedBySenderOrRecipient.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201505130128217_AddNaturalFeatures.cs" />
+    <Compile Include="Migrations\201505130128217_AddNaturalFeatures.Designer.cs">
+      <DependentUpon>201505130128217_AddNaturalFeatures.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Locations\LocationFeature.cs" />
+    <Compile Include="Models\Locations\NaturalFeature.cs" />
+    <Compile Include="Models\Locations\NaturalFeatureViewModels.cs" />
+    <Compile Include="Models\Locations\RecreationViewModels.cs" />
+    <Compile Include="Models\Users\AccountViewModels.cs" />
+    <Compile Include="Models\ApplicationDbContext.cs" />
+    <Compile Include="Models\Users\LeaderboardViewModel.cs" />
+    <Compile Include="Models\Users\Message.cs" />
+    <Compile Include="Models\Users\NotificationModels.cs" />
+    <Compile Include="Models\Media\ProfilePicture.cs" />
+    <Compile Include="Models\Users\Connection.cs" />
+    <Compile Include="Models\Users\ConnectionRequest.cs" />
+    <Compile Include="Models\Events\EventComments.cs" />
+    <Compile Include="Models\Events\EventParticipants.cs" />
+    <Compile Include="Models\Events\Events.cs" />
+    <Compile Include="Models\Media\Image.cs" />
+    <Compile Include="Models\Media\ImageViewModel.cs" />
+    <Compile Include="Models\Locations\Location.cs" />
+    <Compile Include="Models\Locations\LocationFlag.cs" />
+    <Compile Include="Models\Locations\LocationFlagViewModel.cs" />
+    <Compile Include="Models\Media\LocationImage.cs" />
+    <Compile Include="Models\Media\LocationMediaViewModels.cs" />
+    <Compile Include="Models\Locations\LocationRecreation.cs" />
+    <Compile Include="Models\Media\LocationVideo.cs" />
+    <Compile Include="Models\Locations\LocationViewModels.cs" />
+    <Compile Include="Models\Users\ManageViewModels.cs" />
+    <Compile Include="Models\Users\ProfileViewModels.cs" />
+    <Compile Include="Models\Locations\Recreation.cs" />
+    <Compile Include="Models\Locations\RecreationData.cs" />
+    <Compile Include="Models\Locations\Review.cs" />
+    <Compile Include="Models\Locations\ReviewIndexViewModel.cs" />
+    <Compile Include="Models\Locations\State.cs" />
+    <Compile Include="Models\Users\User.cs" />
+    <Compile Include="Models\Users\UserRecreation.cs" />
+    <Compile Include="Models\Media\Video.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\default-user-image.png" />
+    <Content Include="Content\green_forest.jpg" />
+    <Content Include="Content\home_page.jpg" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ImagePreview.png" />
+    <Content Include="Content\jquery.nailthumb.1.1.css" />
+    <Content Include="Content\jquery.nailthumb.1.1.min.css" />
+    <Content Include="Content\no-image-available.png" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\google-map-setup.js" />
+    <Content Include="Scripts\hidden-form-controls.js" />
+    <Content Include="Scripts\hidden-list-search.js" />
+    <Content Include="Scripts\set-select-list-text-color.js" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\AzureMemcacheService.exe" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\CacheDumpGenerator.exe" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\ClientPerfCountersInstaller.exe" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\MemcacheShimEmulator.exe" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\MemcacheShimInstaller.exe" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\MemcacheShimInstallerIaaS.exe" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\Microsoft.ApplicationServer.Caching.AzureClientHelper.dll" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\Microsoft.ApplicationServer.Caching.AzureCommon.dll" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\Microsoft.ApplicationServer.Caching.AzureServerCommon.dll" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\Microsoft.ApplicationServer.Caching.Client.dll" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\Microsoft.ApplicationServer.Caching.Core.dll" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\Microsoft.ApplicationServer.Caching.MemcacheShim.dll" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\Microsoft.Web.DistributedCache.dll" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\Microsoft.WindowsAzure.Diagnostics.dll" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\Microsoft.WindowsAzure.Diagnostics.StorageUtility.dll" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\Microsoft.WindowsFabric.Common.dll" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\Microsoft.WindowsFabric.Data.Common.dll" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\PerformanceCounters.xml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Microsoft.WindowsAzure.Caching\PerformanceCounters.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Microsoft.WindowsAzure.Caching\ClientPerfCountersInstaller.exe.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Performance\Microsoft.ServiceBus.MessagingPerformanceCounters.man" />
+    <None Include="Properties\PublishProfiles\tents-n-trails.pubxml" />
+    <None Include="Properties\PublishProfiles\tentsntrails %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\tentsntrails-nightly.pubxml" />
+    <None Include="Properties\PublishProfiles\tentsntrails.pubxml" />
+    <Content Include="RegisterMessagingPerfCounter.cmd" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.nailthumb.1.1.js" />
+    <Content Include="Scripts\jquery.nailthumb.1.1.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Users\MakeAdmin.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\_RemoveAccountPartial.cshtml" />
+    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Recreation\Create.cshtml" />
+    <Content Include="Views\Recreation\Delete.cshtml" />
+    <Content Include="Views\Recreation\Details.cshtml" />
+    <Content Include="Views\Recreation\Edit.cshtml" />
+    <Content Include="Views\Recreation\Index.cshtml" />
+    <Content Include="Views\Location\Create.cshtml" />
+    <Content Include="Views\Location\Delete.cshtml" />
+    <Content Include="Views\Location\Details.cshtml" />
+    <Content Include="Views\Location\Edit.cshtml" />
+    <Content Include="Views\Location\Index.cshtml" />
+    <Content Include="Views\Review\Create.cshtml" />
+    <Content Include="Views\Review\Delete.cshtml" />
+    <Content Include="Views\Review\Details.cshtml" />
+    <Content Include="Views\Review\Edit.cshtml" />
+    <Content Include="Views\Review\Index.cshtml" />
+    <Content Include="Views\Manage\ChangeEmail.cshtml" />
+    <Content Include="Views\Users\Delete.cshtml" />
+    <Content Include="Views\Users\Details.cshtml" />
+    <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Manage\ChangePrivacy.cshtml" />
+    <Content Include="Views\Users\Ban.cshtml" />
+    <Content Include="Views\LocationFlag\Create.cshtml" />
+    <Content Include="Views\LocationFlag\Delete.cshtml" />
+    <Content Include="Views\LocationFlag\Edit.cshtml" />
+    <Content Include="Views\LocationFlag\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutHome.cshtml" />
+    <Content Include="Views\Profile\Edit.cshtml" />
+    <Content Include="Views\Profile\Index.cshtml" />
+    <Content Include="Views\LocationImage\Details.cshtml" />
+    <Content Include="Views\LocationImage\Index.cshtml" />
+    <Content Include="Views\LocationImage\CreateByUrl.cshtml" />
+    <Content Include="Views\LocationImage\Edit.cshtml" />
+    <Content Include="Views\LocationImage\Delete.cshtml" />
+    <Content Include="Views\LocationVideo\Create.cshtml" />
+    <Content Include="Views\LocationVideo\Delete.cshtml" />
+    <Content Include="Views\LocationVideo\Details.cshtml" />
+    <Content Include="Views\LocationVideo\Edit.cshtml" />
+    <Content Include="Views\LocationVideo\Index.cshtml" />
+    <Content Include="Views\Location\Media.cshtml" />
+    <Content Include="Views\Shared\Join.cshtml" />
+    <Content Include="Views\Manage\ChangeActivities.cshtml" />
+    <Content Include="Views\Users\AdminControl.cshtml" />
+    <Content Include="Views\Profile\RequestList.cshtml" />
+    <Content Include="Views\Profile\SeeMoreImages.cshtml" />
+    <Content Include="Views\EventParticipants\Create.cshtml" />
+    <Content Include="Views\EventParticipants\Delete.cshtml" />
+    <Content Include="Views\EventParticipants\Details.cshtml" />
+    <Content Include="Views\EventParticipants\Edit.cshtml" />
+    <Content Include="Views\EventParticipants\Index.cshtml" />
+    <Content Include="Views\Events\Create.cshtml" />
+    <Content Include="Views\Events\Delete.cshtml" />
+    <Content Include="Views\Events\Details.cshtml" />
+    <Content Include="Views\Events\Edit.cshtml" />
+    <Content Include="Views\Events\Index.cshtml" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\MemcacheShimInstaller.exe.config" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\MemcacheShimEmulator.exe.config" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\ClientPerfCountersInstaller.exe.config" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\CacheDumpGenerator.exe.config" />
+    <Content Include="WindowsAzure.Caching.MemcacheShim\AzureMemcacheService.exe.config" />
+    <Content Include="Tracing\Microsoft.ServiceBus.EventDefinitions.man" />
+    <Content Include="Views\Profile\UploadProfilePicture.cshtml" />
+    <Content Include="Views\LocationImage\Upload.cshtml" />
+    <Content Include="Views\Profile\UserThumbnail.cshtml" />
+    <Content Include="Views\Notification\Details.cshtml" />
+    <Content Include="Views\Notification\Index.cshtml" />
+    <Content Include="Views\Notification\Summary.cshtml" />
+    <Content Include="Views\Notification\UnreadCount.cshtml" />
+    <Content Include="Views\Message\Create.cshtml" />
+    <Content Include="Views\Message\Delete.cshtml" />
+    <Content Include="Views\Message\Details.cshtml" />
+    <Content Include="Views\Message\Edit.cshtml" />
+    <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\Location\Summary.cshtml" />
+    <Content Include="Views\Location\Browse.cshtml" />
+    <Content Include="Views\Location\LocationThumbnail.cshtml" />
+    <Content Include="Views\Location\ReviewForm.cshtml" />
+    <Content Include="Views\EventComments\Create.cshtml" />
+    <Content Include="Views\EventComments\Delete.cshtml" />
+    <Content Include="Views\EventComments\Details.cshtml" />
+    <Content Include="Views\EventComments\Edit.cshtml" />
+    <Content Include="Views\EventComments\Index.cshtml" />
+    <Content Include="Views\Location\JoinSummary.cshtml" />
+    <Content Include="Views\Message\SentMessages.cshtml" />
+    <Content Include="Views\NaturalFeatures\Create.cshtml" />
+    <Content Include="Views\NaturalFeatures\Delete.cshtml" />
+    <Content Include="Views\NaturalFeatures\Details.cshtml" />
+    <Content Include="Views\NaturalFeatures\Edit.cshtml" />
+    <Content Include="Views\NaturalFeatures\Index.cshtml" />
+    <Content Include="Views\Leaderboard\Details.cshtml" />
+    <Content Include="Views\Leaderboard\Index.cshtml" />
+    <Content Include="Views\Shared\_SocialMenuPartial.cshtml" />
+    <Content Include="Views\Message\UnreadCount.cshtml" />
+    <Content Include="Views\Shared\_UserMenuPartial.cshtml" />
+    <Content Include="Views\NaturalFeatures\TestForm.cshtml" />
+    <Content Include="Views\NaturalFeatures\SearchForm.cshtml" />
+    <Content Include="Views\NaturalFeatures\CombinedExample.cshtml" />
+    <Content Include="Views\NaturalFeatures\EditFor.cshtml" />
+    <Content Include="Views\Location\EditRecreations.cshtml" />
+    <Content Include="Views\Location\EditNaturalFeatures.cshtml" />
+    <Content Include="Views\Shared\_FooterBody.cshtml" />
+    <Content Include="Views\Shared\_FooterFixedBottom.cshtml" />
+    <Content Include="Views\Shared\_Navbar.cshtml" />
+    <Content Include="Views\Location\GoogleMap.cshtml" />
+    <Content Include="Views\Events\Summary.cshtml" />
+    <None Include="Web.AzureNightly.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.AzureRelease.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <Content Include="Views\Profile\Connections.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Images\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201504182351580_FixAll.resx">
+      <DependentUpon>201504182351580_FixAll.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504200427312_AddProfilePicture.resx">
+      <DependentUpon>201504200427312_AddProfilePicture.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504211957589_sprint7.resx">
+      <DependentUpon>201504211957589_sprint7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504271611363_participationpt2.resx">
+      <DependentUpon>201504271611363_participationpt2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504300015498_Sprint9-start.resx">
+      <DependentUpon>201504300015498_Sprint9-start.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201504302101405_UpdateNotifications.resx">
+      <DependentUpon>201504302101405_UpdateNotifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505020135302_CreateMessageTable.resx">
+      <DependentUpon>201505020135302_CreateMessageTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505030848283_updateRecreationNavProperties.resx">
+      <DependentUpon>201505030848283_updateRecreationNavProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505032306449_updateEventComment.resx">
+      <DependentUpon>201505032306449_updateEventComment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505032309040_updateEventComment2.resx">
+      <DependentUpon>201505032309040_updateEventComment2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505032357182_updateEventComment3.resx">
+      <DependentUpon>201505032357182_updateEventComment3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505040019199_updateEventComment4.resx">
+      <DependentUpon>201505040019199_updateEventComment4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505042231244_removeStateFromLocation.resx">
+      <DependentUpon>201505042231244_removeStateFromLocation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505050703512_createStatesTable.resx">
+      <DependentUpon>201505050703512_createStatesTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505120239329_SentMessagesUpdate.resx">
+      <DependentUpon>201505120239329_SentMessagesUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505121821178_fixDeletedBySenderOrRecipient.resx">
+      <DependentUpon>201505121821178_fixDeletedBySenderOrRecipient.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201505130128217_AddNaturalFeatures.resx">
+      <DependentUpon>201505130128217_AddNaturalFeatures.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Local|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AzureNightly|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AzureRelease|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49984</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:49494/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

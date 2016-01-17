@@ -1,0 +1,52 @@
+﻿@model TentsNTrails.Models.LocationVideo
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<!-- HEADER -->
+<h2>Watch Video</h2>
+<h4>for @Html.ActionLink(Model.Location.Label, "Details", "Location", new { id=Model.LocationID }, null)</h4>
+<hr />
+
+<!-- DESCRIPTION -->
+<div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class=" col-lg-8 col-md-8 col-sm-12">
+            <p>
+                <b>@Html.DisplayNameFor(model => model.Description)</b>
+            </p>
+            <p>
+                @Html.Raw(Model.GetDescriptionMarkup())
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- VIDEO -->
+<div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-12">
+        <div class="video-container">
+            @Html.Raw(Model.EmbedCode)
+        </div>
+    </div>
+</div>
+
+
+<!-- LINKS -->
+ <div class="row">
+    <div class="col-xs-12">
+        <p>
+            <br />
+            @if (ViewBag.IsAdmin)
+            {
+                @Html.ActionLink("Edit", "Edit", new { id = Model.VideoID })
+                @Html.Raw(" | ")
+                @Html.ActionLink("Delete", "Delete", new { id = Model.VideoID })
+                @Html.Raw("</p><p>")
+            }
+            @Html.ActionLink("Back to Media", "Media", "Location", new { locationID = Model.LocationID }, null)
+        </p>
+   </div>
+</div>
+

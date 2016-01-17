@@ -1,0 +1,30 @@
+﻿@model TentsNTrails.Models.Location
+
+    <!--UPVOTES-->
+    <span style="display:inline-block; padding: 0px;">
+        @using (Html.BeginForm("CreateShort", "Review", new { @id = "up" + Model.LocationID, redirectAction = ViewBag.redirectAction, redirectController = ViewBag.redirectController }, FormMethod.Post))
+        {
+            @Html.AntiForgeryToken();
+            @Html.Hidden("LocationID", Model.LocationID);
+            @Html.Hidden("Rating", true);
+            @Html.Hidden("Comment", null);
+            // The user must be logged in and they've made a rating for this location and it was an up vote
+            <label for="@("UpSubmit" + Model.LocationID)" class="btn" style="padding:0px 2px;"><i title="Up Vote" class="glyphicon glyphicon-thumbs-up @(ViewBag.UpVoted ?? false ? "voted" : "") "></i></label>
+            <input id="@("UpSubmit" + Model.LocationID)" type="submit" value="Up" class="hidden" />
+            @Model.UpVotes()
+        }
+    </span>
+
+    <!--DOWNVOTES-->
+    <span style="display:inline-block; padding: 0px;">
+        @using (Html.BeginForm("CreateShort", "Review", new { @id = "down" + Model.LocationID, redirectAction = ViewBag.redirectAction, redirectController = ViewBag.redirectController },  FormMethod.Post))
+        {
+            @Html.AntiForgeryToken();
+            @Html.Hidden("LocationID", Model.LocationID);
+            @Html.Hidden("Rating", false);
+            @Html.Hidden("Comment", null);
+            <label for="@("DownSubmit" + Model.LocationID)" class="btn" style="padding:0px 2px;"><i title="Down Vote" class="glyphicon glyphicon-thumbs-down @(ViewBag.DownVoted ?? false ? "voted" : "")"></i></label>
+            <input id="@("DownSubmit" + Model.LocationID)" type="submit" value="Down" class="hidden" />
+            @Model.DownVotes()
+        }
+    </span>

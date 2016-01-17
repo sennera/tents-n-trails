@@ -1,0 +1,67 @@
+﻿@model TentsNTrails.Models.User
+@{
+    ViewBag.Title = Model.UserName;
+}
+
+<!-- FORMATTING -->
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery.nailthumb.1.1.js"></script>
+<link href="~/Content/jquery.nailthumb.1.1.css" type="text/css" rel="stylesheet" />
+<style type="text/css" media="screen">
+    .square-thumb {
+        width: 125px;
+        height: 125px;
+        margin: 5px;
+    }
+</style>
+
+
+<h2>@ViewBag.Title</h2>
+<h5>@Html.ActionLink("Back to Profile", "Index", "Profile", new { username = Model.UserName }, null)</h5>
+<hr />
+ <!-- USER'S LOCATION IMAGES -->
+<dl class="dl-horizontal">
+    <dt>
+        All Uploaded Images:
+    </dt>
+
+    <dd>
+        @if (ViewBag.ImagesCount == 0)
+        {
+            <p>@Model.UserName has not uploaded any images.</p>
+        }
+        else
+        {
+
+            <!-- IMAGE GRID -->
+            <div style="text-decoration:none" class="row" align="center">
+                <div class="col-xs-12">
+
+                    <!-- BEGIN IMAGES -->
+                    @foreach (var item in Model.UserLocationImages)
+                    {
+                        <div class="nailthumb-container square-thumb col-xs-2">
+
+                            <!-- DETAILS ACTION LINK-->
+                            <a href="@Url.Action("Details", "LocationImage", new { id = item.ImageID })">
+
+                                <!-- IMAGE-->
+                                <img id="@item.ImageID"
+                                     src="@Url.Content(item.ImageUrl)"
+                                     title="@item.Title"
+                                     alt="@item.AltText" />
+                            </a>
+                        </div>
+                    }
+                    <!-- IMAGE-THUMBTNAIL SCRIPT -->
+                    <script>
+                        $(document).ready(function () {
+                            $('.nailthumb-container').nailthumb();
+                        });
+                    </script>
+
+                </div>
+            </div>
+        }
+    </dd>
+</dl>

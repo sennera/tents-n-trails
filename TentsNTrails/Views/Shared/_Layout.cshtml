@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html>
+<html class="main">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - tents n trails</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <!-- NAVBAR -->
+    @Html.Partial("_Navbar")
+
+    <!-- CONTENT -->
+    <div class="container body-content non-home">
+        @RenderBody()
+        @Html.Partial("_FooterBody")
+    </div>
+
+    <!--SCRIPTS-->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jquerythumb")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

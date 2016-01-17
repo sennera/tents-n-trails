@@ -1,0 +1,120 @@
+﻿@model IEnumerable<TentsNTrails.Models.Message>
+
+@{
+    ViewBag.Title = "My Messages";
+}
+
+<h2>My Messages</h2>
+
+<div class="row">
+    <div class="col-xs-12">
+        <p style="color: green;">@ViewBag.SuccessMessage</p>
+        <button class="btn btn-default" onclick="location.href='@Url.Action("SentMessages")'" style="float:right">
+            Sent Messages
+        </button>
+    </div>
+</div>
+
+<table class="reviews">
+    <tr class="review-row">
+        <td>
+            <div id="review">
+                <b>@ViewBag.NewCount New Messages </b> (@ViewBag.TotalCount Messages)
+            </div>
+        </td>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr class="review-row">
+            <td>
+                @if (!item.IsRead && !item.DeletedByRecipient)
+                {
+                    <div id="review" class="unread-message">
+                        <!-- PROFILE PICTURE -->
+                        <div style="float: left; min-width:75px; max-width:75px; overflow: hidden">
+                            <img id="@item.FromUser"
+                                 src="@Url.Content(item.FromUser.ProfilePictureUrl)"
+                                 title="@item.FromUser.UserName"
+                                 alt="@item.FromUser.UserName"
+                                 style="width: auto; height: 75px; margin: 0 auto" />
+                        </div>
+
+                        <!-- MESSAGE INFO -->
+                        <div style="padding-left: 90px">
+                            @* User Name *@
+                            <b>@Html.ActionLink(item.FromUser.UserName, "Index", "Profile", new { Username = item.FromUser.UserName }, null)</b>
+                            <span style="float:right">
+                                @item.GetFormattedDate()
+                            </span>
+                            <br />
+                            @Html.Raw(@item.GetMessageMarkup())
+                            <br />
+                            <div style="height:auto">
+                                    @* The first float right item goes furthest to the right, so the delete and reply come first *@
+                                    <span style="float:right;">
+                                    <button class="btn btn-default" title="Reply" onclick="location.href='@Url.Action("Create", "Message", new { username = item.FromUser.UserName, profile = false })'">
+                                        <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+                                    </button>
+                                    <button class="btn btn-default" title="Delete" onclick="location.href='@Url.Action("Delete", "Message", new { id = item.MessageID })'">
+                                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                    </button>
+                                </span>
+                                <span style="float:right">
+                                    @using (Html.BeginForm("MarkAsRead", "Message", FormMethod.Post, new { id = item.MessageID }))
+                                    {
+                                        @Html.AntiForgeryToken();
+                                        @Html.Hidden("MessageID", item.MessageID);
+                                        @Html.Hidden("TimeSent", item.TimeSent);
+                                        @Html.Hidden("MessageText", item.MessageText);
+                                        @Html.Hidden("FromUser", item.FromUser);
+                                        @Html.Hidden("ToUser", item.ToUser);
+                                        <button id="@("Submit" + item.MessageID)" class="btn btn-default" type="submit" style="margin-right:3px">
+                                            <span class="glyphicon glyphicon-check" aria-hidden="true"></span> Seen
+                                        </button>
+                                    }                                
+                                </span> 
+                            </div> 
+                        </div>
+                        <div id="fix-height"></div>
+                    </div>
+                }
+                else
+                {
+                    <div id="review">
+                     <!-- PROFILE PICTURE -->
+                        <div style="float: left; min-width:75px; max-width:75px; overflow: hidden">
+                            <img id="@item.FromUser"
+                                    src="@Url.Content(item.FromUser.ProfilePictureUrl)"
+                                    title="@item.FromUser.UserName"
+                                    alt="@item.FromUser.UserName"
+                                    style="width: auto; height: 75px; margin: 0 auto" />
+                        </div>
+
+                        <!-- MESSAGE INFO -->
+                        <div style="padding-left: 90px">
+                            @* User Name *@
+                            <b>@Html.ActionLink(item.FromUser.UserName, "Index", "Profile", new { Username = item.FromUser.UserName }, null)</b>
+                            <span style="float:right">
+                                @item.GetFormattedDate()
+                            </span>
+                            <br />
+                            @Html.Raw(@item.GetMessageMarkup())
+                            <br />
+                            <span style="float:right">
+                                <button class="btn btn-default" title="Reply" onclick="location.href='@Url.Action("Create", "Message", new { username = item.FromUser.UserName, profile = false })'">
+                                    <span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+                                </button>
+                                <button class="btn btn-default" title="Delete" onclick="location.href='@Url.Action("Delete", "Message", new { id = item.MessageID })'">
+                                    <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                                </button>
+                            </span>
+                        </div>
+                        <div id="fix-height"></div>
+                    </div>
+                }
+                
+            </td>
+        </tr>
+    }
+</table>

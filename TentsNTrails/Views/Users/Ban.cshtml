@@ -1,0 +1,56 @@
+﻿@model TentsNTrails.Models.User
+
+@{
+    ViewBag.Title = "Ban";
+}
+
+<h2>Ban</h2>
+
+
+@using (Html.BeginForm("Ban", "Users", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>User - @Html.DisplayFor(model => model.UserName)</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.EnrollmentDate)
+        @Html.HiddenFor(model => model.FirstName)
+        @Html.HiddenFor(model => model.LastName)
+        @Html.HiddenFor(model => model.Private)
+        @Html.HiddenFor(model => model.Email)
+        @Html.HiddenFor(model => model.EmailConfirmed)
+        @Html.HiddenFor(model => model.PasswordHash)
+        @Html.HiddenFor(model => model.SecurityStamp)
+        @Html.HiddenFor(model => model.PhoneNumber)
+        @Html.HiddenFor(model => model.PhoneNumberConfirmed)
+        @Html.HiddenFor(model => model.TwoFactorEnabled)
+        @Html.HiddenFor(model => model.LockoutEndDateUtc)
+        @Html.HiddenFor(model => model.LockoutEnabled)
+        @Html.HiddenFor(model => model.AccessFailedCount)
+        @Html.HiddenFor(model => model.UserName)
+
+        <div class="form-group">
+            <div class="col-md-offset-0 col-md-10">
+                @if (Model.PasswordHash != null)
+                {
+                    <input type="submit" value="Ban User -- @Html.DisplayFor(model => model.UserName)" class="btn btn-default" />
+                }
+                else
+                {
+                    <input type="submit" value="Un-Ban User -- @Html.DisplayFor(model => model.UserName)" class="btn btn-default" />
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

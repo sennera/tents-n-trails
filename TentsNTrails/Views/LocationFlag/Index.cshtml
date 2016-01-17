@@ -1,0 +1,106 @@
+﻿@model TentsNTrails.Models.LocationFlagViewModel
+@using TentsNTrails.Models;
+
+<!-- MAPS API -->
+<script src="http://maps.googleapis.com/maps/api/js"></script>
+<script src="~/Scripts/google-map-setup.js"></script>
+<script>
+    var addMarkers = function(map, markers) {
+        @foreach (var item in Model.BeenThereLocations)
+        {
+            @:console.log("latitude:" + @item.Location.Latitude + " longitude: " +  @item.Location.Longitude);
+            @:var marker = new google.maps.Marker({position: new google.maps.LatLng(@item.Location.Latitude, @item.Location.Longitude), map: map, icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'});
+            @:var infowindow = new google.maps.InfoWindow({content: 'Loading...'});
+            @:marker.html='<div><img id="location-image-preview" src="@Url.Content(item.Location.PreviewImageURL)" title="Preview Image" alt="Image of @item.Location.Label" style="width: 100px; height: auto; margin:0 auto;" /><br /><div class="label" text-align="center">@Html.ActionLink(item.Location.Label, "Details", "Location", new { id = item.Location.LocationID }, null)</div></div>';
+            @:google.maps.event.addListener(marker, 'click', function() {infowindow.setContent(this.html); infowindow.open(map,this);});
+            @:markers.push(marker);
+        }
+        @foreach (var item in Model.WantToGoLocations)
+        {
+            @:console.log("latitude:" + @item.Location.Latitude + " longitude: " +  @item.Location.Longitude);
+            @:var marker = new google.maps.Marker({position: new google.maps.LatLng(@item.Location.Latitude, @item.Location.Longitude), map: map, icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'});
+            @:var infowindow = new google.maps.InfoWindow({content: 'Loading...'});
+            @:marker.html='<div><img id="location-image-preview" src="@Url.Content(item.Location.PreviewImageURL)" title="Preview Image" alt="Image of @item.Location.Label" style="width: 100px; height: auto; margin:0 auto;" /><br /><div class="label" text-align="center">@Html.ActionLink(item.Location.Label, "Details", "Location", new { id = item.Location.LocationID }, null)</div></div>';
+            @:google.maps.event.addListener(marker, 'click', function() {infowindow.setContent(this.html); infowindow.open(map,this);});
+            @:markers.push(marker);
+        }
+        @foreach (var item in Model.GoAgainLocations)
+        {
+            
+            @:console.log("latitude:" + @item.Location.Latitude + " longitude: " +  @item.Location.Longitude);
+            @:var marker = new google.maps.Marker({position: new google.maps.LatLng(@item.Location.Latitude, @item.Location.Longitude), map: map, icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'});
+            @:var infowindow = new google.maps.InfoWindow({content: 'Loading...'});
+            @:marker.html='<div><img id="location-image-preview" src="@Url.Content(item.Location.PreviewImageURL)" title="Preview Image" alt="Image of @item.Location.Label" style="width: 100px; height: auto; margin:0 auto;" /><br /><div class="label" text-align="center">@Html.ActionLink(item.Location.Label, "Details", "Location", new { id = item.Location.LocationID }, null)</div></div>';
+            @:google.maps.event.addListener(marker, 'click', function() {infowindow.setContent(this.html); infowindow.open(map,this);});
+            @:markers.push(marker);
+        }
+    };
+    var centerLat = @Location.CENTER.Latitude;
+    var centerLng = @Location.CENTER.Longitude;
+    var minZoom = 6;
+    var ourMap = new TntMap(centerLat,centerLng, addMarkers, minZoom);
+    ourMap.create();
+</script>
+
+@{
+    ViewBag.Title = "My Bookmarked Locations";
+}
+
+<!-- FORMATTING -->
+<script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+
+<h2>@ViewBag.Title</h2>
+
+@if (Model.HasSavedLocations)
+{ 
+    <!-- MAP OF BOOKMARKED LOCATIONS-->
+    <div id="googleMap" style="width:80%;height:300px;"></div>
+    <p></p>
+
+
+    <table class="table centered">
+        <tr>
+            <th>
+                Been There <img src="http://maps.google.com/mapfiles/ms/icons/blue-dot.png" alt="Blue Pin" style="height:70%" />
+            </th>
+            <th>
+                Want to Go <img src="http://maps.google.com/mapfiles/ms/icons/red-dot.png" alt="Red Pin" style="height:70%" />
+            </th>
+            <th>
+                Want to Go Again <img src="http://maps.google.com/mapfiles/ms/icons/green-dot.png" alt="Green Pin" style="height:70%"/>
+            </th>
+        </tr>
+        
+        <tr>
+            <td>
+                @foreach (var item in Model.BeenThereLocations)
+                {
+                    @Html.ActionLink(item.Location.Label, "Details", "Location", new { id = item.Location.LocationID }, null)
+                    <br/>
+                }
+            </td>
+            <td>
+                @foreach (var item in Model.WantToGoLocations)
+                {
+                    @Html.ActionLink(item.Location.Label, "Details", "Location", new { id = item.Location.LocationID }, null)
+                    <br />
+                }
+            </td>
+            <td>
+                @foreach (var item in Model.GoAgainLocations)
+                {
+                    @Html.ActionLink(item.Location.Label, "Details", "Location", new { id = item.Location.LocationID }, null)
+                    <br />
+                }
+            </td>
+        </tr>
+    </table>
+}
+else
+{
+    <p>
+        Looks like you haven't bookmarked any locations yet. Save a  
+        <u>@Html.ActionLink("location", "Index", "Location")</u>
+        that you've <b>been to</b> or <b>want to go to</b>. (When you're in the Details page for a location, there are links above the map.)
+    </p>
+}

@@ -1,0 +1,56 @@
+﻿@model TentsNTrails.Models.LocationFlagViewModel
+
+@{
+    ViewBag.Title = "My Saved Locations";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (Model.HasSavedLocations)
+{ 
+<table class="table centered">
+    <tr>
+        <th>
+            Been There
+        </th>
+        <th>
+            Want to Go
+        </th>
+        <th>
+            Want to Go Again
+        </th>
+    </tr>
+        
+    <tr>
+        <td>
+            @foreach (var item in Model.BeenThereLocations)
+            {
+                @Html.DisplayFor(modelItem => item.Location.Label)
+                <br/>
+            }
+        </td>
+        <td>
+            @foreach (var item in Model.WantToGoLocations)
+            {
+                @Html.DisplayFor(modelItem => item.Location.Label)
+                <br />
+            }
+        </td>
+        <td>
+            @foreach (var item in Model.GoAgainLocations)
+            {
+                @Html.DisplayFor(modelItem => item.Location.Label)
+                <br />
+            }
+        </td>
+    </tr>
+</table>
+}
+else
+{
+    <p>
+        Looks like you haven't saved any locations yet. Save a  
+        <u>@Html.ActionLink("location", "Index", "Location")</u>
+        that you've been to or want to go to.
+    </p>
+}

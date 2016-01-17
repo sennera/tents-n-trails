@@ -1,0 +1,138 @@
+﻿@model IEnumerable<TentsNTrails.Models.LocationImage>
+
+<!-- ----------------------------------------------------------------------- -->
+<!-- MEDIA HEADER-->
+<!-- ----------------------------------------------------------------------- -->
+<div class="row">
+    <div class="col-xs-12">
+        @if (ViewBag.Location != null)
+        {
+            ViewBag.Title = "Media for " + ViewBag.Location.Label;
+            <h1>Media for @Html.ActionLink((string)ViewBag.Location.Label, (string)ViewBag.CancelAction, "Location")</h1>
+        }
+        else
+        {
+            ViewBag.Title = "Media";
+            <h1>Media</h1>
+
+        }
+
+        <!--BACK LINK-->
+        <p>
+            @if (ViewBag.CancelAction.Equals("Index"))
+            {
+         <!--PLURALIZE (if called from Location Index, not Location Details)-->
+                @Html.ActionLink("Back to Locations", (string)ViewBag.CancelAction, "Location")
+            }
+            else
+            {
+                @Html.ActionLink("Back to Location", (string)ViewBag.CancelAction, "Location")
+            }
+        </p>
+        <hr />
+    </div>
+</div>
+
+<!-- ----------------------------------------------------------------------- -->
+<!-- IMAGES HEADER-->
+<!-- ----------------------------------------------------------------------- -->
+<div class="row">
+    <div class="col-xs-12">
+        <h3>Images</h3>
+
+        <!--UPLOAD-->
+        <p>
+            @if (ViewBag.Location != null)
+            {
+                @Html.ActionLink("Add an Image", "CreateByUrl", "LocationImage", new { locationID = ViewBag.Location.LocationID }, null)
+            }
+        </p>
+    </div>
+</div>
+
+<!-- IMAGE GRID -->
+<div class="row" align="center">
+    <div class="col-xs-12">
+        <!-- FORMATTING -->
+        <script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+        <script type="text/javascript" src="~/Scripts/jquery.nailthumb.1.1.js"></script>
+        <link href="~/Content/jquery.nailthumb.1.1.css" type="text/css" rel="stylesheet" />
+        <style type="text/css" media="screen">
+            .square-thumb {
+                width: 150px;
+                height: 150px;
+                margin: 5px;
+            }
+        </style>
+
+        <!-- BEGIN IMAGES -->
+        @foreach (var item in Model)
+        {
+            <div class="nailthumb-container square-thumb col-xs-2">
+
+                <!-- DETAILS ACTION LINK-->
+                <a href="@Url.Action("Details", new { id = item.ImageID, fromLocationImageIndex = ViewBag.Location != null })">
+
+                    <!-- IMAGE-->
+                    <img id="@item.ImageID"
+                         src="@Url.Content(item.ImageUrl)"
+                         title="@item.Title"
+                         alt="@item.AltText" />
+                </a>
+            </div>
+        }
+
+        <script type="text/javascript">
+            jQuery(document).ready(function () {
+                jQuery('.nailthumb-container').nailthumb();
+            });
+        </script>
+    </div>
+</div>
+
+<!-- ----------------------------------------------------------------------- -->
+<!-- VIDEOS HEADER-->
+<!-- ----------------------------------------------------------------------- -->
+<div class="row">
+    <div class="col-xs-12">
+        <hr />
+        <h3>Videos</h3>
+        
+        <!--UPLOAD-->
+        <p>
+            @if (ViewBag.Location != null)
+            {
+                @Html.ActionLink("Add a Video", "Create", "LocationVideo", new { locationID = ViewBag.Location.LocationID }, null)
+            }
+        </p>
+    </div>
+</div>
+
+<!-- VIDEO GRID -->
+<div class="row" align="center">
+    <div class="col-xs-12">
+       
+        <!-- BEGIN VIDEOS -->
+        <p>
+            Videos go here
+        </p>
+    </div>
+</div>
+
+<!--BACK LINK-->
+<div class="row">
+    <div class="col-xs-12">
+        <p>
+            @if (ViewBag.CancelAction.Equals("Index"))
+            {
+         <!--PLURALIZE (if called from Location Index, not Location Details)-->
+                @Html.ActionLink("Back to Locations", (string)ViewBag.CancelAction, "Location")
+            }
+            else
+            {
+                @Html.ActionLink("Back to Location", (string)ViewBag.CancelAction, "Location")
+            }
+        </p>
+    </div>
+</div>
+

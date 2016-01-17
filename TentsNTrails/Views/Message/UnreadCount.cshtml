@@ -1,0 +1,12 @@
+﻿@if (ViewBag.UnreadCount > 0)
+{
+    <span class="badge badge-message">
+        @ViewBag.UnreadCount
+    </span>
+}
+else
+{
+    <span class="badge badge-message-no-unread">
+        @ViewBag.UnreadCount
+    </span>
+}
